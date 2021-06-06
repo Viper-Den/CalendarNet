@@ -82,7 +82,12 @@ namespace UIYearControl
                     Grid.SetColumn(m, x);
                     Grid.SetRow(m, y);
                     m.Margin = new Thickness(10, 10, 10, 10);
-                    m.DisplayborderingMonths = false;
+                    m.ViewButtons = Visibility.Hidden;
+                    m.ViewBorderingMonths = Visibility.Hidden;
+                    m.ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+                    m.ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+                    m.ColorDayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
+                    m.ColorToDay = new SolidColorBrush(Color.FromRgb(17, 110, 190));
                     _MainGrid.Children.Add(m);
                     _Month.Add(m);
                 }

@@ -27,7 +27,7 @@
                         </Grid.RowDefinitions>
 
                         <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                    </Grid>
+                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

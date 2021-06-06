@@ -32,9 +32,9 @@ namespace UIDayControl
             get { return _Date;  } 
             set { 
                 SetValue(DateProperty, value);
+                _Date = value;
                 if (_Title != null)
                 {
-                    _Date = value;
                     UpdateElement();
                 }
             }
