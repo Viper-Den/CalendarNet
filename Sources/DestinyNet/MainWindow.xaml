@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DestinyNet"
+        xmlns:local="clr-namespace:DestinyNet" 
+        xmlns:local1="clr-namespace:UIYearControl;assembly=UIYearControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+    </Window.Resources>
     <Grid>
-
+        <DatePicker x:Name="xDatePicker"></DatePicker>
+        <local1:YearControl Date="{Binding ElementName=xDatePicker, Path=SelectedDate}"></local1:YearControl>
     </Grid>
 </Window>
