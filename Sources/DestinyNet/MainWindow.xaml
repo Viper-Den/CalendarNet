@@ -11,6 +11,7 @@
     </Window.Resources>
     <Grid>
         <DatePicker x:Name="xDatePicker"></DatePicker>
-        <local1:YearControl Date="{Binding ElementName=xDatePicker, Path=SelectedDate}"></local1:YearControl>
+        <local1:YearControl Date="{Binding ElementName=xDatePicker, Path=SelectedDate}" RenderTransformOrigin="0.5,0.5">
+        </local1:YearControl>
     </Grid>
 </Window>

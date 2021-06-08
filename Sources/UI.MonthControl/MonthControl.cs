@@ -5,16 +5,20 @@ using System.Windows.Controls;
 using UIDayControl;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace UIMonthControl
 {
+    //https://docs.microsoft.com/ru-ru/dotnet/api/system.windows.controls.itemscontrol?view=netcore-3.1
     [TemplatePart(Name = MonthControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = MonthControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = MonthControl.TP_PREVIOUS_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = MonthControl.TP_NEXT_PART, Type = typeof(FrameworkElement))]
-    public class MonthControl : Control
+    [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
+    [System.Windows.Markup.ContentProperty("Items")]
+    [StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(FrameworkElement))]
+    public class MonthControl : Control, System.Windows.Controls.Primitives.IContainItemStorage, System.Windows.Markup.IAddChild
     {
-   
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
         private const string TP_PREVIOUS_PART = "xPrevious";
@@ -32,6 +36,7 @@ namespace UIMonthControl
         private Visibility _ViewButtons;
         private List<DayControl> _Days;
         private List<Label> _TitleDays;
+        private ObservableCollection<UIMonthRange> _RangesCollection;
 
         ~MonthControl()
         {
@@ -43,6 +48,7 @@ namespace UIMonthControl
             _Days = new List<DayControl>();
             _TitleDays = new List<Label>();
             _Date = DateTime.Now;
+            _RangesCollection = new ObservableCollection<UIMonthRange>();
         }
         static MonthControl()
         {
@@ -74,7 +80,7 @@ namespace UIMonthControl
                 new PropertyMetadata(ViewBorderingMonthsPropertyChanged));
 
         public static readonly DependencyProperty ViewButtonsProperty =
-            DependencyProperty.Register("ViewButtons", typeof(Visibility), typeof(MonthControl), 
+            DependencyProperty.Register("ViewButtons", typeof(Visibility), typeof(MonthControl),
                 new PropertyMetadata(ViewButtonsPropertyChanged));
 
         private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -105,7 +111,6 @@ namespace UIMonthControl
         {
             ((MonthControl)d).ViewButtons = (Visibility)e.NewValue;
         }
-        
         public SolidColorBrush ColorDayOffFinish
         {
             get { return _ColorDayOffFinish; }
@@ -172,7 +177,6 @@ namespace UIMonthControl
                 }
             }
         }
-
         public SolidColorBrush ColorDayFinish
         {
             get { return _ColorDayFinish; }
@@ -199,7 +203,6 @@ namespace UIMonthControl
                 }
             }
         }
-
         private void UpdateElements() 
         {
             var dayOfWeek = (int)Date.DayOfWeek;
@@ -343,5 +346,47 @@ namespace UIMonthControl
             UpdateElements();
         }
 
+
+        public void Clear()
+        {
+            _RangesCollection.Clear();
+        }
+
+        public void ClearItemValue(object item, DependencyProperty dp)
+        {
+            var v = item as UIMonthRange;
+            if (v != null)
+            {
+                if (_RangesCollection.Contains(v))
+                {
+                    dp.PropertyType
+                    //v.
+                }
+            }
+        }
+
+        public object ReadItemValue(object item, DependencyProperty dp)
+        {
+            
+        }
+
+        public void StoreItemValue(object item, DependencyProperty dp, object value)
+        {
+           
+        }
+
+
+        public void AddChild(object value)
+        {
+            var v = value as UIMonthRange;
+            if (v != null) {
+                _RangesCollection.Add((UIMonthRange)v);
+            } 
+        }
+
+        public void AddText(string text)
+        {
+            
+        }
     }
 }
