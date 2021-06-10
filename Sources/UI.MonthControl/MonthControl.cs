@@ -17,7 +17,7 @@ namespace UIMonthControl
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
     [System.Windows.Markup.ContentProperty("Items")]
     [StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(FrameworkElement))]
-    public class MonthControl : Control, System.Windows.Controls.Primitives.IContainItemStorage, System.Windows.Markup.IAddChild
+    public class MonthControl : Control
     {
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
@@ -36,7 +36,7 @@ namespace UIMonthControl
         private Visibility _ViewButtons;
         private List<DayControl> _Days;
         private List<Label> _TitleDays;
-        private ObservableCollection<UIMonthRange> _RangesCollection;
+        private ObservableCollection<IDateRange> _RangesCollection;
 
         ~MonthControl()
         {
@@ -48,12 +48,15 @@ namespace UIMonthControl
             _Days = new List<DayControl>();
             _TitleDays = new List<Label>();
             _Date = DateTime.Now;
-            _RangesCollection = new ObservableCollection<UIMonthRange>();
+            _RangesCollection = new ObservableCollection<IDateRange>();
         }
         static MonthControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MonthControl), new FrameworkPropertyMetadata(typeof(MonthControl)));
         }
+        public static readonly DependencyProperty DateRangesProperty =
+           DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), 
+               typeof(MonthControl), new PropertyMetadata(OnDateRangesChanged));
 
         public static readonly DependencyProperty ColorDayOffProperty =
             DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(MonthControl), 
@@ -83,6 +86,29 @@ namespace UIMonthControl
             DependencyProperty.Register("ViewButtons", typeof(Visibility), typeof(MonthControl),
                 new PropertyMetadata(ViewButtonsPropertyChanged));
 
+        private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
+        }
+
+        
+        public ObservableCollection<IDateRange> DateRanges
+        {
+            get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
+            set
+            {
+                foreach(var r in value)
+                {
+                    foreach(var d in _Days)
+                    {
+                        if((d.Date >= r.Start) && (d.Date <= r.Finish)) 
+                        {
+                            d.Background = Brushes.Green;
+                        }
+                    }
+                }
+            }
+        }
         private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthControl)d).ColorDayOffFinish = (SolidColorBrush)e.NewValue;
@@ -299,7 +325,10 @@ namespace UIMonthControl
         {
             Date = Date.AddMonths(1);
         }
-
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+        }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -341,52 +370,10 @@ namespace UIMonthControl
                     Grid.SetRow(d, y);
                     _MainGrid.Children.Add(d);
                     _Days.Add(d);
-                    }
+                }
             }
             UpdateElements();
         }
 
-
-        public void Clear()
-        {
-            _RangesCollection.Clear();
-        }
-
-        public void ClearItemValue(object item, DependencyProperty dp)
-        {
-            var v = item as UIMonthRange;
-            if (v != null)
-            {
-                if (_RangesCollection.Contains(v))
-                {
-                    dp.PropertyType
-                    //v.
-                }
-            }
-        }
-
-        public object ReadItemValue(object item, DependencyProperty dp)
-        {
-            
-        }
-
-        public void StoreItemValue(object item, DependencyProperty dp, object value)
-        {
-           
-        }
-
-
-        public void AddChild(object value)
-        {
-            var v = value as UIMonthRange;
-            if (v != null) {
-                _RangesCollection.Add((UIMonthRange)v);
-            } 
-        }
-
-        public void AddText(string text)
-        {
-            
-        }
     }
 }

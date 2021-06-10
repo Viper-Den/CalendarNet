@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UIMonthControl
 {
-    public class UIMonthRange
+    public interface IDateRange
     {
         public DateTime Start { get; set; }
         public DateTime Finish { get; set; }
