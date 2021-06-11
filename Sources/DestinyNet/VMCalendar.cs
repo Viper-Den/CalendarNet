@@ -21,7 +21,8 @@ namespace DestinyNet
         public VMCalendar()
         {
             _DateRanges = new ObservableCollection<IDateRange>();
-            _DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-01-08"), Finish = DateTime.Parse("2021-01-11") });
+            _DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-11-08"), Finish = DateTime.Parse("2021-11-11") });
+            _DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-10-01"), Finish = DateTime.Parse("2021-10-11") });
         }
 
         public ObservableCollection<IDateRange> DateRanges

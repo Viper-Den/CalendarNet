@@ -36,7 +36,6 @@ namespace UIMonthControl
         private Visibility _ViewButtons;
         private List<DayControl> _Days;
         private List<Label> _TitleDays;
-        private ObservableCollection<IDateRange> _RangesCollection;
 
         ~MonthControl()
         {
@@ -48,7 +47,6 @@ namespace UIMonthControl
             _Days = new List<DayControl>();
             _TitleDays = new List<Label>();
             _Date = DateTime.Now;
-            _RangesCollection = new ObservableCollection<IDateRange>();
         }
         static MonthControl()
         {

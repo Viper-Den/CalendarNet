@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,6 +30,10 @@ namespace UIYearControl
             DefaultStyleKeyProperty.OverrideMetadata(typeof(YearControl), new FrameworkPropertyMetadata(typeof(YearControl)));
         }
 
+        public static readonly DependencyProperty DateRangesProperty =
+           DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>),
+               typeof(YearControl), new PropertyMetadata(OnDateRangesChanged));
+
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(YearControl), new PropertyMetadata(DatePropertyChanged));
 
@@ -36,7 +41,23 @@ namespace UIYearControl
         {
             ((YearControl)d).Date = new DateTime(((DateTime)e.NewValue).Year, ((DateTime)e.NewValue).Month, 1);
         }
+        private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((YearControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
+        }
 
+        public ObservableCollection<IDateRange> DateRanges
+        {
+            get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
+            set
+            {
+                foreach (var m in _Month)
+                {
+                    m.DateRanges = value;    
+                }
+                
+            }
+        }
         public DateTime Date
         {
             get { return _Date; }

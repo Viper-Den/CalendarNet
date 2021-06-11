@@ -20,9 +20,11 @@ namespace DestinyNet
     /// </summary>
     public partial class MainWindow : Window
     {
+        protected VMCalendar _calendar;
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new VMCalendar();
         }
     }
 }
