@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIDayControl", "UI.Controls
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIMonthControl", "UI.MonthControl\UIMonthControl.csproj", "{AD6F39FC-C565-4FDE-BC40-0DE775A948D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIYearControl", "UI.YearControl\UIYearControl.csproj", "{004C47CC-1B5F-4035-B93E-423395702328}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIYearControl", "UI.YearControl\UIYearControl.csproj", "{004C47CC-1B5F-4035-B93E-423395702328}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIDayMonth", "UIDayMonth\UIDayMonth.csproj", "{F658CC51-4F6D-4BD9-A537-471A6251A459}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{004C47CC-1B5F-4035-B93E-423395702328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{004C47CC-1B5F-4035-B93E-423395702328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{004C47CC-1B5F-4035-B93E-423395702328}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

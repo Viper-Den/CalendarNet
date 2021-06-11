@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using UIMonthControl;
 
@@ -10,20 +11,24 @@ namespace UIYearControl
 {
     [TemplatePart(Name = YearControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = YearControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = YearControl.TP_PREVIOUS_PART, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = YearControl.TP_NEXT_PART, Type = typeof(FrameworkElement))]
     public class YearControl : Control
     {
    
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
+        private const string TP_PREVIOUS_PART = "xPrevious";
+        private const string TP_NEXT_PART = "xNext";
         private Grid _MainGrid;
         private Label _Title;
-        private DateTime _Date;
+        private Label _Previous;
+        private Label _Next;
         private List<MonthControl> _Month;
 
         public YearControl()
         {
             _Month = new List<MonthControl>();
-            _Date = DateTime.Now;
         }
         static YearControl()
         {
@@ -39,7 +44,7 @@ namespace UIYearControl
 
         public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((YearControl)d).Date = new DateTime(((DateTime)e.NewValue).Year, ((DateTime)e.NewValue).Month, 1);
+            ((YearControl)d).Date = (DateTime)e.NewValue;
         }
         private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -51,45 +56,66 @@ namespace UIYearControl
             get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
             set
             {
-                foreach (var m in _Month)
+                SetValue(DateRangesProperty, value);
+                if (value != null)
                 {
-                    m.DateRanges = value;    
+                    SelectRanges();
                 }
-                
+            }
+        }
+        private void SelectRanges()
+        {
+            foreach (var m in _Month)
+            {
+                m.DateRanges = DateRanges;
             }
         }
         public DateTime Date
         {
-            get { return _Date; }
+            get { return (DateTime)GetValue(DateProperty); }
             set
             {
-                var d = new DateTime(value.Year, 1, 1);
-                SetValue(DateProperty, d);
+                SetValue(DateProperty, new DateTime(value.Year, 1, 1));
                 if (_Title != null)
                 {
-                    _Date = d;
                     UpdateElements();
                 }
             }
         }
-
         private void UpdateElements()
         {
-            _Title.Content = _Date.ToString("yyyy");
-            var startDay = _Date;
+            _Title.Content = Date.ToString("yyyy");
+            var startDay = Date;
             foreach (var m in _Month)
             {
                 m.Date = startDay;
                 startDay = startDay.AddMonths(1);
             }
+            SelectRanges();
         }
-
+        private void OnPrevious(object sender, MouseButtonEventArgs e)
+        {
+            if (Date == DateTime.MinValue) { return; }
+            Date = Date.AddYears(-1);
+        }
+        private void OnNext(object sender, MouseButtonEventArgs e)
+        {
+            if (Date == DateTime.MaxValue) { return; }
+            Date = Date.AddYears(1);
+        }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
+            _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
+            _Next = (Label)GetTemplateChild(TP_NEXT_PART);
+
+            _Previous.Content = "<";
+            _Next.Content = ">";
+            _Previous.MouseLeftButtonDown += OnPrevious;
+            _Next.MouseLeftButtonDown += OnNext;
 
             for (int y = 1; y < 4; y++)
             {
@@ -105,10 +131,6 @@ namespace UIYearControl
                     m.Margin = new Thickness(10, 10, 10, 10);
                     m.ViewButtons = Visibility.Hidden;
                     m.ViewBorderingMonths = Visibility.Hidden;
-                    m.ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-                    m.ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-                    m.ColorDayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
-                    m.ColorToDay = new SolidColorBrush(Color.FromRgb(17, 110, 190));
                     _MainGrid.Children.Add(m);
                     _Month.Add(m);
                 }

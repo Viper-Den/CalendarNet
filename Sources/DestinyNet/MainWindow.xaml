@@ -4,16 +4,78 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DestinyNet" 
-        xmlns:local1="clr-namespace:UIYearControl;assembly=UIYearControl"
+        xmlns:YearView="clr-namespace:UIYearControl;assembly=UIYearControl"
+        xmlns:MonthView="clr-namespace:UIMonthControl;assembly=UIMonthControl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="634" Width="1069">
+        Title="MainWindow" Height="709" Width="1270">
     <Window.Resources>
     </Window.Resources>
     <Grid>
-        <DatePicker x:Name="xDatePicker"></DatePicker>
-        <local1:YearControl 
-            Date="{Binding ElementName=xDatePicker, Path=SelectedDate}" 
-            DateRanges="{Binding Path=DateRanges}">
-        </local1:YearControl>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="300"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Background="Silver "></Label>
+        <Grid Grid.Row="0" Grid.Column="1" Background="#FFCCCCCC ">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="1" Content="Meal" Margin="10,5"></Button>
+            <Button Grid.Column="2" Content="To-Do" Margin="10,5"></Button>
+            <Button Grid.Column="3" Content="Persons" Margin="10,5"></Button>
+            <Button Grid.Column="4" Content="Week" Margin="10,5"></Button>
+            <Button Grid.Column="5" Content="Month" Margin="10,5"></Button>
+            <Button Grid.Column="6" Content="Year" Margin="10,5"></Button>
+        </Grid>
+
+        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="WhiteSmoke"></Border>
+
+        <MonthView:MonthControl  Grid.Row="1" Grid.Column="0"  Margin="20,50,20,50" 
+            Date="{Binding Path=DateYear}">
+        </MonthView:MonthControl>
+        
+        <YearView:YearControl   Grid.Column="1"  Grid.Row="1" Grid.RowSpan="2"  Margin="20,20,20,20" 
+            Date="{Binding Path=DateYear}"  DateRanges="{Binding Path=DateRanges}">
+        </YearView:YearControl>
+
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <Grid Background="#FFCCCCCC ">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="Calendar"
+                       VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                <Label Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
+                       FontSize="20"
+                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            </Grid>
+            <ItemsControl ItemsSource="{Binding Path=Calendars}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="{Binding Path=Color}">
+                            <CheckBox Height="40"  Margin="20,0,20,0" 
+                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
+                                          VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
+                                          IsChecked="{Binding Path=Enabled}" Content="{Binding Path=Name}"></CheckBox>
+                        </Border>
+                    </DataTemplate>
+
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
     </Grid>
 </Window>

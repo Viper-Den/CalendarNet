@@ -6,6 +6,7 @@ using UIDayControl;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace UIMonthControl
 {
@@ -15,8 +16,6 @@ namespace UIMonthControl
     [TemplatePart(Name = MonthControl.TP_PREVIOUS_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = MonthControl.TP_NEXT_PART, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
-    [System.Windows.Markup.ContentProperty("Items")]
-    [StyleTypedProperty(Property = "ItemContainerStyle", StyleTargetType = typeof(FrameworkElement))]
     public class MonthControl : Control
     {
         private const string TP_MAIN_GRID_PART = "MainGrid";
@@ -46,7 +45,11 @@ namespace UIMonthControl
         {
             _Days = new List<DayControl>();
             _TitleDays = new List<Label>();
-            _Date = DateTime.Now;
+            Date = DateTime.Now;
+            ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+            ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+            ColorDayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
+            ColorToDay = new SolidColorBrush(Color.FromRgb(17, 110, 190));
         }
         static MonthControl()
         {
@@ -95,14 +98,22 @@ namespace UIMonthControl
             get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
             set
             {
-                foreach(var r in value)
+                SetValue(DateRangesProperty, value);
+                if (value != null)
                 {
-                    foreach(var d in _Days)
+                    SelectRanges();
+                }
+            }
+        }
+        private void SelectRanges()
+        {
+            foreach (var r in DateRanges)
+            {
+                foreach (var d in _Days)
+                {
+                    if ((d.Date >= r.Start) && (d.Date <= r.Finish))
                     {
-                        if((d.Date >= r.Start) && (d.Date <= r.Finish)) 
-                        {
-                            d.Background = Brushes.Green;
-                        }
+                        d.Background = Brushes.Green;
                     }
                 }
             }
@@ -166,9 +177,8 @@ namespace UIMonthControl
             get { return _Date; }
             set
             {
-                var d = new DateTime(value.Year, value.Month, 1);
-                SetValue(DateProperty, d);
-                _Date = d;
+                _Date = new DateTime(value.Year, value.Month, 1);
+                SetValue(DateProperty, _Date);
                 if (_Title != null)
                 {
                     UpdateElements();
@@ -230,7 +240,8 @@ namespace UIMonthControl
         private void UpdateElements() 
         {
             var dayOfWeek = (int)Date.DayOfWeek;
-            if(dayOfWeek == 0) { dayOfWeek = 6; } // to-do change to cultures selected mode
+            //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+            if (dayOfWeek == 0) { dayOfWeek = 6; } // change to DateTimeFormat
             else { dayOfWeek--; }
 
 
@@ -317,10 +328,12 @@ namespace UIMonthControl
         }
         private void OnPrevious(object sender, MouseButtonEventArgs e)
         {
+            if(Date == DateTime.MinValue) { return; }
             Date = Date.AddMonths(-1);
         }
         private void OnNext(object sender, MouseButtonEventArgs e)
         {
+            if (Date == DateTime.MaxValue) { return;  }
             Date = Date.AddMonths(1);
         }
         protected override void OnRender(DrawingContext drawingContext)

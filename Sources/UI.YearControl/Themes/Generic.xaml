@@ -25,8 +25,16 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-
-                        <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="18*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
+                            <Label x:Name="xPrevious" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
+                            <Label x:Name="xNext" Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
+                        </Grid>
                      </Grid>
                 </ControlTemplate>
             </Setter.Value>

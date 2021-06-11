@@ -29,8 +29,12 @@ namespace UIDayControl
         }
         public DateTime Date
         {
-            get { return _Date;  } 
-            set { 
+            get 
+            { 
+                return _Date;  
+            } 
+            set 
+            { 
                 SetValue(DateProperty, value);
                 _Date = value;
                 if (_Title != null)
