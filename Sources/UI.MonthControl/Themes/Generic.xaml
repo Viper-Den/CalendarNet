@@ -9,10 +9,10 @@
                     <Grid
                         x:Name="MainGrid"
                         Height="{TemplateBinding Height}"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
                         Width="{TemplateBinding Width}"
-                        Background="{TemplateBinding Background}">
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DestinyNet" 
         xmlns:YearView="clr-namespace:UIYearControl;assembly=UIYearControl"
         xmlns:MonthView="clr-namespace:UIMonthControl;assembly=UIMonthControl"
+        xmlns:MonthViewEvents="clr-namespace:UIMonthView;assembly=UIMonthView"
         mc:Ignorable="d"
         Title="MainWindow" Height="709" Width="1270">
     <Window.Resources>
@@ -44,12 +45,12 @@
         <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="WhiteSmoke"></Border>
 
         <MonthView:MonthControl  Grid.Row="1" Grid.Column="0"  Margin="20,50,20,50" 
-            Date="{Binding Path=DateYear}">
+            Date="{Binding Path=DateMonth}">
         </MonthView:MonthControl>
         
-        <YearView:YearControl   Grid.Column="1"  Grid.Row="1" Grid.RowSpan="2"  Margin="20,20,20,20" 
-            Date="{Binding Path=DateYear}"  DateRanges="{Binding Path=DateRanges}">
-        </YearView:YearControl>
+        <MonthViewEvents:MonthView   Grid.Column="1"  Grid.Row="1" Grid.RowSpan="2"  Margin="20,20,20,20" 
+            Date="{Binding Path=DateMonthEvents}" Events="{Binding Path=Events}">
+        </MonthViewEvents:MonthView>
 
         <StackPanel Grid.Row="2" Grid.Column="0">
             <Grid Background="#FFCCCCCC ">

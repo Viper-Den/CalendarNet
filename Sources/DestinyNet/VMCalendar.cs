@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Text;
 using System.Windows.Media;
 using UIMonthControl;
+using UIDayMonth;
 
 namespace DestinyNet
 {
@@ -15,44 +16,69 @@ namespace DestinyNet
         public DateTime Finish { get; set; }
     }
 
+    public class Event : IEvent
+    {
+        public string Caption { get; set; }
+        public DateTime Date { get; set; }
+        public SolidColorBrush Color { get; set; }
+    }
 
     public class VMCalendar : INotifyPropertyChanged
     {
-        private ObservableCollection<IDateRange> _DateRanges;
-        private ObservableCollection<ICalendar> _Calendas; 
+        private ObservableCollection<IDateRange> _dateRanges;
+        private ObservableCollection<ICalendar> _calendas;
+        private ObservableCollection<IEvent> _events;
         private DateTime _dateYear;
         private DateTime _dateMonth;
-        
+        private DateTime _dateMonthEvents; 
+
         public VMCalendar()
         {
             _dateYear = DateTime.Now;
             _dateMonth = DateTime.Now;
+            _dateMonthEvents = DateTime.Now;
 
-            _DateRanges = new ObservableCollection<IDateRange>();
-            _DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-11-08"), Finish = DateTime.Parse("2021-11-11") });
-            _DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-10-01"), Finish = DateTime.Parse("2021-10-11") });
+            _dateRanges = new ObservableCollection<IDateRange>();
+            _dateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-11-08"), Finish = DateTime.Parse("2021-11-11") });
+            _dateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-10-01"), Finish = DateTime.Parse("2021-10-11") });
 
-            _Calendas = new ObservableCollection<ICalendar>();
-            _Calendas.Add(new Calendar() { Name = "Work", Enabled = true, Color = Brushes.Blue });
-            _Calendas.Add(new Calendar() { Name = "Home", Enabled = true, Color = Brushes.Green });
+            _calendas = new ObservableCollection<ICalendar>();
+            _calendas.Add(new Calendar() { Name = "Work", Enabled = true, Color = Brushes.Blue });
+            _calendas.Add(new Calendar() { Name = "Home", Enabled = true, Color = Brushes.Green });
+            
+            _events = new ObservableCollection<IEvent>();
+            _events.Add(new Event() { Caption = "Work", Date = DateTime.Parse("2021-06-08"), Color = Brushes.Blue });
+            _events.Add(new Event() { Caption = "Work 2", Date = DateTime.Parse("2021-06-11"), Color = Brushes.Green });
+            _events.Add(new Event() { Caption = "222", Date = DateTime.Parse("2021-06-11"), Color = Brushes.GreenYellow});
+            _events.Add(new Event() { Caption = "33333", Date = DateTime.Parse("2021-06-11"), Color = Brushes.Red });
+            _events.Add(new Event() { Caption = "4444", Date = DateTime.Parse("2021-06-11"), Color = Brushes.Bisque });
         }
 
         public ObservableCollection<IDateRange> DateRanges
         {
-            get { return _DateRanges; }
+            get { return _dateRanges; }
             set
             {
-                _DateRanges = value;
+                _dateRanges = value;
                 OnPropertyChanged("DateRanges");
             }
         }
         public ObservableCollection<ICalendar> Calendars
         {
-            get { return _Calendas; }
+            get { return _calendas; }
             set
             {
-                _Calendas = value;
+                _calendas = value;
                 OnPropertyChanged("Calendars");
+            }
+        }
+        public ObservableCollection<IEvent> Events
+        {
+            get { return _events; }
+            set
+            {
+                _events = value;
+                OnPropertyChanged("Events");
             }
         }
 
@@ -72,6 +98,15 @@ namespace DestinyNet
             {
                 _dateMonth = value;
                 OnPropertyChanged("DateMonth");
+            }
+        }
+        public DateTime DateMonthEvents
+        {
+            get { return _dateMonthEvents; }
+            set
+            {
+                _dateMonthEvents = value;
+                OnPropertyChanged("DateMonthEvents");
             }
         }
 

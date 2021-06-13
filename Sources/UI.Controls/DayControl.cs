@@ -8,7 +8,6 @@ namespace UIDayControl
     public class DayControl : Control
     {
         private Label _Title;
-        private DateTime _Date;
         private const string TP_TITLE_PART = "xTitle";
         static DayControl()
         {
@@ -25,25 +24,20 @@ namespace UIDayControl
 
         private void UpdateElement()
         {
-            _Title.Content = _Date.ToString("dd");
+           _Title.Content = Date.ToString("dd");
         }
         public DateTime Date
         {
-            get 
-            { 
-                return _Date;  
-            } 
-            set 
-            { 
+            get { return (DateTime)GetValue(DateProperty); }
+            set
+            {
                 SetValue(DateProperty, value);
-                _Date = value;
                 if (_Title != null)
                 {
                     UpdateElement();
                 }
             }
         }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
