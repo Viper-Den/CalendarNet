@@ -17,6 +17,8 @@
                             <RowDefinition Height="3*"></RowDefinition>
                             <RowDefinition Height="5*"></RowDefinition>
                         </Grid.RowDefinitions>
+
+                        <Line Grid.Row="0"  X2="1" Stretch="Fill" VerticalAlignment="Bottom" Margin="0,5,0,5" Stroke="WhiteSmoke"></Line>
                         <Label x:Name="xTitle" Grid.Row="0" Content="Date" 
                                VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
