@@ -28,6 +28,23 @@ namespace DestinyNet
             _calendar = new VMCalendar();
             DataContext = _calendar;
             UpdateLayout();
+
+
+        }
+
+        private void ButtonMonth_Click(object sender, RoutedEventArgs e)
+        {
+            xFrame.Content = new PageMonth();
+        }
+
+        private void ButtonWeek_Click(object sender, RoutedEventArgs e)
+        {
+            xFrame.Content = new PageWeek();
+        }
+
+        private void ButtonYear_Click(object sender, RoutedEventArgs e)
+        {
+            xFrame.Content = new PageYear();
         }
     }
 }
