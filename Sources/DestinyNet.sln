@@ -5,15 +5,11 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DestinyNet", "DestinyNet\DestinyNet.csproj", "{18872D78-4D3E-44D4-B1FE-6A92D7821427}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIDayControl", "UI.Controls\UIDayControl.csproj", "{CD98E534-6300-4693-9E0D-4E136BA6E8E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonthControl", "UI.MonthControl\MonthControl.csproj", "{AD6F39FC-C565-4FDE-BC40-0DE775A948D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIMonthControl", "UI.MonthControl\UIMonthControl.csproj", "{AD6F39FC-C565-4FDE-BC40-0DE775A948D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YearControl", "UI.YearControl\YearControl.csproj", "{004C47CC-1B5F-4035-B93E-423395702328}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIYearControl", "UI.YearControl\UIYearControl.csproj", "{004C47CC-1B5F-4035-B93E-423395702328}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UIDayMonth", "UIDayMonth\UIDayMonth.csproj", "{F658CC51-4F6D-4BD9-A537-471A6251A459}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIMonthView", "UIMonthView\UIMonthView.csproj", "{1411C05B-505E-4D9C-A8A8-37B6AED94C7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonthEventControl", "UIMonthView\MonthEventControl.csproj", "{1411C05B-505E-4D9C-A8A8-37B6AED94C7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +21,6 @@ Global
 		{18872D78-4D3E-44D4-B1FE-6A92D7821427}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18872D78-4D3E-44D4-B1FE-6A92D7821427}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18872D78-4D3E-44D4-B1FE-6A92D7821427}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD98E534-6300-4693-9E0D-4E136BA6E8E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD98E534-6300-4693-9E0D-4E136BA6E8E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD98E534-6300-4693-9E0D-4E136BA6E8E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD98E534-6300-4693-9E0D-4E136BA6E8E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD6F39FC-C565-4FDE-BC40-0DE775A948D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD6F39FC-C565-4FDE-BC40-0DE775A948D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD6F39FC-C565-4FDE-BC40-0DE775A948D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,10 +29,6 @@ Global
 		{004C47CC-1B5F-4035-B93E-423395702328}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{004C47CC-1B5F-4035-B93E-423395702328}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{004C47CC-1B5F-4035-B93E-423395702328}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F658CC51-4F6D-4BD9-A537-471A6251A459}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1411C05B-505E-4D9C-A8A8-37B6AED94C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1411C05B-505E-4D9C-A8A8-37B6AED94C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1411C05B-505E-4D9C-A8A8-37B6AED94C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU

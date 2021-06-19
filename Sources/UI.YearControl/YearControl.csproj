@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UIDayMonth\UIDayMonth.csproj" />
+    <ProjectReference Include="..\UI.MonthControl\MonthControl.csproj" />
   </ItemGroup>
 
 </Project>

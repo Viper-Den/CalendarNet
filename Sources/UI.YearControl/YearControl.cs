@@ -102,7 +102,10 @@ namespace UIYearControl
             if (Date == DateTime.MaxValue) { return; }
             Date = Date.AddYears(1);
         }
-
+        private void OnNow(object sender, MouseButtonEventArgs e)
+        {
+            Date = DateTime.Now;
+        }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -115,6 +118,7 @@ namespace UIYearControl
             _Next.Content = ">";
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
+            _Title.MouseLeftButtonDown += OnNow;
 
             for (int y = 1; y < 4; y++)
             {

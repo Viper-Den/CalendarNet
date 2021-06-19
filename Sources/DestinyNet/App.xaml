@@ -1,9 +1,24 @@
 ﻿<Application x:Class="DestinyNet.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:DestinyNet"
+             xmlns:ViewModels="clr-namespace:DestinyNet"
+             xmlns:Views="clr-namespace:DestinyNetViews"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type ViewModels:YearViewModel}">
+                <Views:YearView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:MonthViewModel}">
+                <Views:MonthView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:WeekViewModel}">
+                <Views:WeekView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:ToDoViewModel}">
+                <Views:ToDoView/>
+            </DataTemplate>
+        </ResourceDictionary>
+
     </Application.Resources>
 </Application>

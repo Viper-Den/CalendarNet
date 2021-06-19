@@ -20,31 +20,32 @@ namespace DestinyNet
     /// </summary>
     public partial class MainWindow : Window
     {
-        protected VMCalendar _calendar;
+        protected ManagerViewModel _ManagerViewModel;
 
         public MainWindow()
         {
             InitializeComponent();
-            _calendar = new VMCalendar();
-            DataContext = _calendar;
+            _ManagerViewModel = new ManagerViewModel();
+            DataContext = _ManagerViewModel;
             UpdateLayout();
-
-
         }
 
         private void ButtonMonth_Click(object sender, RoutedEventArgs e)
         {
-            xFrame.Content = new PageMonth();
+            _ManagerViewModel.SelectiewModelEnum = ViewModelEnum.Month;
         }
 
         private void ButtonWeek_Click(object sender, RoutedEventArgs e)
         {
-            xFrame.Content = new PageWeek();
+            _ManagerViewModel.SelectiewModelEnum = ViewModelEnum.Week;
         }
-
         private void ButtonYear_Click(object sender, RoutedEventArgs e)
         {
-            xFrame.Content = new PageYear();
+            _ManagerViewModel.SelectiewModelEnum = ViewModelEnum.Year;
+        }
+        private void ButtonToDo_Click(object sender, RoutedEventArgs e)
+        {
+            _ManagerViewModel.SelectiewModelEnum = ViewModelEnum.ToDo;
         }
     }
 }

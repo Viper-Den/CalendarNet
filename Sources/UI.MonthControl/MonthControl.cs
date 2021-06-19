@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using UIDayControl;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.ObjectModel;

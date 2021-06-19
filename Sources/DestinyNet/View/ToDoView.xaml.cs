@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNet
+namespace DestinyNetViews
 {
     /// <summary>
-    /// Interaction logic for WeekControll.xaml
+    /// Interaction logic for TreeView.xaml
     /// </summary>
-    public partial class WeekControll : UserControl
+    public partial class ToDoView : UserControl
     {
-        public WeekControll()
+        public ToDoView()
         {
             InitializeComponent();
         }

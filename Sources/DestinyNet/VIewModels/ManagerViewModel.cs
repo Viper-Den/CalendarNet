@@ -1,42 +1,73 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Text;
 using System.Windows.Media;
 using UIMonthControl;
-using UIDayMonth;
+using MonthEvent;
+using System.Collections.Generic;
 
 namespace DestinyNet
 {
-
-    public class DateRange : IDateRange
+    public interface IViewModel 
     {
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
     }
 
-    public class Event : IEvent
+    public class WeekViewModelBase : IViewModel, INotifyPropertyChanged
     {
-        public string Caption { get; set; }
-        public DateTime Date { get; set; }
-        public SolidColorBrush Color { get; set; }
+
+        private DateTime _date;
+
+        public WeekViewModelBase()
+        {
+            _date = DateTime.Now;
+        }
+
+        public DateTime Date
+        {
+            get { return _date; }
+            set
+            {
+                _date = value;
+                OnPropertyChanged("Date");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
     }
 
-    public class VMCalendar : INotifyPropertyChanged
+    public class YearViewModel : WeekViewModelBase
+    {    }
+    public class MonthViewModel : WeekViewModelBase
+    { }
+    public class WeekViewModel : WeekViewModelBase
+    { }
+    public class ToDoViewModel : WeekViewModelBase
+    { }
+
+    public class ManagerViewModel :  INotifyPropertyChanged
     {
         private ObservableCollection<IDateRange> _dateRanges;
         private ObservableCollection<ICalendar> _calendas;
         private ObservableCollection<IEvent> _events;
-        private DateTime _dateYear;
-        private DateTime _dateMonth;
-        private DateTime _dateMonthEvents; 
+        private DateTime _dateMonthEvents;
+        private ViewModelEnum _selectedViewModelEnum;
+        private Dictionary<ViewModelEnum, IViewModel> _viewModelsDictionary;
 
-        public VMCalendar()
+        public ManagerViewModel()
         {
-            _dateYear = DateTime.Now;
-            _dateMonth = DateTime.Now;
             _dateMonthEvents = DateTime.Now;
+
+            _viewModelsDictionary = new Dictionary<ViewModelEnum, IViewModel>();
+            _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel());
+            _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel());
+            _viewModelsDictionary.Add(ViewModelEnum.Year, new YearViewModel());
+            _viewModelsDictionary.Add(ViewModelEnum.ToDo, new ToDoViewModel());
+            _selectedViewModelEnum = ViewModelEnum.Month;
+
 
             _dateRanges = new ObservableCollection<IDateRange>();
             _dateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-11-08"), Finish = DateTime.Parse("2021-11-11") });
@@ -54,6 +85,21 @@ namespace DestinyNet
             _events.Add(new Event() { Caption = "4444", Date = DateTime.Parse("2021-06-11"), Color = Brushes.Bisque });
         }
 
+
+        public IViewModel SelectedViewModel
+        {
+            get { return _viewModelsDictionary[_selectedViewModelEnum]; }
+        }
+
+        public ViewModelEnum SelectiewModelEnum
+        {
+            get { return (_selectedViewModelEnum); }
+            set
+            {
+                _selectedViewModelEnum = value;
+                OnPropertyChanged("SelectedViewModel");
+            }
+        }
         public ObservableCollection<IDateRange> DateRanges
         {
             get { return _dateRanges; }
@@ -79,25 +125,6 @@ namespace DestinyNet
             {
                 _events = value;
                 OnPropertyChanged("Events");
-            }
-        }
-
-        public DateTime DateYear
-        {
-            get { return _dateYear; }
-            set
-            {
-                _dateYear = value;
-                OnPropertyChanged("DateYear");
-            }
-        }
-        public DateTime DateMonth
-        {
-            get { return _dateMonth; }
-            set
-            {
-                _dateMonth = value;
-                OnPropertyChanged("DateMonth");
             }
         }
         public DateTime DateMonthEvents

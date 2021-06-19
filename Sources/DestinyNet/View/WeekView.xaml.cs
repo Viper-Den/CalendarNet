@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNet
+namespace DestinyNetViews
 {
     /// <summary>
-    /// Interaction logic for UCMonthView.xaml
+    /// Interaction logic for WeekControll.xaml
     /// </summary>
-    public partial class UCMonthView : UserControl
+    public partial class WeekView : UserControl
     {
-        public UCMonthView()
+        public WeekView()
         {
             InitializeComponent();
         }

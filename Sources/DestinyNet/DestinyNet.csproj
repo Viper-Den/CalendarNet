@@ -7,10 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UI.Controls\UIDayControl.csproj" />
-    <ProjectReference Include="..\UI.MonthControl\UIMonthControl.csproj" />
-    <ProjectReference Include="..\UI.YearControl\UIYearControl.csproj" />
-    <ProjectReference Include="..\UIMonthView\UIMonthView.csproj" />
+    <ProjectReference Include="..\UI.MonthControl\MonthControl.csproj" />
+    <ProjectReference Include="..\UI.YearControl\YearControl.csproj" />
+    <ProjectReference Include="..\UIMonthView\MonthEventControl.csproj" />
   </ItemGroup>
 
 </Project>
