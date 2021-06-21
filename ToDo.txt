@@ -1,0 +1,23 @@
+2. App
+	- load settings and data
+0. All-
+	*- skiling for font
+	- filter by calendars or tags
+	- Fast loading
+1.Year
+	- select dates diapazone
+	- view dates from list
+	- add events
+2. Month 
+	- view events and tasks in month
+	- event multi dattes data
+3. Week
+	- view events and tasks in month
+	- changing times
+	- hide time diapazone
+	- view task and all-day events
+    - hide task-panel
+
+
+	
+	

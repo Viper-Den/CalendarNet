@@ -14,8 +14,8 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"></ColumnDefinition>
-            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition x:Name="xLeftCol" Width="1*"></ColumnDefinition>
+            <ColumnDefinition x:Name="xCol" Width="4*"></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -101,6 +101,11 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
+                <Canvas x:Name="xCanvas"
+                    Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="25">
+                    <Button Canvas.Left="30" Canvas.Top="200" 
+                            Width="200" Height="100"></Button>
+                </Canvas>
                 <Line Grid.Row="0"  Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"></Line>
                 <Line Grid.Row="1"  Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"></Line>
                 <Line Grid.Row="2"  Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"></Line>

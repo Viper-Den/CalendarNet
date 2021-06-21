@@ -2,5 +2,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/MonthEventControl;component/Themes/MonthEventControl.xaml" />
         <ResourceDictionary Source="/MonthEventControl;component/Themes/DayMonthEventControl.xaml" />
+        <ResourceDictionary Source="/MonthEventControl;component/Themes/WeekEventControl.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

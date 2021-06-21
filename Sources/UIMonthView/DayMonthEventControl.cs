@@ -41,7 +41,7 @@ namespace MonthEvent
         {
             if (Date == new DateTime(Date.Year, Date.Month, 1))
             {
-                _Title.Content = Date.ToString("mm.dd");
+                _Title.Content = Date.ToString("MM.dd");
             }
             else
             {
