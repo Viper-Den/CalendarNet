@@ -11,7 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <MonthView:MonthEventControl Margin="20,20,20,20" Background="White"
-            Date="{Binding Path=Date}" >
+            Date="{Binding Path=Date}" Events="{Binding Path=Events}">
         </MonthView:MonthEventControl>
     </Grid>
 </UserControl>

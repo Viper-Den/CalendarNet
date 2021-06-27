@@ -21,17 +21,11 @@ namespace UIMonthControl
         private const string TP_PREVIOUS_PART = "xPrevious";
         private const string TP_NEXT_PART = "xNext"; 
         private Grid _MainGrid;
-        private Label _Title;
-        private Label _Previous;
-        private Label _Next;
-        private SolidColorBrush _ColorDayOff;
-        private SolidColorBrush _ColorToDay;
-        private SolidColorBrush _ColorDayFinish;
-        private SolidColorBrush _ColorDayOffFinish; 
-        private Visibility _ViewBorderingMonths;
-        private Visibility _ViewButtons;
+        private TitleControl _Title;
+        private TitleControl _Previous;
+        private TitleControl _Next;
         private List<DayControl> _Days;
-        private List<Label> _TitleDays;
+        private List<TitleControl> _TitleDays;
 
         ~MonthControl()
         {
@@ -41,7 +35,7 @@ namespace UIMonthControl
         public MonthControl()
         {
             _Days = new List<DayControl>();
-            _TitleDays = new List<Label>();
+            _TitleDays = new List<TitleControl>();
             Date = DateTime.Now;
             ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
             ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
@@ -145,28 +139,20 @@ namespace UIMonthControl
         }
         public SolidColorBrush ColorDayOffFinish
         {
-            get { return _ColorDayOffFinish; }
+            get { return (SolidColorBrush)GetValue(ColorDayOffFinishProperty); }
             set
             {
                 SetValue(ColorDayOffFinishProperty, value);
-                _ColorDayOffFinish = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public SolidColorBrush ColorDayOff
         {
-            get { return _ColorDayOff; }
+            get { return (SolidColorBrush)GetValue(ColorDayOffProperty); }
             set
             {
                 SetValue(ColorDayOffProperty, value);
-                _ColorDayOff = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public DateTime Date
@@ -175,66 +161,48 @@ namespace UIMonthControl
             set
             {
                 SetValue(DateProperty, new DateTime(value.Year, value.Month, 1));
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public Visibility ViewBorderingMonths
         {
-            get { return _ViewBorderingMonths; }
+            get { return (Visibility)GetValue(ViewBorderingMonthsProperty); }
             set
             {
                 SetValue(ViewBorderingMonthsProperty, value);
-                _ViewBorderingMonths = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public Visibility ViewButtons
         {
-            get { return _ViewButtons; }
+            get { return (Visibility)GetValue(ViewButtonsProperty); }
             set
             {
                 SetValue(ViewButtonsProperty, value);
-                _ViewButtons = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public SolidColorBrush ColorDayFinish
         {
-            get { return _ColorDayFinish; }
+            get { return (SolidColorBrush)GetValue(ColorDayFinishProperty); }
             set
             {
                 SetValue(ColorDayFinishProperty, value);
-                _ColorDayFinish = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public SolidColorBrush ColorToDay
         {
-            get { return _ColorToDay; }
+            get { return (SolidColorBrush)GetValue(ColorToDayProperty); }
             set
             {
                 SetValue(ColorToDayProperty, value);
-                _ColorToDay = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
-        private void UpdateElements() 
+        private void UpdateElements()
         {
+            if (_Title == null) { return; }
             var dayOfWeek = (int)Date.DayOfWeek;
             //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
             if (dayOfWeek == 0) { dayOfWeek = 6; } // change to DateTimeFormat
@@ -246,18 +214,20 @@ namespace UIMonthControl
             if (ViewButtons == Visibility.Visible)
             {
                 Grid.SetColumnSpan(_Title, 5);
-                _Title.Content = Date.ToString("MMMM yyyy");
+                _Title.Text = Date.ToString("MMMM yyyy");
             }
             else
             {
                 Grid.SetColumnSpan(_Title, 7);
-                _Title.Content = Date.ToString("MMMM");
+                _Title.Text = Date.ToString("MMMM");
             }
 
             var startDay = Date.AddDays(-dayOfWeek);
             foreach (var d in _TitleDays)
             {
-                d.Content = startDay.ToString("ddd");
+                d.Text = startDay.ToString("ddd");
+                d.FontSize = 10;
+                d.Visibility = Visibility.Visible;
                 switch (startDay.DayOfWeek)
                 {
                     case DayOfWeek.Saturday:
@@ -341,23 +311,34 @@ namespace UIMonthControl
         {
             base.OnRender(drawingContext);
         }
+        //protected override Size MeasureOverride(Size constraint)
+        //{
+        //    var s = base.MeasureOverride(constraint);
+        //    if (_Title != null)
+        //    {
+        //        _Title.FontSize = s.Height * 0.6;
+        //        _Next.FontSize = _Title.FontSize;
+        //        _Previous.FontSize = _Title.FontSize;
+        //        }
+        //    return s;
+        //}
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
-            _Title = (Label)GetTemplateChild(TP_TITLE_PART);
-            _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
-            _Next = (Label)GetTemplateChild(TP_NEXT_PART);
+            _Title = (TitleControl)GetTemplateChild(TP_TITLE_PART);
+            _Previous = (TitleControl)GetTemplateChild(TP_PREVIOUS_PART);
+            _Next = (TitleControl)GetTemplateChild(TP_NEXT_PART);
 
-            _Previous.Content = "<";
-            _Next.Content = ">";
+            _Previous.Text = "<";
+            _Next.Text = ">";
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;
 
             for (int x = 0; x < 7; x++) // Second - for -day title
             {
-                var d = new Label()
+                var d = new TitleControl()
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,

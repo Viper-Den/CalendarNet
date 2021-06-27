@@ -17,6 +17,8 @@
 	- hide time diapazone
 	- view task and all-day events
     - hide task-panel
+4. Help Panel
+	- adding, edeting calendars
 
 
 	

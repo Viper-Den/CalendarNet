@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
         mc:Ignorable="d"
         Title="MainWindow" Height="709" Width="1270">
 
@@ -42,39 +41,11 @@
             <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="WhiteSmoke"></Border>
 
 
-        <MonthView:MonthControl  Grid.Row="1" Grid.Column="0"  Margin="20,50,20,50" 
-                Date="{Binding Path=DateMonth}">
-        </MonthView:MonthControl>
+        <ContentControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="2"  
+                        Content="{Binding Path=SelectedViewModel}"></ContentControl>
 
-        <ContentControl x:Name="xContentControl" Grid.Column="1"  
-                        Grid.Row="1" Grid.RowSpan="2"  
-                        Content="{Binding Path=SelectedViewModel}"></ContentControl>   
 
-            <StackPanel Grid.Row="2" Grid.Column="0">
-                <Grid Background="#FFCCCCCC ">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*"></ColumnDefinition>
-                        <ColumnDefinition Width="1*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="Calendar"
-                       VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                    <Label Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
-                       FontSize="20"
-                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                </Grid>
-                <ItemsControl ItemsSource="{Binding Path=Calendars}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="{Binding Path=Color}">
-                                <CheckBox Height="40"  Margin="20,0,20,0" 
-                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                          VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
-                                          IsChecked="{Binding Path=Enabled}" Content="{Binding Path=Name}"></CheckBox>
-                            </Border>
-                        </DataTemplate>
-
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
+        <ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"  
+                        Content="{Binding Path=ToolPanel}"></ContentControl>
     </Grid>
 </Window>

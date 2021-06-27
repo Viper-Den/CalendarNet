@@ -24,7 +24,8 @@ namespace UIMonthControl
 
         private void UpdateElement()
         {
-           _Title.Content = Date.ToString("dd");
+            if (_Title == null) { return; }
+            _Title.Content = Date.ToString("dd");
         }
         public DateTime Date
         {
@@ -32,10 +33,7 @@ namespace UIMonthControl
             set
             {
                 SetValue(DateProperty, value);
-                if (_Title != null)
-                {
-                    UpdateElement();
-                }
+                UpdateElement();
             }
         }
         public override void OnApplyTemplate()

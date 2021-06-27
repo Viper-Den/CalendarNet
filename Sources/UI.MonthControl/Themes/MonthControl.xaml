@@ -32,10 +32,10 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-                        
-                        <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                        <Label x:Name="xPrevious" Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
-                        <Label x:Name="xNext" Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+
+                        <local:TitleControl x:Name="xTitle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" HorizontalAlignment="Center"></local:TitleControl>
+                        <local:TitleControl x:Name="xPrevious" Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"></local:TitleControl>
+                        <local:TitleControl x:Name="xNext" Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"></local:TitleControl>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

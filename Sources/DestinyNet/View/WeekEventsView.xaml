@@ -10,6 +10,6 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <weekevent:WeekEventControl Margin="20,20,20,20" Background="White"
-            Date="{Binding Path=Date}" ></weekevent:WeekEventControl>
+            Date="{Binding Path=Date}" Events="{Binding Path=Events}"></weekevent:WeekEventControl>
     </Grid>
 </UserControl>

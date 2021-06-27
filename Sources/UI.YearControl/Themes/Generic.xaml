@@ -1,7 +1,7 @@
  <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:UIYearControl">
+    xmlns:local="clr-namespace:UIYearControl" xmlns:uimonthcontrol="clr-namespace:UIMonthControl;assembly=MonthControl">
     <Style TargetType="{x:Type local:YearControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -31,9 +31,9 @@
                                 <ColumnDefinition Width="1*"></ColumnDefinition>
                                 <ColumnDefinition Width="1*"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
-                            <Label x:Name="xPrevious" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
-                            <Label x:Name="xNext" Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
+                            <uimonthcontrol:TitleControl x:Name="xTitle" Grid.Row="0" Grid.Column="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></uimonthcontrol:TitleControl>
+                            <uimonthcontrol:TitleControl x:Name="xPrevious" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></uimonthcontrol:TitleControl>
+                            <uimonthcontrol:TitleControl x:Name="xNext" Grid.Row="0" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></uimonthcontrol:TitleControl>
                         </Grid>
                      </Grid>
                 </ControlTemplate>

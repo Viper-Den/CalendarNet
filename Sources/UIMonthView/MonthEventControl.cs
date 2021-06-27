@@ -24,10 +24,6 @@ namespace MonthEvent
         private Label _Title;
         private Label _Previous;
         private Label _Next;
-        private SolidColorBrush _ColorDayOff;
-        private SolidColorBrush _ColorToDay;
-        private SolidColorBrush _ColorDayFinish;
-        private SolidColorBrush _ColorDayOffFinish;
         private List<DayMonthEventControl> _Days;
         private List<Label> _TitleDays;
 
@@ -35,6 +31,7 @@ namespace MonthEvent
         {
             _Previous.MouseLeftButtonDown -= OnPrevious;
             _Next.MouseLeftButtonDown -= OnNext;
+            _Title.MouseLeftButtonDown -= OnNow;
         }
         public MonthEventControl()
         {
@@ -77,26 +74,7 @@ namespace MonthEvent
         {
             ((MonthEventControl)d).Events = (ObservableCollection<IEvent>)e.NewValue;
         }
-        public ObservableCollection<IEvent> Events
-        {
-            get { return (ObservableCollection<IEvent>)GetValue(EventsProperty); }
-            set
-            {
-                SetValue(EventsProperty, value);
-                if (_Title != null)
-                {
-                    UpdateEvents();
-                }
-            }
-        }
-        public void UpdateEvents()
-        {
-            foreach (var d in _Days)
-            {
-                d.Events = Events;
-            }
-        }
-            private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+         private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthEventControl)d).ColorDayOffFinish = (SolidColorBrush)e.NewValue;
         }
@@ -116,30 +94,41 @@ namespace MonthEvent
         {
             ((MonthEventControl)d).Date = (DateTime)e.NewValue;
         }
+        public void UpdateEvents()
+        {
+            if (_Title != null)
+            {
+                foreach (var d in _Days)
+                {
+                    d.Events = Events;
+                }
+            }
+        }
+        public ObservableCollection<IEvent> Events
+        {
+            get { return (ObservableCollection<IEvent>)GetValue(EventsProperty); }
+            set
+            {
+                SetValue(EventsProperty, value);
+                UpdateEvents();
+            }
+        }
         public SolidColorBrush ColorDayOffFinish
         {
-            get { return _ColorDayOffFinish; }
+            get { return (SolidColorBrush)GetValue(ColorDayOffFinishProperty); }
             set
             {
                 SetValue(ColorDayOffFinishProperty, value);
-                _ColorDayOffFinish = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public SolidColorBrush ColorDayOff
         {
-            get { return _ColorDayOff; }
+            get { return (SolidColorBrush)GetValue(ColorDayOffProperty); }
             set
             {
                 SetValue(ColorDayOffProperty, value);
-                _ColorDayOff = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public DateTime Date
@@ -148,40 +137,30 @@ namespace MonthEvent
             set
             {
                 SetValue(DateProperty, new DateTime(value.Year, value.Month, 1));
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public SolidColorBrush ColorDayFinish
         {
-            get { return _ColorDayFinish; }
+            get { return (SolidColorBrush)GetValue(ColorDayFinishProperty); }
             set
             {
                 SetValue(ColorDayFinishProperty, value);
-                _ColorDayFinish = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         public SolidColorBrush ColorToDay
         {
-            get { return _ColorToDay; }
+            get { return (SolidColorBrush)GetValue(ColorToDayProperty); }
             set
             {
                 SetValue(ColorToDayProperty, value);
-                _ColorToDay = value;
-                if (_Title != null)
-                {
-                    UpdateElements();
-                }
+                UpdateElements();
             }
         }
         private void UpdateElements()
         {
+            if (_Title == null) { return; }
             var dayOfWeek = (int)Date.DayOfWeek;
             //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
             if (dayOfWeek == 0) { dayOfWeek = 6; } // change to DateTimeFormat
@@ -265,7 +244,6 @@ namespace MonthEvent
         {
             Date = DateTime.Now;
         }
-        
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);

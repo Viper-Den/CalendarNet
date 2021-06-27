@@ -18,7 +18,10 @@
             <DataTemplate DataType="{x:Type ViewModels:ToDoViewModel}">
                 <Views:ToDoView/>
             </DataTemplate>
-        </ResourceDictionary>
+            <DataTemplate DataType="{x:Type ViewModels:ToolPanelViewModel}">
+                <Views:ToolPanelView/>
+            </DataTemplate>
+        </ResourceDictionary> 
 
     </Application.Resources>
 </Application>
