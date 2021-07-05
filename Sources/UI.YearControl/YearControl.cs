@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using UIMonthControl;
 
+
 namespace UIYearControl
 {
     [TemplatePart(Name = YearControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
@@ -40,6 +41,7 @@ namespace UIYearControl
 
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(YearControl), new PropertyMetadata(DatePropertyChanged));
+
 
         public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

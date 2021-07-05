@@ -40,7 +40,7 @@
                             <MonthEvent:DayMonthEventControl x:Name="xColumn7" Grid.Column="7" Grid.Row="1"></MonthEvent:DayMonthEventControl>
                             <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"></Line>
                             <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Top" Grid.ColumnSpan="8" Stroke="DarkSlateGray"></Line>
-
+                            <Image Grid.Row="1" Grid.Column="0" Source="../Images/Menu.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" > </Image>
 
                             <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="9">
                                 <Grid.ColumnDefinitions>

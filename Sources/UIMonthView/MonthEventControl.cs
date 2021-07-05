@@ -47,28 +47,22 @@ namespace MonthEvent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MonthEventControl), new FrameworkPropertyMetadata(typeof(MonthEventControl)));
         }
         public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<IEvent>),
-               typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
+           DependencyProperty.Register("Events", typeof(ObservableCollection<IEvent>), typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
 
         public static readonly DependencyProperty ColorDayOffProperty =
-            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(MonthEventControl),
-                new PropertyMetadata(ColorDayOffPropertyChanged));
+            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(MonthEventControl), new PropertyMetadata(ColorDayOffPropertyChanged));
 
         public static readonly DependencyProperty ColorDayFinishProperty =
-            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(MonthEventControl),
-                new PropertyMetadata(ColorDayFinishPropertyChanged));
+            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(MonthEventControl), new PropertyMetadata(ColorDayFinishPropertyChanged));
 
         public static readonly DependencyProperty ColorDayOffFinishProperty =
-            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(MonthEventControl),
-                new PropertyMetadata(ColorDayOffFinishPropertyChanged));
+            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(MonthEventControl), new PropertyMetadata(ColorDayOffFinishPropertyChanged));
 
         public static readonly DependencyProperty ColorToDayProperty =
-            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(MonthEventControl),
-                new PropertyMetadata(ColorToDayPropertyChanged));
+            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(MonthEventControl), new PropertyMetadata(ColorToDayPropertyChanged));
 
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(MonthEventControl),
-                new PropertyMetadata(DatePropertyChanged));
+            DependencyProperty.Register("Date", typeof(DateTime), typeof(MonthEventControl), new PropertyMetadata(DatePropertyChanged));
 
         private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

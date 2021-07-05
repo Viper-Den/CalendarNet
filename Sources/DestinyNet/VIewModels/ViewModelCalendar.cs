@@ -4,12 +4,9 @@ using System.Text;
 
 namespace DestinyNet
 {
-    public enum ViewModelEnum
+    public class ViewModelCalendar : ViewModelBase
     {
-        Month,
-        Week,
-        Year,
-        ToDo,
-        Nodes
+
     }
+
 }

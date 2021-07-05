@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace UIMonthControl
@@ -13,6 +14,36 @@ namespace UIMonthControl
         static TitleControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TitleControl), new FrameworkPropertyMetadata(typeof(TitleControl)));
+        }
+        public TitleControl()
+        {
+        }
+        ~TitleControl()
+        {
+            _Title.MouseDown -= DoMouseDown;
+            _Title.MouseEnter -= DoMouseEnter;
+            _Title.MouseLeave -= DoMouseLeave;
+            _Title.MouseUp -= DoMouseUp;
+        }
+
+        private void DoMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            OnMouseUp(e);
+        }
+
+        private void DoMouseLeave(object sender, MouseEventArgs e)
+        {
+            OnMouseLeave(e);
+        }
+
+        private void DoMouseEnter(object sender, MouseEventArgs e)
+        {
+            OnMouseEnter(e);
+        }
+
+        private void DoMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            OnMouseDown(e);
         }
 
         public static readonly DependencyProperty TextProperty = 
@@ -58,6 +89,10 @@ namespace UIMonthControl
         {
             base.OnApplyTemplate();
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
+            _Title.MouseDown += DoMouseDown;
+            _Title.MouseEnter += DoMouseEnter;
+            _Title.MouseLeave += DoMouseLeave;
+            _Title.MouseUp += DoMouseUp;
         }
 
     }

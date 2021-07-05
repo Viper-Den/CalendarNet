@@ -6,8 +6,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:YearView="clr-namespace:UIYearControl;assembly=YearControl"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance Type=DestinyNet:YearViewModel}"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <YearView:YearControl Background="White" Margin="20,20" Date="{Binding Path=Date}" DateRanges="{Binding Path=DateRanges}"> </YearView:YearControl>
+             d:DesignHeight="600" d:DesignWidth="1000">
+    <Grid >
+        <YearView:YearControl Background="White" Margin="20,20" Date="{Binding Path=Date}" DateRanges="{Binding Path=DateRanges}"></YearView:YearControl>
     </Grid>
 </UserControl>

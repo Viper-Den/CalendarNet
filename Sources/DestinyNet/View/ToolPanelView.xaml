@@ -4,42 +4,38 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet"
-             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
+             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl" xmlns:basecontrols="clr-namespace:BaseControls;assembly=BaseControls"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="400">
-    <Grid Background="White">
+    <Grid Background="White" Margin="2,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="300"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        
-        <StackPanel Grid.Row="1">
-            <Grid Background="#FFCCCCCC ">
+            <Grid Background="#FFCCCCCC " Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"></ColumnDefinition>
                     <ColumnDefinition Width="1*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="Calendar"
                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                <Label Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
-                       FontSize="20"
-                       VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Button Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
+                       FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                        Command="{Binding Path=AddCalendar}"/>
             </Grid>
-            <ItemsControl ItemsSource="{Binding Path=Calendars}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="{Binding Path=Color}">
-                            <CheckBox Height="40"  Margin="20,0,20,0" 
-                                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                                          VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
-                                          IsChecked="{Binding Path=Enabled}" Content="{Binding Path=Name}"></CheckBox>
-                        </Border>
-                    </DataTemplate>
-
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
-        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50"  Date="{Binding Path=Date}">
+        
+            <!--SelectedItem="{Binding Path=SelectedCalendar}"-->
+        <basecontrols:ItemsControlSelected ItemsSource="{Binding Path=Calendars}" Grid.Row="2">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <local:CalendarView Height="40" HorizontalAlignment="Stretch" MouseDoubleClick="CalendarView_MouseDoubleClick" 
+                            local:SelectedItemBehavior.Binding="{Binding ElementName=ItemsControlList, Path=DataContext.SelectedValue}" Content="{Binding}"> </local:CalendarView>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </basecontrols:ItemsControlSelected>
+        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50"  Date="{Binding Path=Date}" >
+            <!---->
         </MonthView:MonthControl>
 
     </Grid>

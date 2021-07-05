@@ -21,7 +21,11 @@
             <DataTemplate DataType="{x:Type ViewModels:ToolPanelViewModel}">
                 <Views:ToolPanelView/>
             </DataTemplate>
-        </ResourceDictionary> 
+            <DataTemplate DataType="{x:Type ViewModels:ViewModelCalendar}">
+                <Views:DialogCalendar/>
+            </DataTemplate>
+        </ResourceDictionary>
+        <!--<converters:BoolToBlurUsageConverter x:Key="BoolToBlurUsageConverter" /> -->
 
     </Application.Resources>
 </Application>

@@ -5,4 +5,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Images\Menu.png" />
+    <None Remove="Images\Menu1.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Menu.png" />
+    <Resource Include="Images\Menu1.png" />
+  </ItemGroup>
+
 </Project>

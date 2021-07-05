@@ -14,19 +14,13 @@ using System.Windows.Shapes;
 namespace DestinyNetViews
 {
     /// <summary>
-    /// Interaction logic for ToolPanelView.xaml
+    /// Interaction logic for DialogCalendar.xaml
     /// </summary>
-    public partial class ToolPanelView : UserControl
+    public partial class DialogCalendar : UserControl
     {
-        public ToolPanelView()
+        public DialogCalendar()
         {
             InitializeComponent();
         }
-
-        private void CalendarView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
     }
 }

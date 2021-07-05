@@ -11,22 +11,26 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNetViews
+namespace DestinyNet
 {
     /// <summary>
-    /// Interaction logic for ToolPanelView.xaml
+    /// Interaction logic for CalendarView.xaml
     /// </summary>
-    public partial class ToolPanelView : UserControl
+    public partial class CalendarView : UserControl
     {
-        public ToolPanelView()
+        public ICommand Selected { get; set; }
+        public CalendarView()
         {
             InitializeComponent();
         }
 
-        private void CalendarView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void CheckBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-
+            if(Selected != null)
+            {
+                Selected.Execute(DataContext);
+            }
         }
-
     }
+
 }
