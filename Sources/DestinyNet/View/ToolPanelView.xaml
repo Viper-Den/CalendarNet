@@ -4,39 +4,105 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet"
-             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl" xmlns:basecontrols="clr-namespace:BaseControls;assembly=BaseControls"
+             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="400">
+    
+    
     <Grid Background="White" Margin="2,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="300"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-            <Grid Background="#FFCCCCCC " Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"></ColumnDefinition>
-                    <ColumnDefinition Width="1*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="Calendar"
+        <Grid Background="#FFCCCCCC " Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"></ColumnDefinition>
+                <ColumnDefinition Width="1*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="Calendar"
                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
-                <Button Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
+            <Button Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
                        FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                         Command="{Binding Path=AddCalendar}"/>
-            </Grid>
-        
-            <!--SelectedItem="{Binding Path=SelectedCalendar}"-->
-        <basecontrols:ItemsControlSelected ItemsSource="{Binding Path=Calendars}" Grid.Row="2">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <local:CalendarView Height="40" HorizontalAlignment="Stretch" MouseDoubleClick="CalendarView_MouseDoubleClick" 
-                            local:SelectedItemBehavior.Binding="{Binding ElementName=ItemsControlList, Path=DataContext.SelectedValue}" Content="{Binding}"> </local:CalendarView>
+        </Grid>
+        <ListView ItemsSource="{Binding Path=Calendars}"  Grid.Row="2" >
+            <ListView.Resources>
+                <Style x:Key="FocusVisual">
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle Margin="0" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <SolidColorBrush x:Key="Item.MouseOver.Background" Color="#FFFFFFFF"/>
+                <SolidColorBrush x:Key="Item.MouseOver.Border" Color="#FFFFFFFF"/>
+                <SolidColorBrush x:Key="Item.SelectedInactive.Background" Color="#FFFFFFFF"/>
+                <SolidColorBrush x:Key="Item.SelectedInactive.Border" Color="#FFFFFFFF"/>
+                <SolidColorBrush x:Key="Item.SelectedActive.Background" Color="#FFFFFFFF"/>
+                <SolidColorBrush x:Key="Item.SelectedActive.Border" Color="#FFFFFFFF"/>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="IsMouseOver" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.MouseOver.Background}"/>
+                                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.MouseOver.Border}"/>
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                            <Condition Property="IsSelected" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Background}"/>
+                                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedInactive.Border}"/>
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                            <Condition Property="IsSelected" Value="True"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Background" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Background}"/>
+                                        <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource Item.SelectedActive.Border}"/>
+                                    </MultiTrigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="TextElement.Foreground" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Resources>
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="local:Cases" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                        <local:CalendarView Height="40" Width="280">
+                        </local:CalendarView>
+                    </StackPanel>
                 </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </basecontrols:ItemsControlSelected>
-        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50"  Date="{Binding Path=Date}" >
-            <!---->
-        </MonthView:MonthControl>
+            </ListView.ItemTemplate>
+        </ListView>
+        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50"  Date="{Binding Path=Date}" />
 
     </Grid>
 </UserControl>

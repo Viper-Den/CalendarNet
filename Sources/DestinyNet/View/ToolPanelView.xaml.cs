@@ -23,10 +23,5 @@ namespace DestinyNetViews
             InitializeComponent();
         }
 
-        private void CalendarView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
     }
 }

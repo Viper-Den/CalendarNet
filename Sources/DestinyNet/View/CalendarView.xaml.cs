@@ -18,7 +18,22 @@ namespace DestinyNet
     /// </summary>
     public partial class CalendarView : UserControl
     {
-        public ICommand Selected { get; set; }
+        public static readonly DependencyProperty EditCalenarProperty =
+           DependencyProperty.Register("EditCalenar", typeof(ICommand),
+               typeof(CalendarView), new PropertyMetadata(EditCalenarPropertyChanged));
+
+        private static void EditCalenarPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((CalendarView)d).EditCalenar = (ICommand)e.NewValue;
+        }
+        public ICommand EditCalenar
+        {
+            get { return (ICommand)GetValue(EditCalenarProperty); }
+            set
+            {
+                SetValue(EditCalenarProperty, value);
+            }
+        }
         public CalendarView()
         {
             InitializeComponent();
@@ -26,9 +41,9 @@ namespace DestinyNet
 
         private void CheckBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if(Selected != null)
+            if(EditCalenar != null)
             {
-                Selected.Execute(DataContext);
+                EditCalenar.Execute(DataContext);
             }
         }
     }

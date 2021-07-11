@@ -3,11 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DestinyNet" 
-             xmlns:i="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic.Core"
-             mc:Ignorable="d"   HorizontalAlignment="Stretch" 
+             mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="200" d:Background="White">
-    <Grid  Background="{Binding Color}" >
+    <UserControl.Resources>
+        <Style TargetType="Grid">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Enabled}" Value="True">
+                    <Setter Property="Background" Value="{Binding Path=Color}"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=Enabled}" Value="False">
+                    <Setter Property="Background" Value="Transparent"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*"></ColumnDefinition>
             <ColumnDefinition Width="4*"></ColumnDefinition>
@@ -15,9 +25,11 @@
         </Grid.ColumnDefinitions>
 
         <CheckBox Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Margin="5" 
-                  Content="{Binding Name}" IsChecked="{Binding Path=Enabled}" MouseDoubleClick="CheckBox_MouseDoubleClick">
+                  Content="{Binding Name}" IsChecked="{Binding Path=Enabled}">
+
         </CheckBox>
         <Image Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/Settings1.png" Height="25"/>
         <Image Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/RootElement.png"/>
+
     </Grid>
 </UserControl>
