@@ -1,14 +1,15 @@
-﻿namespace DestinyNet
+﻿using System;
+using System.Windows.Input;
+namespace DestinyNet
 {
 
-        public class DialogViewsManager : ViewModelBase, IDialogViewsManager
-    {
-            private ViewModelBase _currentDialogView;
+        public class DialogViewsManager : BaseViewModel, IDialogViewsManager
+        {
+            private BaseViewModel _currentDialogView;
             private bool _freezeBackGround;
 
-            //public ICommand ClosePopUpViewCommand => new ActionCommand(ClosePopUpView);
-
-            public ViewModelBase CurrentDialogView
+            public ICommand ClosePopUpViewCommand {  get  => new ActionCommand(ClosePopUpView); }
+            public BaseViewModel CurrentDialogView
             {
                 get => _currentDialogView;
                 private set => SetField(ref _currentDialogView, value);
@@ -20,13 +21,13 @@
                 set => SetField(ref _freezeBackGround, value);
             }
 
-            public void ShowDialogView(ViewModelBase dialogView, bool freezeBackground = false)
+            public void ShowDialogView(BaseViewModel dialogView, bool freezeBackground = false)
             {
                 CurrentDialogView = dialogView;
                 FreezeBackground = freezeBackground;
             }
 
-            public void ClosePopUpView()
+            public void ClosePopUpView(object o)
             {
                 CurrentDialogView = null;
                 FreezeBackground = false;

@@ -2,7 +2,7 @@
 
 namespace DestinyNet
 {
-    public class ViewModeDateBase : ViewModelBase
+    public class ViewModeDateBase : BaseViewModel
     {
 
         private DateTime _date;

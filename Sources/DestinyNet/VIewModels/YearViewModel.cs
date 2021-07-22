@@ -13,8 +13,8 @@ namespace DestinyNet
         public YearViewModel(Data data) : base(data)
         {
             DateRanges = new ObservableCollection<IDateRange>();
-            StartDate = new RelayCommand(o => { _startDate = (DateTime)o; });
-            FinishDate = new RelayCommand(o => { DateRanges.Add(new DateRange() { Start = _startDate, Finish = (DateTime)o }); }) ;
+            StartDate = new ActionCommand(o => { _startDate = (DateTime)o; });
+            FinishDate = new ActionCommand(o => { DateRanges.Add(new DateRange() { Start = _startDate, Finish = (DateTime)o }); }) ;
             Update();
         }
         public void Update()

@@ -6,16 +6,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="25" d:DesignWidth="200" d:Background="White">
     <UserControl.Resources>
-        <Style TargetType="Grid">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=Enabled}" Value="True">
-                    <Setter Property="Background" Value="{Binding Path=Color}"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding Path=Enabled}" Value="False">
-                    <Setter Property="Background" Value="Transparent"/>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -25,11 +15,8 @@
         </Grid.ColumnDefinitions>
 
         <CheckBox Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Margin="5" 
-                  Content="{Binding Name}" IsChecked="{Binding Path=Enabled}">
-
-        </CheckBox>
-        <Image Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/Settings1.png" Height="25"/>
-        <Image Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/RootElement.png"/>
-
+                  Content="{Binding Name}" IsChecked="{Binding Path=Enabled}"/>
+        <Image x:Name="xSettings" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/Settings1.png" Height="25"/>
+        <Image x:Name="xChangePosition" Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/RootElement.png"/>
     </Grid>
 </UserControl>

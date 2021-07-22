@@ -5,4 +5,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Images\RootElement.png" />
+    <None Remove="Images\Settings.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\RootElement.png" />
+    <Resource Include="Images\Settings.png" />
+  </ItemGroup>
+
 </Project>

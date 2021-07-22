@@ -7,7 +7,7 @@ namespace DestinyNet
     {
     }
 
-    public class ViewModelBase : IViewModel, INotifyPropertyChanged
+    public class BaseViewModel : IViewModel, INotifyPropertyChanged
     { 
         public event PropertyChangedEventHandler PropertyChanged;
 

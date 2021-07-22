@@ -4,5 +4,6 @@
         <ResourceDictionary Source="/MonthControl;component/Themes/MonthControl.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/DayControl.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/TitleControl.xaml" />
+        <ResourceDictionary Source="/MonthControl;component/Themes/CalendarItem.xaml" /> 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary> 

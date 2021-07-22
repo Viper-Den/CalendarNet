@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <None Remove="View\Images\RootElement.png" />
-    <None Remove="View\Images\Settings.png" />
     <None Remove="View\Images\Settings1.png" />
   </ItemGroup>
 
@@ -19,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BaseControls\BaseControls.csproj" />
     <ProjectReference Include="..\UI.MonthControl\MonthControl.csproj" />
     <ProjectReference Include="..\UI.YearControl\YearControl.csproj" />
     <ProjectReference Include="..\UIMonthView\MonthEventControl.csproj" />
@@ -27,7 +25,6 @@
 
   <ItemGroup>
     <Resource Include="View\Images\RootElement.png" />
-    <Resource Include="View\Images\Settings.png" />
     <Resource Include="View\Images\Settings1.png" />
   </ItemGroup>
 

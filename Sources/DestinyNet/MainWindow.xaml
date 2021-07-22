@@ -18,7 +18,9 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Background="Silver "></Label>
+        <Label Grid.Row="0" 
+               Grid.Column="0" 
+               Background="Silver "/>
         <Grid Grid.Row="0" Grid.Column="1" Background="#FFCCCCCC ">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
@@ -38,23 +40,42 @@
             <Button x:Name="xButtonYear" Grid.Column="6" Content="Year" Margin="10,5" Click="ButtonYear_Click"></Button>
         </Grid>
 
-        <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="WhiteSmoke"></Border>
+        <Border Grid.Column="0" 
+                Grid.Row="1" 
+                Grid.RowSpan="3" 
+                Background="WhiteSmoke"/>
 
 
-        <ContentControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                        Content="{Binding Path=SelectedViewModel}"></ContentControl>
+        <ContentControl Grid.Column="1" 
+                        Grid.Row="1" 
+                        Grid.RowSpan="2" 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" 
+                        Content="{Binding Path=SelectedViewModel}"/>
 
 
-        <ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="2"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  
-                        Content="{Binding Path=ToolPanel}"></ContentControl>
+        <ContentControl Grid.Column="0" 
+                        Grid.Row="1" 
+                        Grid.RowSpan="2"  
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch"  
+                        Content="{Binding Path=ToolPanel}"/>
 
         <!--  Container with additional pop up views  -->
         <Grid
             x:Name="DialogContent"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3" Height="100" Width="200">
-            <ContentControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Content="{Binding DialogViewsManager.CurrentDialogView}" />
+            Grid.Column="0" 
+            Grid.Row="0" 
+            Grid.ColumnSpan="2" 
+            Grid.RowSpan="3" 
+            Height="100" 
+            Width="200">
+            <ContentControl 
+                VerticalAlignment="Stretch" 
+                HorizontalAlignment="Stretch" 
+                Content="{Binding DialogViewsManager.CurrentDialogView}" />
         </Grid>
         <!--<Grid.Effect>
             <BlurEffect KernelType="Gaussian" Radius="{Binding DialogViewsManager.FreezeBackground, Converter={Application.Resources BoolToBlurUsageConverter}}" />
