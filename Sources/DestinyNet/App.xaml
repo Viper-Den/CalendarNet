@@ -25,7 +25,5 @@
                 <Views:DialogCalendar/>
             </DataTemplate>
         </ResourceDictionary>
-        <!--<converters:BoolToBlurUsageConverter x:Key="BoolToBlurUsageConverter" /> -->
-
     </Application.Resources>
 </Application>

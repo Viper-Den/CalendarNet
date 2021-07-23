@@ -1,33 +1,50 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:Converters"
     xmlns:local="clr-namespace:UIMonthControl">
-    <Style TargetType="{x:Type local:CalendarItem}">
+        <converters:ColorToFontColorConverter x:Key="ColorToFontColorConverter" />
+
+        <Style TargetType="{x:Type local:CalendarItem}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:CalendarItem}">
-                    <Grid x:Name="xGrid"  Background="{Binding Color}">
+                    <Grid x:Name="xGrid" Background="Transparent">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
                             <ColumnDefinition Width="15*"></ColumnDefinition>
                             <ColumnDefinition Width="4*"></ColumnDefinition>
                             <ColumnDefinition Width="1*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <CheckBox Grid.Column="0" 
+                        <Border x:Name="xBorder"
+                                Grid.Column="0" 
+                                Background="Transparent"
+                                Height="20"
+                                Width="20"
+                                BorderThickness="1"
+                                BorderBrush="{Binding Color}"
+                                CornerRadius="2">
+                            <Image  x:Name="xImageIsChecked"  
+                                    VerticalAlignment="Stretch"
+                                    HorizontalAlignment="Stretch"
+                               Source="../Images/2.png"/>
+                        </Border>
+                        <Label x:Name="xLabel"
+                                  Grid.Column="1" 
                                   VerticalAlignment="Stretch" 
                                   HorizontalAlignment="Stretch" 
                                   VerticalContentAlignment="Center" 
                                   Margin="5" 
                                   Background="Transparent"
-                                  Content="{Binding Path=Name}" 
-                                  IsChecked="{Binding Path=Enabled}"/>
+                                  Content="{Binding Path=Name}"/>
                         <Image x:Name="xSettings" 
-                               Grid.Column="1" 
+                               Grid.Column="2" 
                                VerticalAlignment="Stretch" 
                                HorizontalAlignment="Stretch" 
                                Source="../Images/Settings.png"
                                Visibility="{TemplateBinding ButtonsVisibility}"/>
                         <Image x:Name="xChangePosition" 
-                               Grid.Column="2" 
+                               Grid.Column="3"
                                VerticalAlignment="Stretch" 
                                HorizontalAlignment="Stretch" 
                                Source="../Images/RootElement.png"

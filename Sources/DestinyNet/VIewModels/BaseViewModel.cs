@@ -1,10 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace DestinyNet
 {
     public interface IViewModel
     {
+        Action UpdateData { get; set; }
     }
 
     public class BaseViewModel : IViewModel, INotifyPropertyChanged
@@ -38,5 +40,6 @@ namespace DestinyNet
         {
             PropertyChanged?.Invoke(sender, new PropertyChangedEventArgs(caller));
         }
+        public Action UpdateData { get; set; }
     }
 }

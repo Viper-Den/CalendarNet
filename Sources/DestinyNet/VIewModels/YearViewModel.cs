@@ -7,7 +7,7 @@ using UIMonthControl;
 
 namespace DestinyNet
 {
-    public class YearViewModel : ViewModeDateBase
+    public class YearViewModel : ViewModeDataBase
     {
         private DateTime _startDate;
         public YearViewModel(Data data) : base(data)

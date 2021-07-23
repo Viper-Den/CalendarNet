@@ -87,11 +87,11 @@ namespace UIMonthControl
         {
             base.OnApplyTemplate();
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
+            _BaseColor = (SolidColorBrush)Background;
             MouseDown  += OnMouseDown;
             MouseEnter += DoMouseEnter;
             MouseLeave += DoMouseLeave;
             MouseUp    += OnMouseUp;
-            _BaseColor = (SolidColorBrush)Background;
             UpdateElement();
         }
         private void OnMouseDown(object sender, MouseButtonEventArgs e)

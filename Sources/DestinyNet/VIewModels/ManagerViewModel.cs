@@ -17,9 +17,7 @@ namespace DestinyNet
             var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Configuration.json";
             _data = new Data();
             if (!File.Exists(path))
-            {
                 File.WriteAllText(path, JsonConvert.SerializeObject(_data, Formatting.Indented));
-            }
             else
             {
                 var s = File.ReadAllText(path);
@@ -28,6 +26,7 @@ namespace DestinyNet
 
             DialogViewsManager = new DialogViewsManager();
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
+            ToolPanel.UpdateData += Save;
             _viewModelsDictionary = new Dictionary<ViewModelEnum, IViewModel>();
             _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data));
             _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data));
@@ -38,16 +37,16 @@ namespace DestinyNet
 
         ~ ManagerViewModel()
         {
+        }
+
+        public void Save()
+        {
             var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Configuration.json";
             var s = JsonConvert.SerializeObject(_data);
             File.WriteAllText(path, s);
         }
 
-
-        public IViewModel SelectedViewModel
-        {
-            get { return _viewModelsDictionary[_selectedViewModelEnum]; }
-        }
+        public IViewModel SelectedViewModel {  get { return _viewModelsDictionary[_selectedViewModelEnum]; } }
         public IViewModel ToolPanel  { get; }
         public IDialogViewsManager DialogViewsManager { get; }
 

@@ -5,11 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             Background="WhiteSmoke" 
-             d:DesignHeight="100" d:DesignWidth="250">
+             Background="Transparent" 
+             Height="150" Width="400">
     <Border
+        Background="WhiteSmoke" 
         BorderBrush="Black"
-        CornerRadius="7,7,7,7">
+        BorderThickness="1"
+        CornerRadius="10">
         <Grid 
             VerticalAlignment="Stretch" 
             HorizontalAlignment="Stretch">
@@ -21,28 +23,30 @@
             <xctk:ColorPicker 
                 Grid.Row="1" 
                 SelectedColor="{Binding SelectedCalendar.Color.Color}"
-                Margin="20,5"/> 
-            <Button 
-                Grid.Row="2" 
-                Content="Ok"  
-                Command="{Binding AddCalendarCommand}"
-                Margin="160,5,5,5"/>
-            <Button 
-                Grid.Row="2" 
-                Content="Delete"  
-                Command="{Binding DeleteCalendarCommand}"
-                Margin="5,5,189,5"/>
-            <Button 
-                Grid.Row="2" 
-                Content="Cancel"  
-                Command="{Binding CloseWindowCommand}"
-                Margin="73,5,100,5"/>
+                Margin="10"/>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Grid.Column="0" 
+                    Content="Delete"                      
+                    Margin="10"
+                    Command="{Binding DeleteCalendarCommand}"/>
+                <Button 
+                    Grid.Column="1" 
+                    Content="Cancel" 
+                    Margin="10"
+                    Command="{Binding CloseWindowCommand}"/>
+            </Grid>
             <TextBox 
                 SpellCheck.IsEnabled="True" 
                 Language="ru-ru" 
                 Grid.Row="0" 
-                Text="{Binding SelectedCalendar.Name}"
-                Margin="20,5"/>
+                VerticalContentAlignment="Center"
+                Text="{Binding SelectedCalendar.Name}"                    
+                Margin="10"/>
         </Grid>
     </Border>
 </UserControl>

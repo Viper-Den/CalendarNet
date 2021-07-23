@@ -30,6 +30,12 @@ namespace UIYearControl
         {
             _Month = new List<MonthControl>();
         }
+        ~YearControl()
+        {
+            _Previous.MouseLeftButtonDown -= OnPrevious;
+            _Next.MouseLeftButtonDown -= OnNext;
+            _Title.MouseLeftButtonDown -= OnNow;
+        }
         static YearControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(YearControl), new FrameworkPropertyMetadata(typeof(YearControl)));

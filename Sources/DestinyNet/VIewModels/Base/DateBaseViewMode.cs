@@ -2,13 +2,13 @@
 
 namespace DestinyNet
 {
-    public class ViewModeDateBase : BaseViewModel
+    public class ViewModeDataBase : BaseViewModel
     {
 
         private DateTime _date;
         protected Data _data;
 
-        public ViewModeDateBase(Data data)
+        public ViewModeDataBase(Data data)
         {
             _date = DateTime.Now;
             _data = data;

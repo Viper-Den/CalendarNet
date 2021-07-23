@@ -24,7 +24,7 @@
                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
             <Button Grid.Column="1" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="+"
                        FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
-                        Command="{Binding Path=AddCalendar}"/>
+                        Command="{Binding Path=AddCalendarCommand}"/>
         </Grid>
         <ListView ItemsSource="{Binding Path=Calendars}"  Grid.Row="2" >
             <ListView.Resources>
@@ -97,7 +97,11 @@
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
                         <!--<local:CalendarView Height="40" Width="280">
                         </local:CalendarView>-->
-                        <MonthView:CalendarItem Height="40" SettingsCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.SelectCalendar}" />
+                        <MonthView:CalendarItem 
+                            Height="40" 
+                            Width="290" 
+                            SettingsCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.EditCalendarCommand}" 
+                            IsChecked="{Binding Enabled}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

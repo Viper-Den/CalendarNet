@@ -31,6 +31,7 @@ namespace UIMonthControl
         {
             _Previous.MouseLeftButtonDown -= OnPrevious;
             _Next.MouseLeftButtonDown -= OnNext;
+            _Title.MouseLeftButtonDown -= OnNow;
         }
         public MonthControl()
         {

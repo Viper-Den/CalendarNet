@@ -13,7 +13,6 @@
             <ColumnDefinition Width="4*"></ColumnDefinition>
             <ColumnDefinition Width="1*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-
         <CheckBox Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" Margin="5" 
                   Content="{Binding Name}" IsChecked="{Binding Path=Enabled}"/>
         <Image x:Name="xSettings" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/View/Images/Settings1.png" Height="25"/>

@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace DestinyNet
 {
-    public class MonthViewModel : ViewModeDateBase
+    public class MonthViewModel : ViewModeDataBase
     {
         public MonthViewModel(Data data) : base(data)
         {

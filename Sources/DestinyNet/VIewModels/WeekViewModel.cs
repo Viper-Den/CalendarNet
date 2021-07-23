@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DestinyNet
 {
-    public class WeekViewModel : ViewModeDateBase
+    public class WeekViewModel : ViewModeDataBase
     {
         public WeekViewModel(Data data) : base(data)
         {

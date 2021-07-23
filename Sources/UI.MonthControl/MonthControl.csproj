@@ -6,11 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\1.png" />
+    <None Remove="Images\2.png" />
+    <None Remove="Images\3.png" />
     <None Remove="Images\RootElement.png" />
     <None Remove="Images\Settings.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\1.png" />
+    <Resource Include="Images\2.png" />
+    <Resource Include="Images\3.png" />
     <Resource Include="Images\RootElement.png" />
     <Resource Include="Images\Settings.png" />
   </ItemGroup>
