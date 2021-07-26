@@ -25,9 +25,8 @@ namespace DestinyNet
         public MainWindow()
         {
             InitializeComponent();
-            _ManagerViewModel = new ManagerViewModel();
-            DataContext = _ManagerViewModel;
-            UpdateLayout();
+            //DataContext = managerViewModel;
+            //_ManagerViewModel = managerViewModel;
         }
 
         private void ButtonMonth_Click(object sender, RoutedEventArgs e)

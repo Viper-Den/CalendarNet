@@ -26,7 +26,6 @@ namespace DestinyNet
             _data.Calendars.Add(c);
             Calendars.Add(c);
             SelectedCalendar = c;
-            UpdateData?.Invoke();
             EditCalendar(null);
         }
         private void EditCalendar(object o)

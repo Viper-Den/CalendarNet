@@ -26,7 +26,9 @@
                        FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                         Command="{Binding Path=AddCalendarCommand}"/>
         </Grid>
-        <ListView ItemsSource="{Binding Path=Calendars}"  Grid.Row="2" >
+        <ListView 
+            ItemsSource="{Binding Path=Calendars}"  
+            Grid.Row="2" >
             <ListView.Resources>
                 <Style x:Key="FocusVisual">
                     <Setter Property="Control.Template">
