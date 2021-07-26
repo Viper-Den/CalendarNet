@@ -13,7 +13,7 @@
                                HorizontalContentAlignment="Center"
                                Background="{TemplateBinding Background}"
                                BorderBrush="{TemplateBinding BorderBrush}"
-                               BorderThickness="{TemplateBinding BorderThickness}"></Label>
+                               BorderThickness="{TemplateBinding BorderThickness}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

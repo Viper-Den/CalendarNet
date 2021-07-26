@@ -188,10 +188,12 @@ namespace MonthEvent
 
                 if (d.Date == DateTime.Today)
                 {
+                    d.Foreground = Brushes.White;
                     d.Background = ColorToDay;
                 }
                 else if (d.Date.Month != Date.Month)
                 {
+                    d.Foreground = Brushes.Black;
                     switch (d.Date.DayOfWeek)
                     {
                         case DayOfWeek.Saturday:

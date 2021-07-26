@@ -51,6 +51,7 @@
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Margin" Value="0"/>
                     <Setter Property="Padding" Value="0"/>
@@ -58,8 +59,15 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListViewItem}">
-                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                <Border x:Name="Bd" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}" 
+                                        Background="{TemplateBinding Background}" 
+                                        Padding="{TemplateBinding Padding}" 
+                                        SnapsToDevicePixels="true">
+                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <MultiTrigger>
@@ -96,17 +104,14 @@
             </ListView.Resources>
             <ListView.ItemTemplate>
                 <DataTemplate DataType="local:Cases" >
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
-                        <MonthView:CalendarItem 
+                    <MonthView:CalendarItem 
                             Height="40" 
-                            Width="290" 
                             SettingsCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.EditCalendarCommand}" 
-                            IsChecked="{Binding Enabled}"/>
-                    </StackPanel>
+                            IsChecked="{Binding Path=Enabled, Mode=TwoWay}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50"  Date="{Binding Path=Date}" />
+        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50" Date="{Binding Path=Date}" />
 
     </Grid>
 </UserControl>

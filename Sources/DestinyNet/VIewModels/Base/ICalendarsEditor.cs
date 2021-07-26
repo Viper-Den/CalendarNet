@@ -4,7 +4,7 @@ namespace DestinyNet
 {
     public interface ICalendarsEditor
     {
-        public ObservableCollection<ICalendar> Calendars { get; }
-        public ICalendar SelectedCalendar { get; set; }
+        public ObservableCollection<Calendar> Calendars { get; }
+        public Calendar SelectedCalendar { get; set; }
     }
 }

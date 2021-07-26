@@ -8,50 +8,38 @@ namespace DestinyNet
     public class ToolPanelViewModel : ViewModeDataBase, ICalendarsEditor
     {
         private readonly IDialogViewsManager _dialogViewsManager;
-        private ICalendar _selectCalendar;
+        private Calendar _selectCalendar;
+
         public ICommand AddCalendarCommand { get; }
         public ICommand EditCalendarCommand { get; }
 
         public ToolPanelViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data)
         {
             _dialogViewsManager = dialogViewsManager;
-            Calendars = new ObservableCollection<ICalendar>();
             EditCalendarCommand = new ActionCommand(EditCalendar);
             AddCalendarCommand = new ActionCommand(AddCalendar);
-            Update();
         }
         private void AddCalendar(object o)
         {
             var c = new Calendar() { Color = new SolidColorBrush(Colors.White), Enabled=true, Name = "New Calendar"};
-            _data.Calendars.Add(c);
             Calendars.Add(c);
             SelectedCalendar = c;
             EditCalendar(null);
         }
         private void EditCalendar(object o)
         {
-            ICalendar c = o as ICalendar;
+            var c = o as Calendar;
             if (c == null)
                 return;
 
             SelectedCalendar = c;
             _dialogViewsManager.ShowDialogView(new CalendarViewModel(this, _dialogViewsManager.ClosePopUpViewCommand), true);
         }
-        public void Update()
-        {
-            Calendars.Clear();
-            foreach (var c in _data.Calendars)
-            {
-               Calendars.Add(c);
-            }
-            OnPropertyChanged(nameof(Calendars));
-        }
-
-        public ICalendar SelectedCalendar
+        public Calendar SelectedCalendar
         { 
             get => _selectCalendar;
             set => SetField(ref _selectCalendar, value);
         }
-        public ObservableCollection<ICalendar> Calendars  { get; }
+        public ObservableCollection<Calendar> Calendars { get => _data.Calendars; }
     }
 }

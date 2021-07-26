@@ -65,9 +65,7 @@ namespace UIYearControl
             {
                 SetValue(DateRangesProperty, value);
                 if (value != null)
-                {
                     SelectRanges();
-                }
             }
         }
         private void SelectRanges()
@@ -84,9 +82,7 @@ namespace UIYearControl
             {
                 SetValue(DateProperty, new DateTime(value.Year, 1, 1));
                 if (_Title != null)
-                {
                     UpdateElements();
-                }
             }
         }
         private void UpdateElements()

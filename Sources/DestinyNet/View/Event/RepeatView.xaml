@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="DestinyNet.RepeatView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DestinyNet"
+             mc:Ignorable="d" 
+             Background="White"
+             Height="200" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <Line Grid.Row="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Stroke="Gray" Margin="10,0,10,0"/>
+        <ComboBox Grid.Row="0" Margin="10">
+            <ComboBoxItem Content="Повторять по дням"/>
+            <ComboBoxItem Content="Повторять по неделям"/>
+            <ComboBoxItem Content="Повторять по месяцам"/>
+            <ComboBoxItem Content="Повторять по годам"/>
+        </ComboBox>
+        <ContentControl Grid.Row="1" 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" 
+                        Content="{Binding Path=SelectedViewModel}"/>
+    </Grid>
+</UserControl>

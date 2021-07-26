@@ -64,7 +64,7 @@ namespace UIMonthControl
         }
         #endregion
 
-        #region IsChecked
+        #region IsChecked  
         public static readonly DependencyProperty IsCheckedProperty =
             DependencyProperty.Register("IsChecked", typeof(bool), typeof(CalendarItem), new PropertyMetadata(IsCheckedPropertyChanged));
 

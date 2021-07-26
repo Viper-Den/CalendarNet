@@ -41,12 +41,17 @@
                     Command="{Binding CloseWindowCommand}"/>
             </Grid>
             <TextBox 
-                SpellCheck.IsEnabled="True" 
-                Language="ru-ru" 
                 Grid.Row="0" 
                 VerticalContentAlignment="Center"
                 Text="{Binding SelectedCalendar.Name}"                    
                 Margin="10"/>
+            <!--<TextBox 
+                SpellCheck.IsEnabled="True" 
+                Language="eng-eng" 
+                Grid.Row="0" 
+                VerticalContentAlignment="Center"
+                Text="{Binding SelectedCalendar.Name}"                    
+                Margin="10"/>-->
         </Grid>
     </Border>
 </UserControl>

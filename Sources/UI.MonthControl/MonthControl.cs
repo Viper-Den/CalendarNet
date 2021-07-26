@@ -37,7 +37,6 @@ namespace UIMonthControl
         {
             _Days = new List<DayControl>();
             _TitleDays = new List<TitleControl>();
-            Date = DateTime.Now;
             ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
             ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
             ColorDayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
@@ -47,6 +46,26 @@ namespace UIMonthControl
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MonthControl), new FrameworkPropertyMetadata(typeof(MonthControl)));
         }
+
+        #region DateProperty
+        public static readonly DependencyProperty DateProperty =
+            DependencyProperty.Register("Date", typeof(DateTime), typeof(MonthControl),
+                new PropertyMetadata(DatePropertyChanged));
+        public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).Date = (DateTime)e.NewValue;
+        }
+        public DateTime Date
+        {
+            get { return (DateTime)GetValue(DateProperty); }
+            set
+            {
+                SetValue(DateProperty, new DateTime(value.Year, value.Month, 1));
+                UpdateElements();
+            }
+        }
+        #endregion
+
         public static readonly DependencyProperty DateRangesProperty =
            DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), 
                typeof(MonthControl), new PropertyMetadata(OnDateRangesChanged));
@@ -67,9 +86,6 @@ namespace UIMonthControl
             DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(MonthControl), 
                 new PropertyMetadata(ColorToDayPropertyChanged));
 
-        public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(MonthControl), 
-                new PropertyMetadata(DatePropertyChanged));
 
         public static readonly DependencyProperty ViewBorderingMonthsProperty =
             DependencyProperty.Register("ViewBorderingMonths", typeof(Visibility), typeof(MonthControl), 
@@ -126,10 +142,6 @@ namespace UIMonthControl
         {
             ((MonthControl)d).ColorDayOff = (SolidColorBrush)e.NewValue;
         }
-        public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-           ((MonthControl)d).Date = (DateTime)e.NewValue;
-        }
         public static void ViewBorderingMonthsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthControl)d).ViewBorderingMonths = (Visibility)e.NewValue;
@@ -153,15 +165,6 @@ namespace UIMonthControl
             set
             {
                 SetValue(ColorDayOffProperty, value);
-                UpdateElements();
-            }
-        }
-        public DateTime Date
-        {
-            get { return (DateTime)GetValue(DateProperty); }
-            set
-            {
-                SetValue(DateProperty, new DateTime(value.Year, value.Month, 1));
                 UpdateElements();
             }
         }
@@ -203,11 +206,14 @@ namespace UIMonthControl
         }
         private void UpdateElements()
         {
-            if (_Title == null) { return; }
+            if (_Title == null) 
+                return; 
             var dayOfWeek = (int)Date.DayOfWeek;
             //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-            if (dayOfWeek == 0) { dayOfWeek = 6; } // change to DateTimeFormat
-            else { dayOfWeek--; }
+            if (dayOfWeek == 0) 
+                dayOfWeek = 6;  // change to DateTimeFormat
+            else 
+                dayOfWeek--; 
 
 
             _Previous.Visibility = ViewButtons;
@@ -248,20 +254,18 @@ namespace UIMonthControl
             {
                 d.Date = startDay;
                 if (d.Date.Month != Date.Month)
-                {
                     d.Visibility = ViewBorderingMonths;
-                }
                 else
-                {
                     d.Visibility = Visibility.Visible;
-                }
 
                 if (d.Date == DateTime.Today)
                 {
+                    d.Foreground = Brushes.White;
                     d.Background = ColorToDay;
                 }
                 else if (d.Date < DateTime.Today)
                 {
+                    d.Foreground = Brushes.Black;
                     switch (d.Date.DayOfWeek)
                     {
                         case DayOfWeek.Saturday:
@@ -295,12 +299,14 @@ namespace UIMonthControl
         }
         private void OnPrevious(object sender, MouseButtonEventArgs e)
         {
-            if(Date == DateTime.MinValue) { return; }
+            if(Date == DateTime.MinValue)
+                return; 
             Date = Date.AddMonths(-1);
         }
         private void OnNext(object sender, MouseButtonEventArgs e)
         {
-            if (Date == DateTime.MaxValue) { return;  }
+            if (Date == DateTime.MaxValue) 
+                return;  
             Date = Date.AddMonths(1);
         }
         private void OnNow(object sender, MouseButtonEventArgs e)

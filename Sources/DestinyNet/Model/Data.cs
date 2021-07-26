@@ -1,19 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace DestinyNet
 {
 
     public class Data
     {
-        public List<DateRange> DateRanges { get; set; }
-        public List<Calendar> Calendars { get; set; }
-        public List<Event> Events { get; set; }
+        public ObservableCollection<DateRange> DateRanges { get; set; }
+        public ObservableCollection<Calendar> Calendars { get; set; }
+        public ObservableCollection<Event> Events { get; set; }
 
         public Data()
         {
-            DateRanges = new List<DateRange>();
-            Calendars = new List<Calendar>();
-            Events = new List<Event>();
+            DateRanges = new ObservableCollection<DateRange>();
+            Calendars = new ObservableCollection<Calendar>();
+            Events = new ObservableCollection<Event>();
             //DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-06-08"), Finish = DateTime.Parse("2021-06-13") });
             //DateRanges.Add(new DateRange() { Start = DateTime.Parse("2021-06-01"), Finish = DateTime.Parse("2021-06-01") });
 

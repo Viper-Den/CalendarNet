@@ -14,15 +14,16 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="3*"></RowDefinition>
-                            <RowDefinition Height="5*"></RowDefinition>
+                            <RowDefinition Height="3*"/>
+                            <RowDefinition Height="5*"/>
                         </Grid.RowDefinitions>
 
                         <Label x:Name="xTitle" Grid.Row="0" Content="Date" 
+                               Foreground="{TemplateBinding Foreground}"
                                VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Label>
                         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                            <StackPanel x:Name="xContent" ></StackPanel>
+                            <StackPanel x:Name="xContent"/>
                         </ScrollViewer>
                     </Grid>
                 </ControlTemplate>

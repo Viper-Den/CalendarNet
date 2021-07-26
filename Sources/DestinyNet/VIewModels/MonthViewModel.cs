@@ -7,18 +7,7 @@ namespace DestinyNet
     {
         public MonthViewModel(Data data) : base(data)
         {
-            Events = new ObservableCollection<IEvent>();
-            Update();
         }
-        public ObservableCollection<IEvent> Events {get; }
-        public void Update()
-        {
-            Events.Clear();
-            foreach (var e in _data.Events)
-            {
-                Events.Add(e);
-            }
-            OnPropertyChanged(nameof(Events));
-        }
+        public ObservableCollection<Event> Events {get => _data.Events; }
     }
 }
