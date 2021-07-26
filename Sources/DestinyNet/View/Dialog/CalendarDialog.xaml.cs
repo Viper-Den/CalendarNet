@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace DestinyNetViews
 {
     /// <summary>
-    /// Interaction logic for DialogCalendar.xaml
+    /// Interaction logic for CalendarDialog.xaml
     /// </summary>
-    public partial class DialogCalendar : UserControl
+    public partial class CalendarDialog : UserControl
     {
-        public DialogCalendar()
+        public CalendarDialog()
         {
             InitializeComponent();
         }

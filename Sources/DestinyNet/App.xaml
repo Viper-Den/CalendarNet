@@ -21,7 +21,7 @@
                 <Views:ToolPanelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModels:CalendarViewModel}">
-                <Views:DialogCalendar/>
+                <Views:CalendarDialog/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
