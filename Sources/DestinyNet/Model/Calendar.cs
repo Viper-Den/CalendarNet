@@ -14,7 +14,6 @@ namespace DestinyNet
     }
     public class Calendar : ICalendar
     {
-        private const int DEF_MAX_VALUE = 150;
         public string Name { get; set; }
         public SolidColorBrush Color { get; set; }
         public Boolean Enabled { get; set; }
