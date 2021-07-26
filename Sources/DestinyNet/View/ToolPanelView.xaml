@@ -97,8 +97,6 @@
             <ListView.ItemTemplate>
                 <DataTemplate DataType="local:Cases" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
-                        <!--<local:CalendarView Height="40" Width="280">
-                        </local:CalendarView>-->
                         <MonthView:CalendarItem 
                             Height="40" 
                             Width="290" 
