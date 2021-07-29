@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Media;
 
 namespace DestinyNet
 {
-    public class Calendar
+    public class CalendarDTO
     {
-        public Calendar()
+        public CalendarDTO()
         {
             GUID = Guid.NewGuid().ToString();
         }

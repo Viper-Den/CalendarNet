@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -26,54 +27,57 @@ namespace UIYearControl
         private TitleControl _Next;
         private List<MonthControl> _Month;
 
+        static YearControl()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(YearControl), new FrameworkPropertyMetadata(typeof(YearControl)));
+        }
         public YearControl()
         {
             _Month = new List<MonthControl>();
         }
         ~YearControl()
         {
+            if (DateRanges != null)
+                DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
             _Previous.MouseLeftButtonDown -= OnPrevious;
             _Next.MouseLeftButtonDown -= OnNext;
             _Title.MouseLeftButtonDown -= OnNow;
         }
-        static YearControl()
+
+        #region PeriodStart
+        public static readonly DependencyProperty PeriodStartProperty =
+            DependencyProperty.Register("PeriodStart", typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodStartChanged));
+        public static void PeriodStartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(YearControl), new FrameworkPropertyMetadata(typeof(YearControl)));
+            ((YearControl)d).PeriodStart = (ICommand)e.NewValue;
         }
+        public ICommand PeriodStart
+        {
+            get { return (ICommand)GetValue(PeriodStartProperty); }
+            set { SetValue(PeriodStartProperty, value); }
+        }
+        #endregion
 
-        public static readonly DependencyProperty DateRangesProperty =
-           DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>),
-               typeof(YearControl), new PropertyMetadata(OnDateRangesChanged));
+        #region PeriodFinish
+        public static readonly DependencyProperty PeriodFinishProperty =
+            DependencyProperty.Register("PeriodFinish", typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodFinishPropertyChanged));
+        public static void PeriodFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((YearControl)d).PeriodFinish = (ICommand)e.NewValue;
+        }
+        public ICommand PeriodFinish
+        {
+            get { return (ICommand)GetValue(PeriodFinishProperty); }
+            set { SetValue(PeriodFinishProperty, value); }
+        }
+        #endregion
 
+        #region Date
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(YearControl), new PropertyMetadata(DatePropertyChanged));
-
-
         public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((YearControl)d).Date = (DateTime)e.NewValue;
-        }
-        private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((YearControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
-        }
-
-        public ObservableCollection<IDateRange> DateRanges
-        {
-            get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
-            set
-            {
-                SetValue(DateRangesProperty, value);
-                if (value != null)
-                    SelectRanges();
-            }
-        }
-        private void SelectRanges()
-        {
-            foreach (var m in _Month)
-            {
-                m.DateRanges = DateRanges;
-            }
         }
         public DateTime Date
         {
@@ -83,6 +87,54 @@ namespace UIYearControl
                 SetValue(DateProperty, new DateTime(value.Year, 1, 1));
                 if (_Title != null)
                     UpdateElements();
+            }
+        }
+        #endregion
+
+        #region DateRanges
+        public static readonly DependencyProperty DateRangesProperty =
+           DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), typeof(YearControl), new PropertyMetadata(OnDateRangesChanged));
+        private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((YearControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
+        }
+        public ObservableCollection<IDateRange> DateRanges
+        {
+            get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
+            set
+            {
+                if (DateRanges != null)
+                    DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
+
+
+                SetValue(DateRangesProperty, value);
+                if (value != null)
+                {
+                    DateRanges.CollectionChanged += NotifyCollectionChangedEventHandler;
+                    SelectRanges();
+                }
+            }
+        }
+        #endregion
+
+        private void NotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            //switch (e.Action){
+            //    case NotifyCollectionChangedAction.Add
+
+            //}
+
+            //NotifyCollectionChangedAction.Remove
+            //NotifyCollectionChangedAction.Replace
+            //NotifyCollectionChangedAction.Move
+            //NotifyCollectionChangedAction.Reset
+            SelectRanges();
+        }
+        private void SelectRanges()
+        {
+            foreach (var m in _Month)
+            {
+                m.DateRanges = DateRanges;
             }
         }
         private void UpdateElements()
@@ -109,6 +161,14 @@ namespace UIYearControl
         private void OnNow(object sender, MouseButtonEventArgs e)
         {
             Date = DateTime.Now;
+        }
+        private void OnPeriodStart(DateTime date)
+        {
+            PeriodStart?.Execute(date);
+        }
+        private void OnPeriodFinish(DateTime date)
+        {
+            PeriodFinish?.Execute(date);
         }
         public override void OnApplyTemplate()
         {
@@ -138,6 +198,8 @@ namespace UIYearControl
                     m.Margin = new Thickness(10, 10, 10, 10);
                     m.ViewButtons = Visibility.Hidden;
                     m.ViewBorderingMonths = Visibility.Hidden;
+                    m.PeriodStart += OnPeriodStart;
+                    m.PeriodFinish += OnPeriodFinish;
                     _MainGrid.Children.Add(m);
                     _Month.Add(m);
                 }

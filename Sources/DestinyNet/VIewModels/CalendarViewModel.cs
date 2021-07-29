@@ -12,7 +12,7 @@ namespace DestinyNet
 
         public ICommand DeleteCalendarCommand { get; }
         public ICommand CloseWindowCommand { get; }
-        public ICalendar SelectedCalendar { get => _calendarEditor.SelectedCalendar; }
+        public Calendar SelectedCalendar { get => _calendarEditor.SelectedCalendar; }
         public CalendarViewModel(ICalendarsEditor calendarEditor, ICommand closeWindowCommand)
         {
             _calendarEditor = calendarEditor;

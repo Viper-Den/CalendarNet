@@ -13,9 +13,23 @@ namespace DestinyNet
         public YearViewModel(Data data) : base(data)
         {
             DateRanges = new ObservableCollection<IDateRange>();
-            StartDate = new ActionCommand(o => { _startDate = (DateTime)o; });
-            FinishDate = new ActionCommand(o => { DateRanges.Add(new DateRange() { Start = _startDate, Finish = (DateTime)o }); }) ;
             Update();
+            StartDateCommand = new ActionCommand(OnStartDate);
+            FinishDateCommand = new ActionCommand(OnFinishDate);
+        }
+        public void OnStartDate(object o)
+        {
+            if(o is DateTime)
+            {
+                _startDate = (DateTime)o;
+            }
+        }
+        public void OnFinishDate(object o)
+        {
+            if (o is DateTime)
+            {
+                DateRanges.Add(new DateRange() {Finish = (DateTime)o, Start = _startDate, Calendar = _data.Calendars[0]});
+            }
         }
         public void Update()
         {
@@ -27,8 +41,8 @@ namespace DestinyNet
             OnPropertyChanged(nameof(DateRanges));
         }
         public ObservableCollection<IDateRange> DateRanges { get; }
-        public ICommand StartDate { get; }
-        public ICommand FinishDate { get; }
+        public ICommand StartDateCommand { get; }
+        public ICommand FinishDateCommand { get; }
 
     }
 }

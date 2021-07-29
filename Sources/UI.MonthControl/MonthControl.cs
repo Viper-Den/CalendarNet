@@ -27,6 +27,8 @@ namespace UIMonthControl
         private List<DayControl> _Days;
         private List<TitleControl> _TitleDays;
 
+
+        public List<DayControl> Days { get => _Days; }
         ~MonthControl()
         {
             _Previous.MouseLeftButtonDown -= OnPrevious;
@@ -313,7 +315,6 @@ namespace UIMonthControl
         {
             Date = DateTime.Now;
         }
-
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
@@ -329,6 +330,20 @@ namespace UIMonthControl
         //        }
         //    return s;
         //}
+        private void OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var d = sender as DayControl;
+            if (d != null)
+                PeriodStart?.Invoke(d.Date);
+        }
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var d = sender as DayControl;
+            if (d != null)
+                PeriodFinish?.Invoke(d.Date);
+        }
+        public Action<DateTime> PeriodStart { get; set; }
+        public Action<DateTime> PeriodFinish { get; set; }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -369,6 +384,8 @@ namespace UIMonthControl
                     };
                     Grid.SetColumn(d, x);
                     Grid.SetRow(d, y);
+                    d.MouseDown += OnMouseDown;
+                    d.MouseUp += OnMouseUp;
                     _MainGrid.Children.Add(d);
                     _Days.Add(d);
                 }

@@ -8,10 +8,13 @@
              d:DataContext="{d:DesignInstance Type=DestinyNet:YearViewModel}"
              d:DesignHeight="700" d:DesignWidth="1000">
     <Grid >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="109*"/>
-            <ColumnDefinition Width="16*"/>
-        </Grid.ColumnDefinitions>
-        <YearView:YearControl Background="White" Margin="20,20,20,20" Date="{Binding Path=Date}" DateRanges="{Binding Path=DateRanges}" Grid.ColumnSpan="2"></YearView:YearControl>
+        <YearView:YearControl 
+            Background="White" 
+            Margin="20,20,20,20" 
+            Date="{Binding Path=Date}" 
+            DateRanges="{Binding Path=DateRanges}" 
+            PeriodStart="{Binding Path=StartDateCommand}"
+            PeriodFinish="{Binding Path=FinishDateCommand}"
+            Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

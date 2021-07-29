@@ -73,7 +73,7 @@ namespace MonthEvent
             _Content.Children.Clear();
             foreach (var e in Events)
             {
-                if (Date == e.Date)
+                if (Date == e.Start)
                 {
                     var l = new Label();
                     l.Height = 25;

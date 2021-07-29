@@ -11,14 +11,14 @@
 
     <Grid Background="White" Margin="2,0,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Background="#FFCCCCCC " Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"></ColumnDefinition>
-                <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Grid.Row="0" Height="40" Background="WhiteSmoke" Content="Calendar"
                        VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
