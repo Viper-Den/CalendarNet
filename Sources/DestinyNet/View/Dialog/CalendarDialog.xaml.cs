@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNetViews
+namespace DestinyNet.View.Dialog
 {
     /// <summary>
     /// Interaction logic for CalendarDialog.xaml

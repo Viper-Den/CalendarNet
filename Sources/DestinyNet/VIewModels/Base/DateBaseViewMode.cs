@@ -7,9 +7,11 @@ namespace DestinyNet
 
         private DateTime _date;
         protected Data _data;
+        protected IDialogViewsManager _dialogViewsManager;
 
-        public ViewModeDataBase(Data data)
+        public ViewModeDataBase(Data data, IDialogViewsManager dialogViewsManager)
         {
+            _dialogViewsManager = dialogViewsManager;
             _date = DateTime.Now;
             _data = data;
         }

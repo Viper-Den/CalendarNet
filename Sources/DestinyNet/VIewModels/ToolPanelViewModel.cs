@@ -7,15 +7,12 @@ namespace DestinyNet
 {
     public class ToolPanelViewModel : ViewModeDataBase, ICalendarsEditor
     {
-        private readonly IDialogViewsManager _dialogViewsManager;
         private Calendar _selectCalendar;
-
         public ICommand AddCalendarCommand { get; }
         public ICommand EditCalendarCommand { get; }
 
-        public ToolPanelViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data)
+        public ToolPanelViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
-            _dialogViewsManager = dialogViewsManager;
             EditCalendarCommand = new ActionCommand(EditCalendar);
             AddCalendarCommand = new ActionCommand(AddCalendar);
         }

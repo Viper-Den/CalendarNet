@@ -15,9 +15,9 @@ namespace DestinyNet
         public Calendar SelectedCalendar { get => _calendarEditor.SelectedCalendar; }
         public CalendarViewModel(ICalendarsEditor calendarEditor, ICommand closeWindowCommand)
         {
+            CloseWindowCommand = closeWindowCommand;
             _calendarEditor = calendarEditor;
             DeleteCalendarCommand = new ActionCommand(DelateCalendar);
-            CloseWindowCommand = closeWindowCommand;
         }
         private void DelateCalendar(object o)
         {

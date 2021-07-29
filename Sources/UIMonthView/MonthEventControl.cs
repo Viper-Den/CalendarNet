@@ -46,6 +46,21 @@ namespace MonthEvent
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MonthEventControl), new FrameworkPropertyMetadata(typeof(MonthEventControl)));
         }
+
+        #region AddEvent
+        public static readonly DependencyProperty AddEventProperty =
+            DependencyProperty.Register("AddEvent", typeof(ICommand), typeof(MonthEventControl), new PropertyMetadata(AddEventPropertyChanged));
+        public static void AddEventPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthEventControl)d).AddEvent = (ICommand)e.NewValue;
+        }
+        public ICommand AddEvent
+        {
+            get { return (ICommand)GetValue(AddEventProperty); }
+            set { SetValue(AddEventProperty, value); }
+        }
+        #endregion
+
         public static readonly DependencyProperty EventsProperty =
            DependencyProperty.Register("Events", typeof(ObservableCollection<IEvent>), typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
 
@@ -240,6 +255,10 @@ namespace MonthEvent
         {
             Date = DateTime.Now;
         }
+        private void OnAddEvent(DateTime date)
+        {
+            AddEvent?.Execute(date);
+        }
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
@@ -286,6 +305,7 @@ namespace MonthEvent
                     Grid.SetRow(d, y);
                     _MainGrid.Children.Add(d);
                     _Days.Add(d);
+                    d.AddAction += OnAddEvent;
                 }
             }
             UpdateElements();

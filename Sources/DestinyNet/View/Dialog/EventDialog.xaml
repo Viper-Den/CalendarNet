@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DestinyNet.View.Dialog"
              mc:Ignorable="d" 
              Background="Transparent" 
-             Height="300" Width="400">
+             Height="500" Width="400">
     <Border
         Background="WhiteSmoke" 
         BorderBrush="Black"
@@ -14,18 +14,116 @@
         CornerRadius="10">
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="8*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*"/>
-                <RowDefinition Height="2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
                 <RowDefinition Height="5*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Event name" VerticalContentAlignment="Center" Margin="10"/>
-            <TextBox Grid.Row="0" Margin="100,10,10,10"/>
-            <Label Grid.Row="1" Content="Calendar" VerticalContentAlignment="Center" Margin="10"/>
-            <ComboBox Grid.Row="1" Margin="100,10,10,10"/>
+            <Label Grid.Row="0" 
+                   Content="Event name" 
+                   VerticalContentAlignment="Center" 
+                   Margin="5"/>
+            <TextBox Grid.Row="0" 
+                     Grid.Column="1"
+                     Grid.ColumnSpan="2"
+                     Text="New Event" 
+                     VerticalContentAlignment="Center"
+                     Margin="10"/>
+            <Label Grid.Row="1"
+                   Content="Calendar" 
+                   VerticalContentAlignment="Center" 
+                   Margin="5"/>
+            <ComboBox Grid.Row="1"
+                      Grid.Column="1"
+                      Grid.ColumnSpan="2"
+                      VerticalContentAlignment="Center"
+                      ItemsSource="{Binding Path=Calendars}"
+                      SelectedItem="{Binding Path=SelectedCalendar}"
+                      Margin="10">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Rectangle  Width="20" 
+                                        Margin="5"
+                                        Fill="{Binding Path=Color}"/>
+                            <Label  Content="{Binding Path=Name}"
+                                    VerticalContentAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Label Grid.Row="2"
+                   Grid.Column="0" 
+                   Content="Start" 
+                   VerticalContentAlignment="Center" 
+                   Margin="5"/>
+            <TextBox Grid.Row="2" 
+                     Grid.Column="1" 
+                     Text="12:00" 
+                     VerticalContentAlignment="Center"
+                     Margin="10"/>
+            <TextBox Grid.Row="2" 
+                     Grid.Column="2" 
+                     Text="26.01.2021" 
+                     VerticalContentAlignment="Center"
+                     Margin="10"/>
+
+            <Label Grid.Row="3"
+                   Grid.Column="0" 
+                   Content="Finish" 
+                   VerticalContentAlignment="Center" 
+                   Margin="5"/>
+            <TextBox Grid.Row="3" 
+                     Grid.Column="1" 
+                     Text="12:00" 
+                     VerticalContentAlignment="Center"
+                     Margin="10"/>
+            <TextBox Grid.Row="3" 
+                     Grid.Column="2" 
+                     Text="26.01.2021" 
+                     VerticalContentAlignment="Center"
+                     Margin="10"/>
+
+
+            <CheckBox Grid.Row="4" 
+                      Grid.Column="1" 
+                      Margin="10"
+                      VerticalContentAlignment="Center"
+                      Content="All Day"/>
+
+            <Button Grid.Row="6" 
+                    Grid.Column="2" 
+                    Content="Cancel" 
+                    Margin="5"
+                    Command="{Binding CloseWindowCommand}"/>
+
+            <StackPanel Grid.Row="5" 
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3">
+                <ComboBox Margin="10">
+                    <ComboBoxItem Content="Повторять по дням"/>
+                    <ComboBoxItem Content="Повторять по неделям"/>
+                    <ComboBoxItem Content="Повторять по месяцам"/>
+                    <ComboBoxItem Content="Повторять по годам"/>
+                </ComboBox>
+                <Line X2="1" 
+                      Stretch="Fill" 
+                      VerticalAlignment="Bottom" 
+                      Stroke="Gray" 
+                      Margin="10,0"/>
+                <ContentControl HorizontalAlignment="Stretch" 
+                                VerticalAlignment="Stretch" 
+                                Content="{Binding Path=SelectedRepeatViewModel}"/>
+            </StackPanel>
         </Grid>
     </Border>
 </UserControl>

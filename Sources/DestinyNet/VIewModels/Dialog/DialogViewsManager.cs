@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
+
 namespace DestinyNet
 {
-
         public class DialogViewsManager : BaseViewModel, IDialogViewsManager
         {
             private BaseViewModel _currentDialogView;

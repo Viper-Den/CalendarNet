@@ -1,9 +1,6 @@
 ﻿using System.ComponentModel;
-using MonthEvent;
 using System.Collections.Generic;
-using System.IO;
 using System.Windows.Input;
-using Newtonsoft.Json;
 
 namespace DestinyNet
 {
@@ -19,10 +16,10 @@ namespace DestinyNet
             DialogViewsManager = new DialogViewsManager();
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
             _viewModelsDictionary = new Dictionary<ViewModelEnum, IViewModel>();
-            _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data));
-            _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data));
-            _viewModelsDictionary.Add(ViewModelEnum.Year, new YearViewModel(_data));
-            _viewModelsDictionary.Add(ViewModelEnum.ToDo, new ToDoViewModel(_data));
+            _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data, DialogViewsManager));
+            _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data, DialogViewsManager));
+            _viewModelsDictionary.Add(ViewModelEnum.Year, new YearViewModel(_data, DialogViewsManager));
+            _viewModelsDictionary.Add(ViewModelEnum.ToDo, new ToDoViewModel(_data, DialogViewsManager));
             _selectedViewModelEnum = ViewModelEnum.Month;
 
             MonthViewCommand = new ActionCommand(ViewMonth);

@@ -10,10 +10,8 @@ namespace DestinyNet
     public class YearViewModel : ViewModeDataBase
     {
         private DateTime _startDate;
-        public YearViewModel(Data data) : base(data)
+        public YearViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
-            DateRanges = new ObservableCollection<IDateRange>();
-            Update();
             StartDateCommand = new ActionCommand(OnStartDate);
             FinishDateCommand = new ActionCommand(OnFinishDate);
         }
@@ -28,19 +26,10 @@ namespace DestinyNet
         {
             if (o is DateTime)
             {
-                DateRanges.Add(new DateRange() {Finish = (DateTime)o, Start = _startDate, Calendar = _data.Calendars[0]});
+                DateRanges.Add(new DateRange() { Finish = (DateTime)o, Start = _startDate, Calendar = _data.Calendars[0] });
             }
         }
-        public void Update()
-        {
-            DateRanges.Clear();
-            foreach (var r in _data.DateRanges)
-            {
-                DateRanges.Add(r);
-            }
-            OnPropertyChanged(nameof(DateRanges));
-        }
-        public ObservableCollection<IDateRange> DateRanges { get; }
+        public ObservableCollection<IDateRange> DateRanges { get => _data.DateRanges; }
         public ICommand StartDateCommand { get; }
         public ICommand FinishDateCommand { get; }
 

@@ -2,6 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ViewModels="clr-namespace:DestinyNet"
+             xmlns:Dialogs="clr-namespace:DestinyNet.View.Dialog"
+             xmlns:Menu="clr-namespace:DestinyNet.Menu"
              xmlns:Views="clr-namespace:DestinyNetViews">
     <Application.Resources>
         <ResourceDictionary>
@@ -21,7 +23,22 @@
                 <Views:ToolPanelView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModels:CalendarViewModel}">
-                <Views:CalendarDialog/>
+                <Dialogs:CalendarDialog/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:EventEditorViewModel}">
+                <Dialogs:EventDialog/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:DaysEditorViewModel}">
+                <Menu:RepeatDayView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:WeekEditorViewModel}">
+                <Menu:RepeatWeekView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:MounthEditorViewModel}">
+                <Menu:RepeatMounthView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:YearEditorViewModel}">
+                <Menu:RepeatYearView/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>

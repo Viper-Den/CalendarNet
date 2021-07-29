@@ -8,21 +8,8 @@ namespace DestinyNet
 {
     public class WeekViewModel : ViewModeDataBase
     {
-        public WeekViewModel(Data data) : base(data)
-        {
-            Events = new ObservableCollection<IEvent>();
-            Update();
-        }
-        public ObservableCollection<IEvent> Events { get; }
-        public void Update()
-        {
-            Events.Clear();
-            foreach (var e in _data.Events)
-            {
-                Events.Add(e);
-            }
-            OnPropertyChanged(nameof(Events));
-        }
+        public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager) { }
+        public ObservableCollection<IEvent> Events { get => _data.Events; }
     }
 
 }

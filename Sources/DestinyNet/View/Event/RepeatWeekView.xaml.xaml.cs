@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNet.View.Event
+namespace DestinyNet.Menu
 {
     /// <summary>
     /// Interaction logic for RepeatWeekView.xaml

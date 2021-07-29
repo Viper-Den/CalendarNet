@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MonthEvent
 {
@@ -88,7 +89,15 @@ namespace MonthEvent
             base.OnApplyTemplate();
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
             _Content = (StackPanel)GetTemplateChild(TP_CONTENT_PART);
+            _Content.MouseLeftButtonDown += OnAddEvent;
+            _Title.MouseLeftButtonDown += OnAddEvent;
             UpdateEvents();
+        }
+        public Action<DateTime> AddAction { get; set; }
+
+        private void OnAddEvent(object sender, MouseButtonEventArgs e)
+        {
+            AddAction?.Invoke(Date);
         }
 
     }

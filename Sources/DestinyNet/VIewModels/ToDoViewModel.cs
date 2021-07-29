@@ -2,9 +2,6 @@
 {
     public class ToDoViewModel : ViewModeDataBase
     {
-        public ToDoViewModel(Data data) : base(data)
-        {
-
-        }
+        public ToDoViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager) { }
     }
 }
