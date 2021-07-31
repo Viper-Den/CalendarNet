@@ -1,0 +1,47 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:UIMonthControl">
+    <Style TargetType="{x:Type local:TimePicker}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TimePicker}">
+                    <Grid x:Name="xGrid" Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="xTimePicker"
+								 Grid.Column="0"
+                                 Text="12:00" 
+								 VerticalAlignment="Stretch" 
+								 HorizontalAlignment="Stretch"
+								 VerticalContentAlignment="Center"
+                                 HorizontalContentAlignment="Center"/>
+                        <Button x:Name="xTimePickerButton"
+								Grid.Column="1"/>
+                        <Popup  x:Name="xTimePickerPopup"
+                                Placement="Bottom"
+                                Width="{TemplateBinding ActualWidth}"
+								PlacementTarget="{Binding ElementName=xTimePicker}"
+                                AllowsTransparency="True"
+                                VerticalOffset="0">
+							<Border Background="Transparent"
+                                    BorderBrush="WhiteSmoke"
+                                    BorderThickness="1,1,1,1"
+									CornerRadius="7,7,7,7">
+                                <ListView Height="100">
+                                    <Label Content="10:00"/>
+                                    <Label Content="11:00"/>
+                                    <Label Content="12:00"/>
+                                    <Label Content="13:00"/>
+                                    <Label Content="14:00"/>
+                                </ListView>
+                            </Border>
+						</Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

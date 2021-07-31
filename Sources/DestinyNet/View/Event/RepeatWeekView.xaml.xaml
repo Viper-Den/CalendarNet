@@ -9,8 +9,8 @@
              Height="auto" Width="auto">
     <StackPanel>
         <StackPanel  Orientation="Horizontal" Margin="5">
-            <RadioButton Content="каждый" IsChecked="True" VerticalContentAlignment="Center"/>
-            <TextBox Width="20" VerticalAlignment="Center" Margin="5"/>
+            <Label Content="каждый" VerticalContentAlignment="Center"/>
+            <TextBox Width="20" Text="{Binding Path=Step}" VerticalAlignment="Center" Margin="5"/>
             <Label Content="день" VerticalContentAlignment="Center"/>
         </StackPanel>
         <Grid>
@@ -27,13 +27,13 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <CheckBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <CheckBox Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <CheckBox Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsMonday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsTuesday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsWednesday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsThursday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsFriday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSaturday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSunday}"/>
             <Label    Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пн" />
             <Label    Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вт"/>
             <Label    Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="ср"/>
@@ -44,7 +44,7 @@
         </Grid>
             <StackPanel  Orientation="Horizontal" Margin="5">
             <Label Content="Повторять до" VerticalContentAlignment="Center"/>
-            <TextBox Width="80" VerticalAlignment="Center"/>
+            <TextBox Width="80" Text="{Binding Path=RepeatCount}" VerticalAlignment="Center"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

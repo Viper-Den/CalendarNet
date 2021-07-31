@@ -9,18 +9,13 @@
              Height="auto" Width="auto">
     <StackPanel>
         <StackPanel  Orientation="Horizontal" Margin="5">
-            <RadioButton Content="каждый" IsChecked="True" VerticalContentAlignment="Center"/>
-            <TextBox Width="20" VerticalAlignment="Center" Margin="5"/>
-            <Label Content="день" VerticalContentAlignment="Center"/>
-        </StackPanel>
-        <StackPanel  Orientation="Horizontal" Margin="5">
-            <RadioButton Content="каждый" IsChecked="True" VerticalContentAlignment="Center"/>
-            <TextBox Width="20" VerticalAlignment="Center" Margin="5"/>
+            <Label Content="каждый" VerticalContentAlignment="Center"/>
+            <TextBox Width="20" Text="{Binding Path=Step}" VerticalAlignment="Center" Margin="5"/>
             <Label Content="день" VerticalContentAlignment="Center"/>
         </StackPanel>
         <StackPanel  Orientation="Horizontal" Margin="5">
             <Label Content="Повторять до" VerticalContentAlignment="Center"/>
-            <TextBox Width="80" VerticalAlignment="Center"/>
+            <TextBox Width="80" Text="{Binding Path=RepeatCount}" VerticalAlignment="Center"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

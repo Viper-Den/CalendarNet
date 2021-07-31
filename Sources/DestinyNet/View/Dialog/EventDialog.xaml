@@ -4,9 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet.View.Dialog"
+             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
              mc:Ignorable="d" 
              Background="Transparent" 
-             Height="500" Width="400">
+             Height="550" Width="400">
     <Border
         Background="WhiteSmoke" 
         BorderBrush="Black"
@@ -24,7 +25,7 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="4*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" 
@@ -71,12 +72,26 @@
                      Text="12:00" 
                      VerticalContentAlignment="Center"
                      Margin="10"/>
-            <TextBox Grid.Row="2" 
+            <TextBox Name="xStartDate"
+                     Grid.Row="2" 
                      Grid.Column="2" 
                      Text="26.01.2021" 
                      VerticalContentAlignment="Center"
                      Margin="10"/>
-
+            <Popup
+                    Name="xStartDatePopup"
+                    IsOpen="{Binding SelectedProjection.DrawingObjects.RulerDrawingModeIsActive}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=xStartDate}"
+                    StaysOpen="True"
+                    VerticalOffset="95">
+                <Border
+                        BorderThickness="1,1,1,1"
+                        CornerRadius="7,7,7,7">
+                    <MonthView:MonthControl Margin="5" Date="{Binding Path=Date}" />
+                </Border>
+            </Popup>
+            
             <Label Grid.Row="3"
                    Grid.Column="0" 
                    Content="Finish" 
@@ -94,7 +109,8 @@
                      Margin="10"/>
 
 
-            <CheckBox Grid.Row="4" 
+            <CheckBox x:Name="xAllDay"
+                      Grid.Row="4" 
                       Grid.Column="1" 
                       Margin="10"
                       VerticalContentAlignment="Center"
@@ -109,11 +125,15 @@
             <StackPanel Grid.Row="5" 
                             Grid.Column="0"
                             Grid.ColumnSpan="3">
-                <ComboBox Margin="10">
-                    <ComboBoxItem Content="Повторять по дням"/>
-                    <ComboBoxItem Content="Повторять по неделям"/>
-                    <ComboBoxItem Content="Повторять по месяцам"/>
-                    <ComboBoxItem Content="Повторять по годам"/>
+                <ComboBox Margin="10" 
+                          ItemsSource="{Binding Path=RepeatRules}"
+                          SelectedItem="{Binding Path=SelectedRepeatRules}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label  Content="{Binding Path=Name}"
+                                    VerticalContentAlignment="Center"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
                 </ComboBox>
                 <Line X2="1" 
                       Stretch="Fill" 
