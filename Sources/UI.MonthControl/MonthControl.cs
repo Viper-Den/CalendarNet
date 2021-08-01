@@ -31,9 +31,12 @@ namespace UIMonthControl
         public List<DayControl> Days { get => _Days; }
         ~MonthControl()
         {
-            _Previous.MouseLeftButtonDown -= OnPrevious;
-            _Next.MouseLeftButtonDown -= OnNext;
-            _Title.MouseLeftButtonDown -= OnNow;
+            if(_Previous != null)
+                _Previous.MouseLeftButtonDown -= OnPrevious;
+            if (_Next != null)
+                _Next.MouseLeftButtonDown -= OnNext;
+            if (_Title != null)
+                _Title.MouseLeftButtonDown -= OnNow;
         }
         public MonthControl()
         {
@@ -67,43 +70,14 @@ namespace UIMonthControl
             }
         }
         #endregion
-
+        #region DateRanges
         public static readonly DependencyProperty DateRangesProperty =
            DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), 
                typeof(MonthControl), new PropertyMetadata(OnDateRangesChanged));
-
-        public static readonly DependencyProperty ColorDayOffProperty =
-            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(MonthControl), 
-                new PropertyMetadata(ColorDayOffPropertyChanged));
-
-        public static readonly DependencyProperty ColorDayFinishProperty =
-            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(MonthControl), 
-                new PropertyMetadata(ColorDayFinishPropertyChanged));
-
-        public static readonly DependencyProperty ColorDayOffFinishProperty =
-            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(MonthControl), 
-                new PropertyMetadata(ColorDayOffFinishPropertyChanged));
-
-        public static readonly DependencyProperty ColorToDayProperty =
-            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(MonthControl), 
-                new PropertyMetadata(ColorToDayPropertyChanged));
-
-
-        public static readonly DependencyProperty ViewBorderingMonthsProperty =
-            DependencyProperty.Register("ViewBorderingMonths", typeof(Visibility), typeof(MonthControl), 
-                new PropertyMetadata(ViewBorderingMonthsPropertyChanged));
-
-        public static readonly DependencyProperty ViewButtonsProperty =
-            DependencyProperty.Register("ViewButtons", typeof(Visibility), typeof(MonthControl),
-                new PropertyMetadata(ViewButtonsPropertyChanged));
-
         private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
-        }
-
-        
-        public ObservableCollection<IDateRange> DateRanges
+        }        public ObservableCollection<IDateRange> DateRanges
         {
             get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
             set
@@ -115,6 +89,110 @@ namespace UIMonthControl
                 }
             }
         }
+        #endregion
+        #region ColorDayOff
+        public static readonly DependencyProperty ColorDayOffProperty =
+            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(MonthControl), new PropertyMetadata(ColorDayOffPropertyChanged));
+        public static void ColorDayOffPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ColorDayOff = (SolidColorBrush)e.NewValue;
+        }
+        public SolidColorBrush ColorDayOff
+        {
+            get { return (SolidColorBrush)GetValue(ColorDayOffProperty); }
+            set
+            {
+                SetValue(ColorDayOffProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+        #region ColorDayFinish
+        public static readonly DependencyProperty ColorDayFinishProperty =
+            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(MonthControl), new PropertyMetadata(ColorDayFinishPropertyChanged));
+        private static void ColorDayFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ColorDayFinish = (SolidColorBrush)e.NewValue;
+        }
+        public SolidColorBrush ColorDayFinish
+        {
+            get { return (SolidColorBrush)GetValue(ColorDayFinishProperty); }
+            set
+            {
+                SetValue(ColorDayFinishProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+        #region ColorDayOffFinish
+        public static readonly DependencyProperty ColorDayOffFinishProperty =
+            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(MonthControl), new PropertyMetadata(ColorDayOffFinishPropertyChanged));
+        private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ColorDayOffFinish = (SolidColorBrush)e.NewValue;
+        }
+        public SolidColorBrush ColorDayOffFinish
+        {
+            get { return (SolidColorBrush)GetValue(ColorDayOffFinishProperty); }
+            set
+            {
+                SetValue(ColorDayOffFinishProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+        #region ColorToDay
+        public static readonly DependencyProperty ColorToDayProperty =
+            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(MonthControl), new PropertyMetadata(ColorToDayPropertyChanged));
+        private static void ColorToDayPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ColorToDay = (SolidColorBrush)e.NewValue;
+        }
+        public SolidColorBrush ColorToDay
+        {
+            get { return (SolidColorBrush)GetValue(ColorToDayProperty); }
+            set
+            {
+                SetValue(ColorToDayProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+        #region ViewBorderingMonths
+        public static readonly DependencyProperty ViewBorderingMonthsProperty =
+            DependencyProperty.Register("ViewBorderingMonths", typeof(Visibility), typeof(MonthControl), new PropertyMetadata(ViewBorderingMonthsPropertyChanged));
+        public static void ViewBorderingMonthsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ViewBorderingMonths = (Visibility)e.NewValue;
+        }
+        public Visibility ViewBorderingMonths
+        {
+            get { return (Visibility)GetValue(ViewBorderingMonthsProperty); }
+            set
+            {
+                SetValue(ViewBorderingMonthsProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+        #region ViewButtons
+        public static readonly DependencyProperty ViewButtonsProperty =
+            DependencyProperty.Register("ViewButtons", typeof(Visibility), typeof(MonthControl), new PropertyMetadata(ViewButtonsPropertyChanged));
+        public static void ViewButtonsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ViewButtons = (Visibility)e.NewValue;
+        }
+        public Visibility ViewButtons
+        {
+            get { return (Visibility)GetValue(ViewButtonsProperty); }
+            set
+            {
+                SetValue(ViewButtonsProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+
         private void SelectRanges()
         {
             foreach (var r in DateRanges)
@@ -126,84 +204,6 @@ namespace UIMonthControl
                         d.Background = Brushes.Green;
                     }
                 }
-            }
-        }
-        private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).ColorDayOffFinish = (SolidColorBrush)e.NewValue;
-        }
-        private static void ColorDayFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).ColorDayFinish = (SolidColorBrush)e.NewValue;
-        }
-        private static void ColorToDayPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).ColorToDay = (SolidColorBrush)e.NewValue;
-        }
-        public static void ColorDayOffPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).ColorDayOff = (SolidColorBrush)e.NewValue;
-        }
-        public static void ViewBorderingMonthsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).ViewBorderingMonths = (Visibility)e.NewValue;
-        }
-        public static void ViewButtonsPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).ViewButtons = (Visibility)e.NewValue;
-        }
-        public SolidColorBrush ColorDayOffFinish
-        {
-            get { return (SolidColorBrush)GetValue(ColorDayOffFinishProperty); }
-            set
-            {
-                SetValue(ColorDayOffFinishProperty, value);
-                UpdateElements();
-            }
-        }
-        public SolidColorBrush ColorDayOff
-        {
-            get { return (SolidColorBrush)GetValue(ColorDayOffProperty); }
-            set
-            {
-                SetValue(ColorDayOffProperty, value);
-                UpdateElements();
-            }
-        }
-        public Visibility ViewBorderingMonths
-        {
-            get { return (Visibility)GetValue(ViewBorderingMonthsProperty); }
-            set
-            {
-                SetValue(ViewBorderingMonthsProperty, value);
-                UpdateElements();
-            }
-        }
-        public Visibility ViewButtons
-        {
-            get { return (Visibility)GetValue(ViewButtonsProperty); }
-            set
-            {
-                SetValue(ViewButtonsProperty, value);
-                UpdateElements();
-            }
-        }
-        public SolidColorBrush ColorDayFinish
-        {
-            get { return (SolidColorBrush)GetValue(ColorDayFinishProperty); }
-            set
-            {
-                SetValue(ColorDayFinishProperty, value);
-                UpdateElements();
-            }
-        }
-        public SolidColorBrush ColorToDay
-        {
-            get { return (SolidColorBrush)GetValue(ColorToDayProperty); }
-            set
-            {
-                SetValue(ColorToDayProperty, value);
-                UpdateElements();
             }
         }
         private void UpdateElements()

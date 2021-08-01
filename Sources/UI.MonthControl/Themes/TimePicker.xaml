@@ -11,7 +11,7 @@
                             <ColumnDefinition Width="8*"></ColumnDefinition>
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="xTimePicker"
+                        <local:TextBoxFormat x:Name="xTimePicker"
 								 Grid.Column="0"
                                  Text="12:00" 
 								 VerticalAlignment="Stretch" 
@@ -30,7 +30,7 @@
                                     BorderBrush="WhiteSmoke"
                                     BorderThickness="1,1,1,1"
 									CornerRadius="7,7,7,7">
-                                <ListView Height="100">
+                                <ListView x:Name="xListView" Height="100">
                                     <Label Content="10:00"/>
                                     <Label Content="11:00"/>
                                     <Label Content="12:00"/>
