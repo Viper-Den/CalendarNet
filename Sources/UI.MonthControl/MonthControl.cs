@@ -192,7 +192,40 @@ namespace UIMonthControl
             }
         }
         #endregion
-
+        #region ViewSelectedDate
+        public static readonly DependencyProperty ViewSelectedDateProperty =
+            DependencyProperty.Register("ViewSelectedDate", typeof(bool), typeof(MonthControl), new PropertyMetadata(ViewSelectedDatePropertyChanged));
+        public static void ViewSelectedDatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ViewSelectedDate = (bool)e.NewValue;
+        }
+        public bool ViewSelectedDate
+        {
+            get { return (bool)GetValue(ViewSelectedDateProperty); }
+            set
+            {
+                SetValue(ViewSelectedDateProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+        #region ColorViewSelectedDate
+        public static readonly DependencyProperty ColorViewSelectedDateProperty =
+            DependencyProperty.Register("ColorViewSelectedDate", typeof(SolidColorBrush), typeof(MonthControl), new PropertyMetadata(ColorViewSelectedDatePropertyChanged));
+        private static void ColorViewSelectedDatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).ColorViewSelectedDate = (SolidColorBrush)e.NewValue;
+        }
+        public SolidColorBrush ColorViewSelectedDate
+        {
+            get { return (SolidColorBrush)GetValue(ColorViewSelectedDateProperty); }
+            set
+            {
+                SetValue(ColorViewSelectedDateProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
         private void SelectRanges()
         {
             foreach (var r in DateRanges)
@@ -255,6 +288,8 @@ namespace UIMonthControl
             foreach (var d in _Days)
             {
                 d.Date = startDay;
+                d.ViewSelectedDate = ViewSelectedDate;
+                d.ColorViewSelectedDate = ColorViewSelectedDate;
                 if (d.Date.Month != Date.Month)
                     d.Visibility = ViewBorderingMonths;
                 else
@@ -386,6 +421,8 @@ namespace UIMonthControl
                     Grid.SetRow(d, y);
                     d.MouseDown += OnMouseDown;
                     d.MouseUp += OnMouseUp;
+                    d.ViewSelectedDate = ViewSelectedDate;
+                    d.ColorViewSelectedDate = ColorViewSelectedDate;
                     _MainGrid.Children.Add(d);
                     _Days.Add(d);
                 }

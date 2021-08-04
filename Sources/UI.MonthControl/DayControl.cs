@@ -21,7 +21,6 @@ namespace UIMonthControl
             MouseEnter -= DoMouseEnter;
             MouseLeave -= DoMouseLeave;
         }
-
         #region Date
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(DayControl), new PropertyMetadata(DatePropertyChanged));
@@ -40,7 +39,35 @@ namespace UIMonthControl
             }
         }
         #endregion
-
+        #region ViewSelectedDate
+        public static readonly DependencyProperty ViewSelectedDateProperty =
+            DependencyProperty.Register("ViewButtons", typeof(bool), typeof(DayControl), new PropertyMetadata(ViewSelectedDatePropertyChanged));
+        public static void ViewSelectedDatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DayControl)d).ViewSelectedDate = (bool)e.NewValue;
+        }
+        public bool ViewSelectedDate
+        {
+            get { return (bool)GetValue(ViewSelectedDateProperty); }
+            set
+            {
+                SetValue(ViewSelectedDateProperty, value);
+            }
+        }
+        #endregion
+        #region ColorViewSelectedDate
+        public static readonly DependencyProperty ColorViewSelectedDateProperty =
+            DependencyProperty.Register("ColorViewSelectedDate", typeof(SolidColorBrush), typeof(DayControl), new PropertyMetadata(ColorViewSelectedDatePropertyChanged));
+        private static void ColorViewSelectedDatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DayControl)d).ColorViewSelectedDate = (SolidColorBrush)e.NewValue;
+        }
+        public SolidColorBrush ColorViewSelectedDate
+        {
+            get { return (SolidColorBrush)GetValue(ColorViewSelectedDateProperty); }
+            set { SetValue(ColorViewSelectedDateProperty, value); }
+        }
+        #endregion
         private void UpdateElement()
         {
             if (_Title == null) 
@@ -60,6 +87,8 @@ namespace UIMonthControl
         {
             //DateSelected?.Execute(Date);
             _BaseColor = (SolidColorBrush)Background;
+            if(ViewSelectedDate)
+                Background = ColorViewSelectedDate;
         }
         private void DoMouseLeave(object sender, MouseEventArgs e)
         {

@@ -111,8 +111,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <MonthView:TimePicker Grid.Row="0"  Date="{Binding Path=Date}" />
-        <!--<MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50" Date="{Binding Path=Date}" />-->
+        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50" Date="{Binding Path=Date}" />
 
     </Grid>
 </UserControl>

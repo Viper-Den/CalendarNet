@@ -89,8 +89,8 @@ namespace UIMonthControl
         }
         ~CalendarItem()
         {
-            _BorderIsChecked.MouseUp -= DoMouseUp;
-            _Label.MouseUp -= DoMouseUp;
+            _BorderIsChecked.MouseDown -= DoMouseDown;
+            _Label.MouseDown -= DoMouseDown;
             MouseLeave -= DoMouseLeave;
             MouseEnter -= DoMouseEnter;
             _settings.MouseDown -= DoMouseDownSettings;
@@ -105,14 +105,14 @@ namespace UIMonthControl
             _ImageIsChecked = (Image)GetTemplateChild(TP_IMAGE_IS_CHECKED);
             _BorderIsChecked = (Border)GetTemplateChild(TP_BORDER);
             _Label = (Label)GetTemplateChild(TP_LABEL);
-            _BorderIsChecked.MouseUp += DoMouseUp;
-            _Label.MouseUp += DoMouseUp;
+            _BorderIsChecked.MouseDown += DoMouseDown;
+            _Label.MouseDown += DoMouseDown;
             MouseLeave += DoMouseLeave;
             MouseEnter += DoMouseEnter;
             _settings.MouseDown += DoMouseDownSettings;
             SetIsCheck(IsChecked);
         }
-        private void DoMouseUp(object sender, MouseButtonEventArgs e)
+        private void DoMouseDown(object sender, MouseButtonEventArgs e)
         {
             IsChecked = !IsChecked;
         }

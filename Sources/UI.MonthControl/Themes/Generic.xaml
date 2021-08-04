@@ -6,6 +6,8 @@
         <ResourceDictionary Source="/MonthControl;component/Themes/TitleControl.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/CalendarItem.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/TimePicker.xaml" />
-        <ResourceDictionary Source="/MonthControl;component/Themes/TextBoxFormat.xaml" /> 
+        <ResourceDictionary Source="/MonthControl;component/Themes/DatePicker.xaml" />
+        <ResourceDictionary Source="/MonthControl;component/Themes/TimeBox.xaml" />
+        <ResourceDictionary Source="/MonthControl;component/Themes/DateBox.xaml" />
     </ResourceDictionary.MergedDictionaries> 
 </ResourceDictionary> 
