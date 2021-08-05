@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WpfLibrary1\Destiny.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\Menu.png" />
     <Resource Include="Images\Menu1.png" />
   </ItemGroup>

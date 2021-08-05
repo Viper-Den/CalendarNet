@@ -26,10 +26,9 @@ namespace DestinyNet
         {
             if (o is DateTime)
             {
-                DateRanges.Add(new DateRange() { Finish = (DateTime)o, Start = _startDate, Calendar = _data.Calendars[0] });
+                //DateRanges.Add(new DateRange() { Finish = (DateTime)o, Start = _startDate, Calendar = _data.Calendars[0] });
             }
         }
-        public ObservableCollection<IDateRange> DateRanges { get => _data.DateRanges; }
         public ICommand StartDateCommand { get; }
         public ICommand FinishDateCommand { get; }
 

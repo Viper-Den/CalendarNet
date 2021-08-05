@@ -1,6 +1,7 @@
 ﻿using MonthEvent;
 using System;
 using System.Windows.Media;
+using Destiny.Core;
 
 namespace DestinyNet
 {

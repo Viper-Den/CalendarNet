@@ -14,9 +14,6 @@ namespace DestinyNet
                 cfg.CreateMap<CalendarDTO, Calendar>().ReverseMap();
                 cfg.CreateMap<Calendar, CalendarDTO>().ReverseMap();
 
-                cfg.CreateMap<DateRangeDTO, DateRange>().ConvertUsing(x => MappingDateRangeDTO(x));
-                cfg.CreateMap<DateRange, DateRangeDTO>().ConvertUsing(x => MappingDateRange(x));
-
                 cfg.CreateMap<EventDTO, Event>().ConvertUsing(x => MappingEventDTO(x));
                 cfg.CreateMap<Event, EventDTO>().ConvertUsing(x => MappingEvent(x));
 
@@ -27,26 +24,6 @@ namespace DestinyNet
             mapperConfiguration.AssertConfigurationIsValid();
             mapper = mapperConfiguration.CreateMapper();
             return mapper;
-        }
-        private static DateRange MappingDateRangeDTO(DateRangeDTO source)
-        {
-            var d = new DateRange();
-            d.Start = source.Start;
-            d.Finish = source.Finish;
-            d.Info = source.Info;
-            d.Calendar = null;
-            return d;
-        }
-        private static DateRangeDTO MappingDateRange(DateRange source)
-        {
-            var d = new DateRangeDTO();
-            d.Start = source.Start;
-            d.Finish = source.Finish;
-            d.Info = source.Info;
-            d.CalendarGUID = "";
-            if (source.Calendar != null)
-                d.CalendarGUID = source.Calendar.GUID;
-            return d;
         }
         private static Event MappingEventDTO(EventDTO source)
         {
@@ -87,15 +64,6 @@ namespace DestinyNet
                     continue;
                 d.Events.Add(e);
             }
-            foreach (var dateRangeDTO in source.DateRanges)
-            {
-                var dateRange = resolutionContext.Mapper.Map<DateRange>(dateRangeDTO);
-                if ((dateRange.Calendar != null) && (calendarsDictionary.ContainsKey(dateRange.Calendar.GUID)))
-                    dateRange.Calendar = calendarsDictionary[dateRange.Calendar.GUID];
-                else
-                    continue;
-                d.DateRanges.Add(dateRange);
-            }
             return d;
         }
         private static DataDTO MappingData(Data source, DataDTO destination, ResolutionContext resolutionContext)
@@ -108,10 +76,6 @@ namespace DestinyNet
             foreach (var eventDTO in source.Events)
             {
                 d.Events.Add(resolutionContext.Mapper.Map<EventDTO>(eventDTO));
-            }
-            foreach (var dateRangeDTO in source.DateRanges)
-            {
-                d.DateRanges.Add(resolutionContext.Mapper.Map<DateRangeDTO>(dateRangeDTO));
             }
             return d;
         }

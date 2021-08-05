@@ -4,19 +4,20 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet.Menu"
+             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
              mc:Ignorable="d" 
              Background="Transparent"
              Height="auto" Width="auto">
     <StackPanel>
         <StackPanel  Orientation="Horizontal" Margin="5">
             <RadioButton GroupName="RepeatType" Content="каждый" IsChecked="{Binding Path=IsDayStep}" VerticalContentAlignment="Center"/>
-            <TextBox Width="20" Text="{Binding Path=Step}" VerticalAlignment="Center" Margin="5"/>
+            <MonthView:IntBox Width="20" Margin="5" Value="{Binding Path=Step}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Label Content="день" VerticalContentAlignment="Center"/>
         </StackPanel>
         <RadioButton GroupName="RepeatType" Content="каждый рабочий день" IsChecked="{Binding Path=IsWorkDayStep}" Margin="5"/>
         <StackPanel Orientation="Horizontal" Margin="5">
             <Label Content="Повторять до" VerticalContentAlignment="Center"/>
-            <TextBox Width="80" Text="{Binding Path=RepeatCount}" VerticalAlignment="Center"/>
+            <MonthView:IntBox Width="80" Margin="5" Value="{Binding Path=RepeatCount}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

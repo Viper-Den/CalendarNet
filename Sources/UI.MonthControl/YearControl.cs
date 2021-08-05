@@ -5,10 +5,9 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using UIMonthControl;
 
 
-namespace UIYearControl
+namespace UIMonthControl
 {
     [TemplatePart(Name = YearControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = YearControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
@@ -26,7 +25,7 @@ namespace UIYearControl
         private TitleControl _Previous;
         private TitleControl _Next;
         private List<MonthControl> _Month;
-        private Dictionary<DayControl, List<IDateRange>> _dictionaryDateRanges;
+       // private Dictionary<DayControl, List<IDateRange>> _dictionaryDateRanges;
 
         static YearControl()
         {
@@ -34,13 +33,13 @@ namespace UIYearControl
         }
         public YearControl()
         {
-            _dictionaryDateRanges = new Dictionary<DayControl, List<IDateRange>>(); 
+            //_dictionaryDateRanges = new Dictionary<DayControl, List<IDateRange>>(); 
             _Month = new List<MonthControl>();
         }
         ~YearControl()
         {
-            if (DateRanges != null)
-                DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
+            //if (DateRanges != null)
+            //    DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
             _Previous.MouseLeftButtonDown -= OnPrevious;
             _Next.MouseLeftButtonDown -= OnNext;
             _Title.MouseLeftButtonDown -= OnNow;
@@ -94,29 +93,29 @@ namespace UIYearControl
         #endregion
 
         #region DateRanges
-        public static readonly DependencyProperty DateRangesProperty =
-           DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), typeof(YearControl), new PropertyMetadata(OnDateRangesChanged));
-        private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((YearControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
-        }
-        public ObservableCollection<IDateRange> DateRanges
-        {
-            get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
-            set
-            {
-                if (DateRanges != null)
-                    DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
+        //public static readonly DependencyProperty DateRangesProperty =
+        //   DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), typeof(YearControl), new PropertyMetadata(OnDateRangesChanged));
+        //private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((YearControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
+        //}
+        //public ObservableCollection<IDateRange> DateRanges
+        //{
+        //    get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
+        //    set
+        //    {
+        //        if (DateRanges != null)
+        //            DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
 
 
-                SetValue(DateRangesProperty, value);
-                if (value != null)
-                {
-                    DateRanges.CollectionChanged += NotifyCollectionChangedEventHandler;
-                    SelectRanges();
-                }
-            }
-        }
+        //        SetValue(DateRangesProperty, value);
+        //        if (value != null)
+        //        {
+        //            DateRanges.CollectionChanged += NotifyCollectionChangedEventHandler;
+        //            SelectRanges();
+        //        }
+        //    }
+        //}
         #endregion
 
         private void NotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)

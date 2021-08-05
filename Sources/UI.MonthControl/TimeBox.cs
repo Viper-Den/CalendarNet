@@ -10,12 +10,6 @@ using System.Windows.Media;
 
 namespace UIMonthControl
 {
-    public class TimeItem
-    {
-        public string Name { get; set; }
-    }
-
-
     public class TimeBox : TextBox
     {
         public TimeBox() : base()
@@ -50,8 +44,7 @@ namespace UIMonthControl
         }
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {
-            if ((e.Key == Key.Back) || (e.Key == Key.Delete))
-                e.Handled = true;
+            e.Handled = ((e.Key == Key.Back) || (e.Key == Key.Delete));
             base.OnPreviewKeyDown(e);
         }
         protected override void OnTextInput(TextCompositionEventArgs e)

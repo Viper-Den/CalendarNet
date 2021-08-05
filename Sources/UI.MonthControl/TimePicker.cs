@@ -9,6 +9,10 @@ using System.Windows.Media;
 
 namespace UIMonthControl
 {
+    public class TimeItem
+    {
+        public string Name { get; set; }
+    }
     [TemplatePart(Name = TimePicker.TP_LIST_VIEW, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TimePicker.TP_TITLE_PICKER, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TimePicker.TP_POPUP, Type = typeof(FrameworkElement))]

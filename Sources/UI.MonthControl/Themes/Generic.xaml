@@ -9,5 +9,7 @@
         <ResourceDictionary Source="/MonthControl;component/Themes/DatePicker.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/TimeBox.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/DateBox.xaml" />
+        <ResourceDictionary Source="/MonthControl;component/Themes/YearControl.xaml" />
+        <ResourceDictionary Source="/MonthControl;component/Themes/IntBox.xaml" /> 
     </ResourceDictionary.MergedDictionaries> 
 </ResourceDictionary> 

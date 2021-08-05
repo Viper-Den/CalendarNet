@@ -5,43 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="709" Width="1270">
+        MinWidth="1460" MinHeight="800"
+        Width="1460" Height="800"
+        Title="MainWindow">
     <Window.Resources>
-        <converters:BoolToBlurUsageConverter x:Key="BoolToBlurUsageConverter" />
+        <converters:BoolToBlurUsageConverter x:Key="BoolToBlurUsageConverter"/>
     </Window.Resources>
 
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="300"></RowDefinition>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="300"/>
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
 
             <Label Grid.Row="0" 
                    Grid.Column="0" 
-                   Background="Silver "/>
+                   Background="Silver"/>
             <Grid Grid.Row="0" Grid.Column="1" Background="#FFCCCCCC ">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Content="Meal" Margin="10,5"></Button>
-                <Button x:Name="xButtonToDo" Grid.Column="2" Content="To-Do" Margin="10,5" Command="{Binding ToDoViewCommand}"></Button>
-                <Button Grid.Column="3" Content="People" Margin="10,5"></Button>
-                <Button x:Name="xButtonWeek" Grid.Column="4" Content="Week" Margin="10,5" Command="{Binding WeekViewCommand}"></Button>
-                <Button x:Name="xButtonMonth" Grid.Column="5" Content="Month" Margin="10,5" Command="{Binding MonthViewCommand}"></Button>
-                <Button x:Name="xButtonYear" Grid.Column="6" Content="Year" Margin="10,5" Command="{Binding YearViewCommand}"></Button>
+                <Button Grid.Column="1" Content="Meal" Margin="10,5"/>
+                <Button x:Name="xButtonToDo" Grid.Column="2" Content="To-Do" Margin="10,5" Command="{Binding ToDoViewCommand}"/>
+                <Button Grid.Column="3" Content="People" Margin="10,5"/>
+                <Button x:Name="xButtonWeek" Grid.Column="4" Content="Week" Margin="10,5" Command="{Binding WeekViewCommand}"/>
+                <Button x:Name="xButtonMonth" Grid.Column="5" Content="Month" Margin="10,5" Command="{Binding MonthViewCommand}"/>
+                <Button x:Name="xButtonYear" Grid.Column="6" Content="Year" Margin="10,5" Command="{Binding YearViewCommand}"/>
             </Grid>
 
             <Border Grid.Column="0" 

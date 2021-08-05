@@ -71,24 +71,24 @@ namespace UIMonthControl
         }
         #endregion
         #region DateRanges
-        public static readonly DependencyProperty DateRangesProperty =
-           DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), 
-               typeof(MonthControl), new PropertyMetadata(OnDateRangesChanged));
-        private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
-        }        public ObservableCollection<IDateRange> DateRanges
-        {
-            get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
-            set
-            {
-                SetValue(DateRangesProperty, value);
-                if (value != null)
-                {
-                    SelectRanges();
-                }
-            }
-        }
+        //public static readonly DependencyProperty DateRangesProperty =
+        //   DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), 
+        //       typeof(MonthControl), new PropertyMetadata(OnDateRangesChanged));
+        //private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    ((MonthControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
+        //}        public ObservableCollection<IDateRange> DateRanges
+        //{
+        //    get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
+        //    set
+        //    {
+        //        SetValue(DateRangesProperty, value);
+        //        if (value != null)
+        //        {
+        //            SelectRanges();
+        //        }
+        //    }
+        //}
         #endregion
         #region ColorDayOff
         public static readonly DependencyProperty ColorDayOffProperty =
@@ -228,16 +228,16 @@ namespace UIMonthControl
         #endregion
         private void SelectRanges()
         {
-            foreach (var r in DateRanges)
-            {
-                foreach (var d in _Days)
-                {
-                    if ((d.Date >= r.Start) && (d.Date <= r.Finish))
-                    {
-                        d.Background = Brushes.Green;
-                    }
-                }
-            }
+            //foreach (var r in DateRanges)
+            //{
+            //    foreach (var d in _Days)
+            //    {
+            //        if ((d.Date >= r.Start) && (d.Date <= r.Finish))
+            //        {
+            //            d.Background = Brushes.Green;
+            //        }
+            //    }
+            //}
         }
         private void UpdateElements()
         {
