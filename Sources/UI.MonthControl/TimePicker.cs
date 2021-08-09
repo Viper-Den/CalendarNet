@@ -12,7 +12,10 @@ namespace UIMonthControl
     public class TimeItem
     {
         public string Name { get; set; }
+        public DateTime Time { get; set; }
     }
+
+
     [TemplatePart(Name = TimePicker.TP_LIST_VIEW, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TimePicker.TP_TITLE_PICKER, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = TimePicker.TP_POPUP, Type = typeof(FrameworkElement))]
@@ -39,7 +42,7 @@ namespace UIMonthControl
             var finishDayte = time.AddDays(1);
             while (time < finishDayte)
             {
-                TimeItems.Add(new TimeItem() { Name = time.ToString("HH:mm") });
+                TimeItems.Add(new TimeItem() { Name = time.ToString("HH:mm"), Time = time });
                 time = time.AddMinutes(15);
             }
         }
@@ -90,7 +93,7 @@ namespace UIMonthControl
         {
             var listView = sender as ListView;
             if ((listView != null) &&(listView.SelectedItem != null))
-                _TimePicker.Text = ((TimeItem)listView.SelectedItem).Name;
+                _TimePicker.Time = ((TimeItem)listView.SelectedItem).Time;
         }
         private void DoClick(object sender, RoutedEventArgs e)
         {

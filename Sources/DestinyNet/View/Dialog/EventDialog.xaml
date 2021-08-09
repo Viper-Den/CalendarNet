@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet.View.Dialog"
              xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
-             xmlns:converters="clr-namespace:Converters"
+             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              mc:Ignorable="d" 
              Background="Transparent" 
              Height="550" Width="400">
@@ -39,7 +39,7 @@
             <TextBox Grid.Row="0" 
                      Grid.Column="1"
                      Grid.ColumnSpan="2"
-                     Text="New Event" 
+                     Text="{Binding Path=Caption}"
                      VerticalContentAlignment="Center"
                      Margin="10"/>
             <Label Grid.Row="1"
@@ -74,12 +74,12 @@
             <MonthView:TimePicker Grid.Row="2" 
                                   Grid.Column="1" 
                                   Margin="10"
-                                  Time="{Binding Path=Date}" 
+                                  Time="{Binding Path=StartTime, Mode=TwoWay}" 
                                   Visibility="{Binding ElementName=xAllDay, Path=IsChecked, Converter={StaticResource BoolToVisibilityUsageConverter}}"/>
             <MonthView:DatePicker Grid.Row="2" 
                                   Grid.Column="2" 
                                   Margin="10"
-                                  Date="{Binding Path=Date}" />
+                                  Date="{Binding Path=Start, Mode=TwoWay}" />
             <Popup
                     Name="xStartDatePopup"
                     IsOpen="{Binding SelectedProjection.DrawingObjects.RulerDrawingModeIsActive}"
@@ -90,7 +90,7 @@
                 <Border
                         BorderThickness="1,1,1,1"
                         CornerRadius="7,7,7,7">
-                    <MonthView:MonthControl Margin="5" Date="{Binding Path=Date}" />
+                    <MonthView:MonthControl Margin="5" Date="{Binding Path=Start}" />
                 </Border>
             </Popup>
 
@@ -103,11 +103,11 @@
                                     Grid.Column="1" 
                                     Margin="10"
                                     Visibility="{Binding ElementName=xAllDay, Path=IsChecked, Converter={StaticResource BoolToVisibilityUsageConverter}}"
-                                    Time="{Binding Path=Date}" />
+                                    Time="{Binding Path=FinishTime, Mode=TwoWay}" />
             <MonthView:DatePicker Grid.Row="3" 
                                     Grid.Column="2" 
                                     Margin="10"
-                                    Date="{Binding Path=Date}" />
+                                    Date="{Binding Path=Finish, Mode=TwoWay}" />
 
             <CheckBox x:Name="xAllDay"
                       Grid.Row="4" 
@@ -115,6 +115,13 @@
                       Margin="10"
                       VerticalContentAlignment="Center"
                       Content="All Day"/>
+
+            <Button Grid.Row="6" 
+                    Grid.Column="0" 
+                    Grid.ColumnSpan="2"
+                    Content="Ok" 
+                    Margin="10,5"
+                    Command="{Binding AddEventCommand}"/>
             
             <Button Grid.Row="6" 
                     Grid.Column="2" 

@@ -14,6 +14,38 @@
             <MonthView:IntBox Width="20" Margin="5" Value="{Binding Path=Step}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Label Content="день" VerticalContentAlignment="Center"/>
         </StackPanel>
+        <StackPanel>
+            <RadioButton GroupName="RepeatType" Content="дни" IsChecked="{Binding Path=IsRepeatDay}" Margin="5" VerticalContentAlignment="Center"/>
+         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsMonday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsTuesday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsWednesday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsThursday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsFriday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSaturday}"/>
+            <CheckBox Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSunday}"/>
+            <Label    Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пн" />
+            <Label    Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вт"/>
+            <Label    Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="ср"/>
+            <Label    Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="чт"/>
+            <Label    Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пт"/>
+            <Label    Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Content="сб"/>
+            <Label    Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вс"/>
+        </Grid>
+        </StackPanel>
         <RadioButton GroupName="RepeatType" Content="каждый рабочий день" IsChecked="{Binding Path=IsWorkDayStep}" Margin="5"/>
         <StackPanel Orientation="Horizontal" Margin="5">
             <Label Content="Повторять до" VerticalContentAlignment="Center"/>

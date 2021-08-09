@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 
 namespace UIMonthControl
@@ -19,6 +20,7 @@ namespace UIMonthControl
             //CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, null, SuppressCommand));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, null, SuppressCommand));
         }
+        //new private string Text { get; set; }
 
         #region Time
         public static readonly DependencyProperty TimeProperty =
@@ -31,9 +33,10 @@ namespace UIMonthControl
         public DateTime Time
         {
             get { return (DateTime)GetValue(TimeProperty); }
-            set
-            {
+            set 
+            { 
                 SetValue(TimeProperty, value);
+                Text = value.ToString("HH:mm");
             }
         }
         #endregion
@@ -46,6 +49,10 @@ namespace UIMonthControl
         {
             e.Handled = ((e.Key == Key.Back) || (e.Key == Key.Delete));
             base.OnPreviewKeyDown(e);
+        }
+        protected override void OnTextChanged(TextChangedEventArgs e) 
+        {
+            base.OnTextChanged(e);
         }
         protected override void OnTextInput(TextCompositionEventArgs e)
         {
@@ -64,13 +71,13 @@ namespace UIMonthControl
                     SelectionStart = 3;
                 SelectionLength = 1;
             }
+            
             var s = Text.Remove(SelectionStart, SelectionLength);
             s = s.Insert(SelectionStart, text);
-            return DateTime.TryParseExact(s, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None, out var d);
-        }
-        protected override void OnTextChanged(TextChangedEventArgs e)
-        {
-            base.OnTextChanged(e);
+            var isTime = DateTime.TryParseExact(s, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None, out var d);
+            if (isTime)
+                SetValue(TimeProperty, DateTime.ParseExact(s, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None));
+            return isTime;
         }
 
     }

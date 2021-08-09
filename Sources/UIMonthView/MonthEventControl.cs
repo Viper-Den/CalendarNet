@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using Destiny.Core;
+using System.Collections.Specialized;
 
 namespace MonthEvent
 {
@@ -27,7 +28,6 @@ namespace MonthEvent
         private Label _Next;
         private List<DayMonthEventControl> _Days;
         private List<Label> _TitleDays;
-
         ~MonthEventControl()
         {
             _Previous.MouseLeftButtonDown -= OnPrevious;
@@ -106,23 +106,64 @@ namespace MonthEvent
         }
         public void UpdateEvents()
         {
-            if (_Title != null)
+            if ((_Title != null)&&(Events != null))
             {
                 foreach (var d in _Days)
                 {
-                    d.Events = Events;
+                    foreach (var e in Events)
+                    {
+                        if ((e.Rule.IsDate(d.Date))&&(!d.Events.Contains(e)))
+                        {
+                            d.Events.Add(e);
+                        }
+                    }
                 }
             }
         }
         public ObservableCollection<IEvent> Events
         {
-            get { return (ObservableCollection<IEvent>)GetValue(EventsProperty); }
+            get { return (ObservableCollection<IEvent>) GetValue(EventsProperty);}
             set
             {
+                if (Events != null)
+                    Events.CollectionChanged -= DoNotifyCollectionChangedEventHandler;
+
                 SetValue(EventsProperty, value);
+                if(Events != null)
+                  Events.CollectionChanged += DoNotifyCollectionChangedEventHandler;
                 UpdateEvents();
             }
         }
+
+        private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (var d in _Days)
+                    {
+                        foreach (var i in Events)
+                        {
+                            var ievent = i as IEvent;
+                            if ((i.Rule.IsDate(d.Date)) && (!d.Events.Contains(i)))
+                                d.Events.Add(i);
+                        }
+                    }
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (var i in e.NewItems)
+                    {
+                        var ievent = i as IEvent;
+                        foreach (var d in _Days)
+                        {
+                            if (d.Events.Contains(ievent))
+                                d.Events.Remove(ievent);
+                        }
+                    }
+                    break;
+            }
+        }
+
         public SolidColorBrush ColorDayOffFinish
         {
             get { return (SolidColorBrush)GetValue(ColorDayOffFinishProperty); }

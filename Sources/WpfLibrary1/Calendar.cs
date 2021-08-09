@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Media;
 
-namespace DestinyNet
+namespace Destiny.Core
 {
     public class Calendar
     {

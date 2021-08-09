@@ -70,7 +70,10 @@ namespace UIMonthControl
             }
             var s = Text.Remove(SelectionStart, SelectionLength);
             s = s.Insert(SelectionStart, text);
-            return DateTime.TryParseExact(s, "dd.MM.yyyy", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None, out var d);
+            var isDate = DateTime.TryParseExact(s, "dd.MM.yyyy", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None, out var d);
+            if (isDate)
+                SetValue(DateProperty, DateTime.ParseExact(s, "dd.MM.yyyy", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None));
+            return isDate;
         }
         protected override void OnTextChanged(TextChangedEventArgs e)
         {

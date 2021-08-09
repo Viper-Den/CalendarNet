@@ -53,6 +53,8 @@ namespace UIMonthControl
                 SetValue(DateProperty, value);
                 if (_DateBox != null)
                     _DateBox.Date = value;
+                if (_MonthControl != null)
+                    _MonthControl.Date = value; 
             }
         }
         #endregion
@@ -67,12 +69,6 @@ namespace UIMonthControl
             _MonthControl.PeriodStart += DoPeriodStart;
             _Button.Click += DoClick;
         }
-        public void SelectionChangedEventHandler(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            if ((listView != null) &&(listView.SelectedItem != null))
-                _DateBox.Text = ((TimeItem)listView.SelectedItem).Name;
-        }
         private void DoClick(object sender, RoutedEventArgs e)
         {
             _Popup.IsOpen = !_Popup.IsOpen;
@@ -83,7 +79,7 @@ namespace UIMonthControl
         }
         private void DoPeriodStart(DateTime date)
         {
-            _DateBox.Date = date;
+            Date = date;
             _Popup.IsOpen = false;
         }
     }

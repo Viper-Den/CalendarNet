@@ -6,8 +6,8 @@ namespace Destiny.Core
     public interface IEvent
     {
         public string Caption { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
         public SolidColorBrush Color { get; }
+        public RuleRepeatTypes RuleType { get; set; }
+        public RuleRepeat Rule { get; }
     }
 }

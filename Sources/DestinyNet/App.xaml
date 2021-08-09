@@ -7,39 +7,43 @@
              xmlns:Views="clr-namespace:DestinyNetViews">
     <Application.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Resources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type ViewModels:YearViewModel}">
-                <Views:YearView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:MonthViewModel}">
-                <Views:MonthView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:WeekViewModel}">
-                <Views:WeekEventsView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:ToDoViewModel}">
-                <Views:ToDoView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:ToolPanelViewModel}">
-                <Views:ToolPanelView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:CalendarViewModel}">
-                <Dialogs:CalendarDialog/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:EventEditorViewModel}">
-                <Dialogs:EventDialog/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:DaysEditorViewModel}">
-                <Menu:RepeatDayView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:WeekEditorViewModel}">
-                <Menu:RepeatWeekView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:MounthEditorViewModel}">
-                <Menu:RepeatMounthView/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type ViewModels:YearEditorViewModel}">
-                <Menu:RepeatYearView/>
-            </DataTemplate>
+                    <Views:YearView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:MonthViewModel}">
+                    <Views:MonthView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:WeekViewModel}">
+                    <Views:WeekEventsView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:ToDoViewModel}">
+                    <Views:ToDoView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:ToolPanelViewModel}">
+                    <Views:ToolPanelView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:CalendarViewModel}">
+                    <Dialogs:CalendarDialog/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:EventEditorViewModel}">
+                    <Dialogs:EventDialog/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:DaysEditorViewModel}">
+                    <Menu:RepeatDayView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:WeekEditorViewModel}">
+                    <Menu:RepeatWeekView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:MounthEditorViewModel}">
+                    <Menu:RepeatMounthView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type ViewModels:YearEditorViewModel}">
+                    <Menu:RepeatYearView/>
+                </DataTemplate>
         </ResourceDictionary>
+
     </Application.Resources>
 </Application>

@@ -122,10 +122,10 @@ namespace MonthEvent
         {
             if (_Title != null)
             {
-                foreach (var d in _Days)
-                {
-                    d.Events = Events;
-                }
+                //foreach (var d in _Days)
+                //{
+                //    d.Events = Events;
+                //}
             }
         }
         public SolidColorBrush ColorDayOffFinish

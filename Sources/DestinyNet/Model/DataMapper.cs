@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
+using Destiny.Core;
 
 namespace DestinyNet
 {
@@ -28,19 +29,57 @@ namespace DestinyNet
         private static Event MappingEventDTO(EventDTO source)
         {
             var d = new Event();
-            d.Start = source.Start;
-            d.Finish = source.Finish;
             d.Caption = source.Caption;
+            d.RuleType = source.Type;
             d.Calendar = null;
+
+            d.Rule.Start = source.Start;
+            d.Rule.Finish = source.Finish;
+            d.Rule.Step = source.Step;
+            d.Rule.RepeatCount = source.RepeatCount;
+            if (source.Type == RuleRepeatTypes.Days)
+            {
+                (d.Rule as RuleRepeatDay).IsDayStep = source.IsDayStep;
+                (d.Rule as RuleRepeatDay).IsWorkDayStep = source.IsWorkDayStep;
+                (d.Rule as RuleRepeatDay).IsRepeatDay = source.IsRepeatDay;
+                (d.Rule as RuleRepeatDay).IsMonday = source.IsMonday;
+                (d.Rule as RuleRepeatDay).IsTuesday = source.IsTuesday;
+                (d.Rule as RuleRepeatDay).IsWednesday = source.IsWednesday;
+                (d.Rule as RuleRepeatDay).IsThursday = source.IsThursday;
+                (d.Rule as RuleRepeatDay).IsFriday = source.IsFriday;
+                (d.Rule as RuleRepeatDay).IsSaturday = source.IsSaturday;
+                (d.Rule as RuleRepeatDay).IsSunday = source.IsSunday;
+            }
+
             return d;
         }
         private static EventDTO MappingEvent(Event source)
         {
             var d = new EventDTO();
-            d.Start = source.Start;
-            d.Finish = source.Finish;
+            d.Start = source.Rule.Start;
+            d.Finish = source.Rule.Finish;
             d.Caption = source.Caption;
             d.CalendarGUID = "";
+
+
+            d.Start = source.Rule.Start;
+            d.Finish = source.Rule.Finish;
+            d.Step = source.Rule.Step;
+            d.RepeatCount = source.Rule.RepeatCount;
+            if (source.RuleType == RuleRepeatTypes.Days)
+            {
+                d.IsDayStep = (source.Rule as RuleRepeatDay).IsDayStep;
+                d.IsWorkDayStep = (source.Rule as RuleRepeatDay).IsWorkDayStep;
+                d.IsRepeatDay = (source.Rule as RuleRepeatDay).IsRepeatDay;
+                d.IsMonday = (source.Rule as RuleRepeatDay).IsMonday;
+                d.IsTuesday = (source.Rule as RuleRepeatDay).IsTuesday;
+                d.IsWednesday = (source.Rule as RuleRepeatDay).IsWednesday;
+                d.IsThursday = (source.Rule as RuleRepeatDay).IsThursday;
+                d.IsFriday = (source.Rule as RuleRepeatDay).IsFriday;
+                d.IsSaturday = (source.Rule as RuleRepeatDay).IsSaturday;
+                d.IsSunday = (source.Rule as RuleRepeatDay).IsSunday;
+            }
+
             if (source.Calendar != null)
                 d.CalendarGUID = source.Calendar.GUID;
             return d;
