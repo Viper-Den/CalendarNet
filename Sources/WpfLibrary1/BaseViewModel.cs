@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace DestinyNet
+namespace Destiny.Core
 {
     public interface IViewModel
     {

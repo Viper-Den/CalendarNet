@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonthControl", "UI.MonthCon
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonthEventControl", "UIMonthView\MonthEventControl.csproj", "{1411C05B-505E-4D9C-A8A8-37B6AED94C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Destiny.Core", "WpfLibrary1\Destiny.Core.csproj", "{2BA4DE78-5485-42DF-8A52-BD85ED20B7AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Destiny.Core", "WpfLibrary1\Destiny.Core.csproj", "{2BA4DE78-5485-42DF-8A52-BD85ED20B7AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestDestenyNet", "NUnitTestDestenyNet\NUnitTestDestenyNet.csproj", "{525C1F9A-0E97-471A-9767-EB0F73C8C3F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2BA4DE78-5485-42DF-8A52-BD85ED20B7AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BA4DE78-5485-42DF-8A52-BD85ED20B7AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BA4DE78-5485-42DF-8A52-BD85ED20B7AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{525C1F9A-0E97-471A-9767-EB0F73C8C3F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525C1F9A-0E97-471A-9767-EB0F73C8C3F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525C1F9A-0E97-471A-9767-EB0F73C8C3F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525C1F9A-0E97-471A-9767-EB0F73C8C3F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,18 +1,35 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Media;
 
 namespace Destiny.Core
 {
-    public class Event: IEvent
+    public class Event: BaseViewModel
     {
         private RuleRepeatTypes _type;
+        private Calendar _Calendar;
+        private string _Caption;
         public Event()
         {
             _type = RuleRepeatTypes.None;
             Rule = new RuleRepeat();
+            _Calendar = null;
+    }
+        public string Caption
+        {
+                get => _Caption;
+                set => SetField(ref _Caption, value);
         }
-        public string Caption { get; set; }
-        public Calendar Calendar { get; set; }
+        public Calendar Calendar
+        {
+            get => _Calendar;
+            set 
+            {
+                SetField(ref _Calendar, value);
+                OnPropertyChanged(nameof(Color));
+            }
+        }
+        public bool IsAllDay { get; set; }
         public SolidColorBrush Color { get => Calendar.Color; }
         public RuleRepeatTypes RuleType 
         { 
@@ -25,19 +42,19 @@ namespace Destiny.Core
                 switch (_type)
                 {
                     case RuleRepeatTypes.Days:
-                        Rule = new RuleRepeatDay() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, RepeatCount = Rule.RepeatCount };
+                        Rule = new RuleRepeatDay() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate };
                     break;
                     case RuleRepeatTypes.Week:
-                        Rule = new RuleRepeatWeek() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, RepeatCount = Rule.RepeatCount };
+                        Rule = new RuleRepeatWeek() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate };
                         break;
                     case RuleRepeatTypes.Mounth:
-                        Rule = new RuleRepeatMounth() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, RepeatCount = Rule.RepeatCount };
+                        Rule = new RuleRepeatMounth() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate };
                     break;
                     case RuleRepeatTypes.Year:
-                        Rule = new RuleRepeatYear() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, RepeatCount = Rule.RepeatCount };
+                        Rule = new RuleRepeatYear() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate };
                     break;
                     default:
-                        Rule = new RuleRepeat() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, RepeatCount = Rule.RepeatCount }; 
+                        Rule = new RuleRepeat() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate }; 
                     break;
                 }
 

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using Destiny.Core;
 
 namespace DestinyNet
 {

@@ -31,12 +31,13 @@ namespace DestinyNet
             var d = new Event();
             d.Caption = source.Caption;
             d.RuleType = source.Type;
+            d.IsAllDay = source.IsAllDay;
             d.Calendar = null;
 
             d.Rule.Start = source.Start;
             d.Rule.Finish = source.Finish;
             d.Rule.Step = source.Step;
-            d.Rule.RepeatCount = source.RepeatCount;
+            d.Rule.FinishRepeatDate = source.FinishRepeatDate;
             if (source.Type == RuleRepeatTypes.Days)
             {
                 (d.Rule as RuleRepeatDay).IsDayStep = source.IsDayStep;
@@ -59,13 +60,15 @@ namespace DestinyNet
             d.Start = source.Rule.Start;
             d.Finish = source.Rule.Finish;
             d.Caption = source.Caption;
+            d.IsAllDay = source.IsAllDay;
             d.CalendarGUID = "";
 
 
             d.Start = source.Rule.Start;
             d.Finish = source.Rule.Finish;
             d.Step = source.Rule.Step;
-            d.RepeatCount = source.Rule.RepeatCount;
+            d.Type = source.RuleType;
+            d.FinishRepeatDate = source.Rule.FinishRepeatDate;
             if (source.RuleType == RuleRepeatTypes.Days)
             {
                 d.IsDayStep = (source.Rule as RuleRepeatDay).IsDayStep;
@@ -97,8 +100,8 @@ namespace DestinyNet
             foreach (var eventDTO in source.Events)
             {
                 var e = resolutionContext.Mapper.Map<Event>(eventDTO);
-                if ((e.Calendar != null)&&(calendarsDictionary.ContainsKey(e.Calendar.GUID)))
-                    e.Calendar = calendarsDictionary[e.Calendar.GUID];
+                if (calendarsDictionary.ContainsKey(eventDTO.CalendarGUID))
+                    e.Calendar = calendarsDictionary[eventDTO.CalendarGUID];
                 else
                     continue;
                 d.Events.Add(e);

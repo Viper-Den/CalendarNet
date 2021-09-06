@@ -16,7 +16,10 @@
         </StackPanel>
            <StackPanel  Orientation="Horizontal" Margin="5">
             <Label Content="Повторять до" VerticalContentAlignment="Center"/>
-            <MonthView:IntBox Width="80" Margin="5" Value="{Binding Path=RepeatCount}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <MonthView:DatePicker Grid.Row="3" 
+                                    Grid.Column="2" 
+                                    Margin="5"
+                                    Date="{Binding Path=FinishRepeatDate, Mode=TwoWay}" Width="90" />
         </StackPanel>
     </StackPanel>
 </UserControl>

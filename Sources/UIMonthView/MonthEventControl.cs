@@ -48,6 +48,13 @@ namespace MonthEvent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MonthEventControl), new FrameworkPropertyMetadata(typeof(MonthEventControl)));
         }
 
+
+        private void DoSelectedEvent(object o) 
+        {
+            if(o is Event)
+                CommandSelectedEvent?.Execute((Event)o);
+        }
+
         #region AddEvent
         public static readonly DependencyProperty AddEventProperty =
             DependencyProperty.Register("AddEvent", typeof(ICommand), typeof(MonthEventControl), new PropertyMetadata(AddEventPropertyChanged));
@@ -62,8 +69,40 @@ namespace MonthEvent
         }
         #endregion
 
+        #region CommandSelectedEvent
+        public static readonly DependencyProperty CommandSelectedEventProperty =
+            DependencyProperty.Register("CommandSelectedEvent", typeof(ICommand), typeof(MonthEventControl), new PropertyMetadata(CommandSelectedEventChanged));
+        public static void CommandSelectedEventChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthEventControl)d).CommandSelectedEvent = (ICommand)e.NewValue;
+        }
+        public ICommand CommandSelectedEvent
+        {
+            get { return (ICommand)GetValue(CommandSelectedEventProperty); }
+            set { SetValue(CommandSelectedEventProperty, value); }
+        }
+        #endregion
+
+        #region ItemTemplate
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(MonthEventControl), new PropertyMetadata(ItemTemplateChanged));
+        public static void ItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthEventControl)d).ItemTemplate = (DataTemplate)e.NewValue;
+        }
+        public DataTemplate ItemTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set
+            {
+                SetValue(ItemTemplateProperty, value);
+                UpdateElements();
+            }
+        }
+        #endregion
+
         public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<IEvent>), typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
+           DependencyProperty.Register("Events", typeof(ObservableCollection<Event>), typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
 
         public static readonly DependencyProperty ColorDayOffProperty =
             DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(MonthEventControl), new PropertyMetadata(ColorDayOffPropertyChanged));
@@ -82,7 +121,7 @@ namespace MonthEvent
 
         private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthEventControl)d).Events = (ObservableCollection<IEvent>)e.NewValue;
+            ((MonthEventControl)d).Events = (ObservableCollection<Event>)e.NewValue;
         }
          private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -112,17 +151,23 @@ namespace MonthEvent
                 {
                     foreach (var e in Events)
                     {
-                        if ((e.Rule.IsDate(d.Date))&&(!d.Events.Contains(e)))
+                        if (e.Rule.IsDate(d.Date))
                         {
-                            d.Events.Add(e);
+                            if (!d.Events.Contains(e))
+                                d.Events.Add(e);
+                        }
+                        else 
+                        { 
+                            if (d.Events.Contains(e))
+                                d.Events.Remove(e);
                         }
                     }
                 }
             }
         }
-        public ObservableCollection<IEvent> Events
+        public ObservableCollection<Event> Events
         {
-            get { return (ObservableCollection<IEvent>) GetValue(EventsProperty);}
+            get { return (ObservableCollection<Event>) GetValue(EventsProperty);}
             set
             {
                 if (Events != null)
@@ -140,26 +185,13 @@ namespace MonthEvent
             switch(e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var d in _Days)
-                    {
-                        foreach (var i in Events)
-                        {
-                            var ievent = i as IEvent;
-                            if ((i.Rule.IsDate(d.Date)) && (!d.Events.Contains(i)))
-                                d.Events.Add(i);
-                        }
-                    }
+                    UpdateEvents();
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var i in e.NewItems)
-                    {
-                        var ievent = i as IEvent;
-                        foreach (var d in _Days)
-                        {
-                            if (d.Events.Contains(ievent))
-                                d.Events.Remove(ievent);
-                        }
-                    }
+                    UpdateEvents();
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    UpdateEvents();
                     break;
             }
         }
@@ -347,6 +379,7 @@ namespace MonthEvent
                     Grid.SetRow(d, y);
                     _MainGrid.Children.Add(d);
                     _Days.Add(d);
+                    d.OnSelectedEvent += DoSelectedEvent;
                     d.AddAction += OnAddEvent;
                 }
             }

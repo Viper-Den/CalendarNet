@@ -5,51 +5,69 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet.Menu"
              xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
+             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              mc:Ignorable="d" 
              Background="Transparent"
              Height="auto" Width="auto">
+    <UserControl.Resources>
+        <converters:StrToIntConverter x:Key="StrToIntConverter" />
+    </UserControl.Resources>
     <StackPanel>
         <StackPanel  Orientation="Horizontal" Margin="5">
-            <RadioButton GroupName="RepeatType" Content="каждый" IsChecked="{Binding Path=IsDayStep}" VerticalContentAlignment="Center"/>
-            <MonthView:IntBox Width="20" Margin="5" Value="{Binding Path=Step}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <RadioButton GroupName="RepeatType" Content="каждый" IsChecked="{Binding Path=IsDayStep, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"/>
+            <MonthView:IntBox Width="20" Margin="5" Value="{Binding Path=Step, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <Label Content="день" VerticalContentAlignment="Center"/>
         </StackPanel>
         <StackPanel>
-            <RadioButton GroupName="RepeatType" Content="дни" IsChecked="{Binding Path=IsRepeatDay}" Margin="5" VerticalContentAlignment="Center"/>
-         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsMonday}"/>
-            <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsTuesday}"/>
-            <CheckBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsWednesday}"/>
-            <CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsThursday}"/>
-            <CheckBox Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsFriday}"/>
-            <CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSaturday}"/>
-            <CheckBox Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSunday}"/>
-            <Label    Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пн" />
-            <Label    Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вт"/>
-            <Label    Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="ср"/>
-            <Label    Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="чт"/>
-            <Label    Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пт"/>
-            <Label    Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Content="сб"/>
-            <Label    Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вс"/>
-        </Grid>
+            <RadioButton 
+                GroupName="RepeatType" 
+                Margin="5" 
+                Content="дни" 
+                IsChecked="{Binding Path=IsRepeatDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                VerticalContentAlignment="Center"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsMonday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsTuesday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsWednesday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsThursday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Row="0" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsFriday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSaturday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <CheckBox Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=IsSunday, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label    Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пн" />
+                <Label    Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вт"/>
+                <Label    Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="ср"/>
+                <Label    Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="чт"/>
+                <Label    Grid.Row="1" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Content="пт"/>
+                <Label    Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Content="сб"/>
+                <Label    Grid.Row="1" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center" Content="вс"/>
+            </Grid>
         </StackPanel>
-        <RadioButton GroupName="RepeatType" Content="каждый рабочий день" IsChecked="{Binding Path=IsWorkDayStep}" Margin="5"/>
-        <StackPanel Orientation="Horizontal" Margin="5">
+        <RadioButton 
+            GroupName="RepeatType" 
+            Content="каждый рабочий день" 
+            IsChecked="{Binding Path=IsWorkDayStep, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Margin="5"/>
+        <StackPanel 
+            Orientation="Horizontal" 
+            Margin="5">
             <Label Content="Повторять до" VerticalContentAlignment="Center"/>
-            <MonthView:IntBox Width="80" Margin="5" Value="{Binding Path=RepeatCount}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <MonthView:DatePicker Grid.Row="3" 
+                                    Grid.Column="2" 
+                                    Margin="5"
+                                    Date="{Binding Path=FinishRepeatDate, Mode=TwoWay}" Width="90" />
         </StackPanel>
     </StackPanel>
 </UserControl>

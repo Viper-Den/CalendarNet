@@ -10,12 +10,12 @@ namespace DestinyNet
     public class Data
     {
         public ObservableCollection<Calendar> Calendars { get; set; }
-        public ObservableCollection<IEvent> Events { get; set; }
+        public ObservableCollectionWithItemNotify<Event> Events { get; set; }
 
         public Data()
         {
             Calendars = new ObservableCollection<Calendar>();
-            Events = new ObservableCollection<IEvent>();
+            Events = new ObservableCollectionWithItemNotify<Event>();
         }
     }
 }

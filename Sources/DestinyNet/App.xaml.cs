@@ -26,8 +26,8 @@ namespace DestinyNet
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            base.OnExit(e);
             Save(_data);
+            base.OnExit(e);
         }
 
         public void Save(Data data)

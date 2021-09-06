@@ -16,10 +16,18 @@ namespace DestinyNet
         {
             if (o is DateTime)
             {
-                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data), true);
+                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data, ((DateTime)o)), true);
             }
         }
-        public ObservableCollection<IEvent> Events {get => _data.Events; }
+        private void DoSelectedEvent(object o)
+        {
+            if (o is Event)
+            {
+                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data, DateTime.Now, (Event)o), true);
+            }
+        }
+        public ObservableCollection<Event> Events {get => _data.Events; }
         public ICommand AddEventCommand { get; }
+        public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }
     }
 }

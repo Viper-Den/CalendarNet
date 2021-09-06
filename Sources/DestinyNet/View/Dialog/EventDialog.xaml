@@ -39,7 +39,7 @@
             <TextBox Grid.Row="0" 
                      Grid.Column="1"
                      Grid.ColumnSpan="2"
-                     Text="{Binding Path=Caption}"
+                     Text="{Binding Path=Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                      VerticalContentAlignment="Center"
                      Margin="10"/>
             <Label Grid.Row="1"
@@ -107,12 +107,14 @@
             <MonthView:DatePicker Grid.Row="3" 
                                     Grid.Column="2" 
                                     Margin="10"
+                                    Visibility="Collapsed"
                                     Date="{Binding Path=Finish, Mode=TwoWay}" />
 
             <CheckBox x:Name="xAllDay"
                       Grid.Row="4" 
                       Grid.Column="1" 
                       Margin="10"
+                      IsChecked="{Binding Path=IsAllDay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                       VerticalContentAlignment="Center"
                       Content="All Day"/>
 

@@ -4,8 +4,8 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Destiny.Core;
 using Converters;
+using Destiny.Core;
 
 namespace MonthEvent
 {
@@ -25,23 +25,44 @@ namespace MonthEvent
         {
             //this.Resources.Add("BoolToVisibilityUsageConverter", new BoolToVisibilityUsageConverter());
             //Visibility="{Binding Path=Calendar.Enabled, Converter={StaticResource BoolToVisibilityUsageConverter}}"
-            Events = new ObservableCollection<IEvent>();
+            Events = new ObservableCollectionWithItemNotify<Event>();
         }
-
-        public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<IEvent>), typeof(DayMonthEventControl), new PropertyMetadata(OnEventsChanged));
-
-        public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(DayMonthEventControl), new PropertyMetadata(DatePropertyChanged));
-
-        public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void DoSelectedEvent(object o)
         {
-            ((DayMonthEventControl)d).Date = (DateTime)e.NewValue;
+            OnSelectedEvent?.Invoke(o);       
+        }
+        public ICommand SelectedEventCommand { get => new ActionCommand(DoSelectedEvent); }
+
+        public Action<object> OnSelectedEvent { get; set; }
+        #region ItemTemplate
+        public static readonly DependencyProperty ItemTemplateProperty =
+            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(DayMonthEventControl), new PropertyMetadata(ItemTemplateChanged));
+        public static void ItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((DayMonthEventControl)d).ItemTemplate = (DataTemplate)e.NewValue;
+        }
+        public DataTemplate ItemTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            set {  SetValue(ItemTemplateProperty, value); }
+        }
+        #endregion
+        #region EventsProperty
+        public static readonly DependencyProperty EventsProperty =
+           DependencyProperty.Register("Events", typeof(ObservableCollectionWithItemNotify<Event>), typeof(DayMonthEventControl), new PropertyMetadata(OnEventsChanged));
+        public ObservableCollectionWithItemNotify<Event> Events
+        {
+            get { return (ObservableCollectionWithItemNotify<Event>)GetValue(EventsProperty); }
+            private set  { SetValue(EventsProperty, value); }
         }
         private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DayMonthEventControl)d).Events = (ObservableCollection<IEvent>)e.NewValue;
+            ((DayMonthEventControl)d).Events = (ObservableCollectionWithItemNotify<Event>)e.NewValue;
         }
+        #endregion
+        #region DateProperty
+        public static readonly DependencyProperty DateProperty =
+            DependencyProperty.Register("Date", typeof(DateTime), typeof(DayMonthEventControl), new PropertyMetadata(DatePropertyChanged));
         public DateTime Date
         {
             get { return (DateTime)GetValue(DateProperty); }
@@ -51,14 +72,11 @@ namespace MonthEvent
                 UpdateEvents();
             }
         }
-        public ObservableCollection<IEvent> Events
+        public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            get { return (ObservableCollection<IEvent>)GetValue(EventsProperty); }
-            private set
-            {
-                SetValue(EventsProperty, value);
-            }
+            ((DayMonthEventControl)d).Date = (DateTime)e.NewValue;
         }
+        #endregion
         public Action<DateTime> AddAction { get; set; }
         public void UpdateEvents()
         {

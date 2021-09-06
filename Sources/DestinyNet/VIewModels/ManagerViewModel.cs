@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Collections.Generic;
 using System.Windows.Input;
+using Destiny.Core;
 
 namespace DestinyNet
 {
@@ -22,10 +23,6 @@ namespace DestinyNet
             _viewModelsDictionary.Add(ViewModelEnum.ToDo, new ToDoViewModel(_data, DialogViewsManager));
             _selectedViewModelEnum = ViewModelEnum.Month;
 
-            MonthViewCommand = new ActionCommand(ViewMonth);
-            WeekViewCommand = new ActionCommand(ViewWeek);
-            YearViewCommand = new ActionCommand(ViewYear);
-            ToDoViewCommand = new ActionCommand(ViewToDo);
         }
         public IViewModel SelectedViewModel {  get { return _viewModelsDictionary[_selectedViewModelEnum]; } }
         public IViewModel ToolPanel  { get; }
@@ -49,10 +46,11 @@ namespace DestinyNet
         }
 
         #region Command
-        public ICommand MonthViewCommand { get; }
-        public ICommand WeekViewCommand { get; }
-        public ICommand YearViewCommand { get; }
-        public ICommand ToDoViewCommand { get; }
+        public ICommand MonthViewCommand { get => new ActionCommand(ViewMonth); }
+        public ICommand WeekViewCommand { get => new ActionCommand(ViewWeek); }
+        public ICommand YearViewCommand { get => new ActionCommand(ViewYear); }
+        public ICommand ToDoViewCommand { get => new ActionCommand(ViewToDo); }
+
         private void ViewMonth(object o)
         {
             SelectiewModelEnum = ViewModelEnum.Month;

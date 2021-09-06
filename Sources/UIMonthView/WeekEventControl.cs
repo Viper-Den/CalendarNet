@@ -62,7 +62,7 @@ namespace MonthEvent
         }
 
         public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<IEvent>),
+           DependencyProperty.Register("Events", typeof(ObservableCollection<Event>),
                typeof(WeekEventControl), new PropertyMetadata(OnEventsChanged));
 
         public static readonly DependencyProperty ColorDayOffProperty =
@@ -87,7 +87,7 @@ namespace MonthEvent
 
         private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((WeekEventControl)d).Events = (ObservableCollection<IEvent>)e.NewValue;
+            ((WeekEventControl)d).Events = (ObservableCollection<Event>)e.NewValue;
         }
         private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -109,9 +109,9 @@ namespace MonthEvent
         {
             ((WeekEventControl)d).Date = (DateTime)e.NewValue;
         }
-        public ObservableCollection<IEvent> Events
+        public ObservableCollection<Event> Events
         {
-            get { return (ObservableCollection<IEvent>)GetValue(EventsProperty); }
+            get { return (ObservableCollection<Event>)GetValue(EventsProperty); }
             set
                 {
                     SetValue(EventsProperty, value);

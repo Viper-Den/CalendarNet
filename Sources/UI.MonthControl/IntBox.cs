@@ -52,6 +52,8 @@ namespace UIMonthControl
         {
             if (Text == "")
                 Value = 0;
+            else
+                Value = Int32.Parse(Text); 
             base.OnTextChanged(e);
         }
         private bool IntCheck(string text)
