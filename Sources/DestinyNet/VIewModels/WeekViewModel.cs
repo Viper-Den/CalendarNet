@@ -4,13 +4,32 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using Destiny.Core;
+using System.Windows.Input;
 
 namespace DestinyNet
 {
     public class WeekViewModel : ViewModeDataBase
     {
-        public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager) { }
+        public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
+        {
+        }
+        private void OnAddEvent(object o)
+        {
+            if (o is DateTime)
+            {
+                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data, ((DateTime)o)), true);
+            }
+        }
+        private void DoSelectedEvent(object o)
+        {
+            if (o is Event)
+            {
+                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data, DateTime.Now, (Event)o), true);
+            }
+        }
         public ObservableCollection<Event> Events { get => _data.Events; }
+        public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
+        public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }
     }
-
 }
+

@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using Destiny.Core;
+using System.Collections.Specialized;
 
 namespace MonthEvent
 {
@@ -61,72 +62,39 @@ namespace MonthEvent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WeekEventControl), new FrameworkPropertyMetadata(typeof(WeekEventControl)));
         }
 
-        public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<Event>),
-               typeof(WeekEventControl), new PropertyMetadata(OnEventsChanged));
-
-        public static readonly DependencyProperty ColorDayOffProperty =
-            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(WeekEventControl),
-                new PropertyMetadata(ColorDayOffPropertyChanged));
-
-        public static readonly DependencyProperty ColorDayFinishProperty =
-            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(WeekEventControl),
-                new PropertyMetadata(ColorDayFinishPropertyChanged));
-
-        public static readonly DependencyProperty ColorDayOffFinishProperty =
-            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(WeekEventControl),
-                new PropertyMetadata(ColorDayOffFinishPropertyChanged));
-
-        public static readonly DependencyProperty ColorToDayProperty =
-            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(WeekEventControl),
-                new PropertyMetadata(ColorToDayPropertyChanged));
-
-        public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(WeekEventControl),
-                new PropertyMetadata(DatePropertyChanged));
-
-        private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        #region AddEvent
+        public static readonly DependencyProperty AddEventProperty =
+            DependencyProperty.Register("AddEvent", typeof(ICommand), typeof(WeekEventControl), new PropertyMetadata(AddEventPropertyChanged));
+        public static void AddEventPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((WeekEventControl)d).Events = (ObservableCollection<Event>)e.NewValue;
+            ((WeekEventControl)d).AddEvent = (ICommand)e.NewValue;
         }
+        public ICommand AddEvent
+        {
+            get { return (ICommand)GetValue(AddEventProperty); }
+            set { SetValue(AddEventProperty, value); }
+        }
+        #endregion
+        #region CommandSelectedEvent
+        public static readonly DependencyProperty CommandSelectedEventProperty =
+            DependencyProperty.Register("CommandSelectedEvent", typeof(ICommand), typeof(WeekEventControl), new PropertyMetadata(CommandSelectedEventChanged));
+        public static void CommandSelectedEventChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).CommandSelectedEvent = (ICommand)e.NewValue;
+        }
+        public ICommand CommandSelectedEvent
+        {
+            get { return (ICommand)GetValue(CommandSelectedEventProperty); }
+            set { SetValue(CommandSelectedEventProperty, value); }
+        }
+        #endregion
+        #region ColorDayOffFinish
+        public static readonly DependencyProperty ColorDayOffFinishProperty =
+            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorDayOffFinishPropertyChanged));
+
         private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((WeekEventControl)d).ColorDayOffFinish = (SolidColorBrush)e.NewValue;
-        }
-        private static void ColorDayFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorDayFinish = (SolidColorBrush)e.NewValue;
-        }
-        private static void ColorToDayPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorToDay = (SolidColorBrush)e.NewValue;
-        }
-        public static void ColorDayOffPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorDayOff = (SolidColorBrush)e.NewValue;
-        }
-        public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).Date = (DateTime)e.NewValue;
-        }
-        public ObservableCollection<Event> Events
-        {
-            get { return (ObservableCollection<Event>)GetValue(EventsProperty); }
-            set
-                {
-                    SetValue(EventsProperty, value);
-                    UpdateEvents();
-                }
-        }
-        public void UpdateEvents()
-        {
-            if (_Title != null)
-            {
-                //foreach (var d in _Days)
-                //{
-                //    d.Events = Events;
-                //}
-            }
         }
         public SolidColorBrush ColorDayOffFinish
         {
@@ -137,6 +105,37 @@ namespace MonthEvent
                 UpdateElements();
             }
         }
+        #endregion
+        #region Events
+        public static readonly DependencyProperty EventsProperty =
+           DependencyProperty.Register("Events", typeof(ObservableCollection<Event>), typeof(WeekEventControl), new PropertyMetadata(OnEventsChanged));
+
+        private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).Events = (ObservableCollection<Event>)e.NewValue;
+        }
+        public ObservableCollection<Event> Events
+        {
+            get { return (ObservableCollection<Event>)GetValue(EventsProperty); }
+            set
+            {
+                if (Events != null)
+                    Events.CollectionChanged -= DoNotifyCollectionChangedEventHandler;
+
+                SetValue(EventsProperty, value);
+                if (Events != null)
+                    Events.CollectionChanged += DoNotifyCollectionChangedEventHandler;
+                UpdateEvents();
+            }
+        }
+        #endregion
+        #region ColorDayOff
+        public static readonly DependencyProperty ColorDayOffProperty =
+            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorDayOffPropertyChanged));
+        public static void ColorDayOffPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).ColorDayOff = (SolidColorBrush)e.NewValue;
+        }
         public SolidColorBrush ColorDayOff
         {
             get { return (SolidColorBrush)GetValue(ColorDayOffProperty); }
@@ -145,6 +144,15 @@ namespace MonthEvent
                 SetValue(ColorDayOffProperty, value);
                 UpdateElements();
             }
+        }
+        #endregion
+        #region Date
+        public static readonly DependencyProperty DateProperty =
+            DependencyProperty.Register("Date", typeof(DateTime), typeof(WeekEventControl), new PropertyMetadata(DatePropertyChanged));
+
+        public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).Date = (DateTime)e.NewValue;
         }
         public DateTime Date
         {
@@ -155,6 +163,15 @@ namespace MonthEvent
                 UpdateElements();
             }
         }
+        #endregion
+        #region ColorDayFinish
+        public static readonly DependencyProperty ColorDayFinishProperty =
+            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorDayFinishPropertyChanged));
+
+        private static void ColorDayFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).ColorDayFinish = (SolidColorBrush)e.NewValue;
+        }
         public SolidColorBrush ColorDayFinish
         {
             get { return (SolidColorBrush)GetValue(ColorDayFinishProperty); }
@@ -164,13 +181,61 @@ namespace MonthEvent
                 UpdateElements();
             }
         }
+        #endregion
+        #region ColorToDay
+        public static readonly DependencyProperty ColorToDayProperty =
+            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorToDayPropertyChanged));
+        private static void ColorToDayPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).ColorToDay = (SolidColorBrush)e.NewValue;
+        }
         public SolidColorBrush ColorToDay
         {
-            get { return (SolidColorBrush)GetValue(ColorToDayProperty); ; }
+            get { return (SolidColorBrush)GetValue(ColorToDayProperty); }
             set
             {
                 SetValue(ColorToDayProperty, value);
                 UpdateElements();
+            }
+        }
+        #endregion
+
+        public void UpdateEvents()
+        {
+            if ((_Title != null) && (Events != null))
+            {
+                foreach (var d in _Days)
+                {
+                    foreach (var e in Events)
+                    {
+                        if (e.Rule.IsDate(d.Date))
+                        {
+                            if (!d.Events.Contains(e))
+                                d.Events.Add(e);
+                        }
+                        else
+                        {
+                            if (d.Events.Contains(e))
+                                d.Events.Remove(e);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    UpdateEvents();
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    UpdateEvents();
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    UpdateEvents();
+                    break;
             }
         }
         private void UpdateElements()
@@ -274,7 +339,12 @@ namespace MonthEvent
             _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL5));
             _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL6));
             _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL7));
-                                                                  
+            foreach(var d in _Days)
+            {
+                d.OnSelectedEvent += DoSelectedEvent;
+                d.AddAction += OnAddEvent;
+            } 
+
             _Previous.Content = "<";
             _Next.Content = ">";
             _Previous.MouseLeftButtonDown += OnPrevious;
@@ -283,6 +353,14 @@ namespace MonthEvent
 
             UpdateElements();
         }
-
+        private void DoSelectedEvent(object o)
+        {
+            if (o is Event)
+                CommandSelectedEvent?.Execute((Event)o);
+        }
+        private void OnAddEvent(DateTime date)
+        {
+            AddEvent?.Execute(date);
+        }
     }
 }

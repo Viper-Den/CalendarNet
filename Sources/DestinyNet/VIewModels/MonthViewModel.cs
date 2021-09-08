@@ -10,7 +10,6 @@ namespace DestinyNet
     {
         public MonthViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
-            AddEventCommand = new ActionCommand(OnAddEvent);
         }
         private void OnAddEvent(object o)
         {
@@ -27,7 +26,7 @@ namespace DestinyNet
             }
         }
         public ObservableCollection<Event> Events {get => _data.Events; }
-        public ICommand AddEventCommand { get; }
+        public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }
     }
 }

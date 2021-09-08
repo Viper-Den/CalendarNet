@@ -13,6 +13,8 @@
             Margin="20" 
             Background="White"
             Date="{Binding Path=Date}" 
-            Events="{Binding Path=Events}"/>
+            Events="{Binding Path=Events}"
+            AddEvent="{Binding Path=AddEventCommand}"
+            CommandSelectedEvent="{Binding Path=SelectedEvent}"/>
     </Grid>
 </UserControl>
