@@ -10,6 +10,128 @@ using System.Collections.Specialized;
 
 namespace MonthEvent
 {
+
+    public class EventDayCol
+    {
+        private Canvas _canvas;
+        private Dictionary<Event, Label> _events;
+        private Control _control;
+        public EventDayCol(DayMonthEventControl day, Canvas canvas, Control control)
+        {
+            _canvas = canvas;
+            _control = control; 
+            _canvas.MouseLeftButtonDown += DoAddEvent;
+            Day = day;
+            _events = new Dictionary<Event, Label>();
+        }
+        public Action<object> OnSelectedEvent { get; set; }
+        public Action<DateTime> OnAddEvent { get; set; }
+        private void DoSelectEvent(object sender, MouseButtonEventArgs e)
+        {
+            if ((sender is Label) && (_events.ContainsValue(sender as Label)))
+                foreach (var ev in _events.Keys)
+                {
+                    if (_events[ev] == (sender as Label))
+                    {
+                        OnSelectedEvent?.Invoke((object)ev);
+                        return;
+                    }
+                }
+        }
+        private void DoAddEvent(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                Point p = e.GetPosition(_control);
+                int m = (int)((_canvas.ActualHeight / (24 * 60)) * p.Y);
+                OnAddEvent?.Invoke(new DateTime(Date.Year, Date.Month, Date.Day, (m / 60), (m % 60), 0));
+            }
+        }
+
+        public void AddEvent(Event e)
+        {
+            if (!e.Rule.IsDate(Date))
+            {
+                if (Day.Events.Contains(e))
+                    Day.Events.Remove(e);
+                if (_events.ContainsKey(e))
+                {
+                    var b = _events[e];
+                    b.MouseUp -= DoSelectEvent;
+                    _canvas.Children.Remove(b);
+                    _events.Remove(e);
+                }
+                return;
+            }
+            if ((e.IsAllDay) && (!Day.Events.Contains(e)))
+                Day.Events.Add(e);
+            else if (!_events.ContainsKey(e))
+            {
+                var b = new Label();
+                b.Background = e.Color;
+                b.Content = e.Caption;
+                b.MouseUp += DoSelectEvent;
+                _events.Add(e, b);
+                _canvas.Children.Add(b);
+                Canvas.SetLeft(b, 0);
+                Canvas.SetTop(b, GetSize(e.Rule.Start));
+                b.Width = _canvas.ActualWidth - 10;
+                var t = e.Rule.Finish - e.Rule.Start;
+                b.Height = GetSize(new DateTime(e.Rule.Finish.Year, e.Rule.Finish.Month, e.Rule.Finish.Day, t.Hours, t.Minutes, 0));
+            }
+        }
+
+        private double GetSize(DateTime d)
+        {
+            var r = ((d.Hour * 60) + d.Minute) * (_canvas.ActualHeight / (24 * 60));
+            return r;
+        }
+
+        public void RemoveEvent(Event e)
+        {
+            if (!e.Rule.IsDate(Date))
+                return;
+            if (e.IsAllDay)
+                Day.Events.Remove(e);
+            else if (_events.ContainsKey(e))
+            {
+                var b = _events[e];
+                _canvas.Children.Remove(b);
+            }
+        }
+        private void Clear()
+        {
+            Day.Events.Clear();
+            foreach (var e in _events.Keys)
+            {
+                var b = _events[e];
+                _canvas.Children.Remove(b);
+            }
+            _events.Clear();
+        }
+
+        public void Update()
+        {
+            foreach (var l in _events.Values)
+            {
+                l.Width = _canvas.ActualWidth - 10;
+            }
+        }
+        public DayMonthEventControl Day { get; }
+        public DateTime Date
+        {
+            get
+            {
+                return Day.Date;
+            }
+            set
+            {
+                Day.Date = value;
+                Clear();
+            }
+        }
+    }
+
     //https://docs.microsoft.com/ru-ru/dotnet/api/system.windows.controls.itemscontrol?view=netcore-3.1
     [TemplatePart(Name = WeekEventControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
@@ -22,6 +144,14 @@ namespace MonthEvent
     [TemplatePart(Name = WeekEventControl.TP_CALL5, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_CALL6, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_CALL7, Type = typeof(FrameworkElement))]
+
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS1, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS2, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS3, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS4, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS5, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS6, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_CANVAS7, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
     public class WeekEventControl : Control
     {
@@ -29,17 +159,25 @@ namespace MonthEvent
         private const string TP_TITLE_PART = "xTitle";
         private const string TP_PREVIOUS_PART = "xPrevious";
         private const string TP_NEXT_PART = "xNext";
-        private const string TP_CALL1 = "xColumn1";
-        private const string TP_CALL2 = "xColumn2";
-        private const string TP_CALL3 = "xColumn3";
-        private const string TP_CALL4 = "xColumn4";
-        private const string TP_CALL5 = "xColumn5";
-        private const string TP_CALL6 = "xColumn6";
-        private const string TP_CALL7 = "xColumn7";
+        private const string TP_CALL1 = "xDayMonthEventControl1";
+        private const string TP_CALL2 = "xDayMonthEventControl2";
+        private const string TP_CALL3 = "xDayMonthEventControl3";
+        private const string TP_CALL4 = "xDayMonthEventControl4";
+        private const string TP_CALL5 = "xDayMonthEventControl5";
+        private const string TP_CALL6 = "xDayMonthEventControl6";
+        private const string TP_CALL7 = "xDayMonthEventControl7";
+        private const string TP_CANVAS1 = "xCanvas1";
+        private const string TP_CANVAS2 = "xCanvas2";
+        private const string TP_CANVAS3 = "xCanvas3";
+        private const string TP_CANVAS4 = "xCanvas4";
+        private const string TP_CANVAS5 = "xCanvas5";
+        private const string TP_CANVAS6 = "xCanvas6";
+        private const string TP_CANVAS7 = "xCanvas7";
         private Label _Title;
         private Label _Previous;
         private Label _Next;
-        private List<DayMonthEventControl> _Days;
+        private Grid _MainGrid;
+        private List<EventDayCol> _Days;
         private List<Label> _TitleDays;
 
         ~WeekEventControl()
@@ -50,7 +188,7 @@ namespace MonthEvent
         }
         public WeekEventControl()
         {
-            _Days = new List<DayMonthEventControl>();
+            _Days = new List<EventDayCol>();
             _TitleDays = new List<Label>();
             ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
             ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
@@ -208,16 +346,7 @@ namespace MonthEvent
                 {
                     foreach (var e in Events)
                     {
-                        if (e.Rule.IsDate(d.Date))
-                        {
-                            if (!d.Events.Contains(e))
-                                d.Events.Add(e);
-                        }
-                        else
-                        {
-                            if (d.Events.Contains(e))
-                                d.Events.Remove(e);
-                        }
+                        d.AddEvent(e);
                     }
                 }
             }
@@ -240,7 +369,7 @@ namespace MonthEvent
         }
         private void UpdateElements()
         {
-            if (_Title == null) { return;  }
+            if (_Title == null) { return; }
             var dayOfWeek = (int)Date.DayOfWeek;
             //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
             if (dayOfWeek == 0) { dayOfWeek = 6; } // change to DateTimeFormat
@@ -274,20 +403,20 @@ namespace MonthEvent
 
                 if (d.Date == DateTime.Today)
                 {
-                    d.Background = ColorToDay;
+                    d.Day.Background = ColorToDay;
                 }
                 else if (d.Date.Month < Date.Month)
                 {
                     switch (d.Date.DayOfWeek)
                     {
                         case DayOfWeek.Saturday:
-                            d.Background = ColorDayOffFinish;
+                            d.Day.Background = ColorDayOffFinish;
                             break;
                         case DayOfWeek.Sunday:
-                            d.Background = ColorDayOffFinish;
+                            d.Day.Background = ColorDayOffFinish;
                             break;
                         default:
-                            d.Background = ColorDayFinish;
+                            d.Day.Background = ColorDayFinish;
                             break;
                     }
                 }
@@ -296,13 +425,13 @@ namespace MonthEvent
                     switch (d.Date.DayOfWeek)
                     {
                         case DayOfWeek.Saturday:
-                            d.Background = ColorDayOff;
+                            d.Day.Background = ColorDayOff;
                             break;
                         case DayOfWeek.Sunday:
-                            d.Background = ColorDayOff;
+                            d.Day.Background = ColorDayOff;
                             break;
                         default:
-                            d.Background = Background;
+                            d.Day.Background = Background;
                             break;
                     }
                 }
@@ -324,41 +453,49 @@ namespace MonthEvent
         {
             Date = DateTime.Now;
         }
-        
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            //S_MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
+            _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
             _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
             _Next = (Label)GetTemplateChild(TP_NEXT_PART);
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL1));
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL2));
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL3));
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL4));
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL5));
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL6));
-            _Days.Add((DayMonthEventControl)GetTemplateChild(TP_CALL7));
-            foreach(var d in _Days)
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL1), (Canvas)GetTemplateChild(TP_CANVAS1), this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL2), (Canvas)GetTemplateChild(TP_CANVAS2), this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL3), (Canvas)GetTemplateChild(TP_CANVAS3), this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL4), (Canvas)GetTemplateChild(TP_CANVAS4), this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL5), (Canvas)GetTemplateChild(TP_CANVAS5), this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL6), (Canvas)GetTemplateChild(TP_CANVAS6), this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL7), (Canvas)GetTemplateChild(TP_CANVAS7), this));
+            foreach (var d in _Days)
             {
+                d.Day.OnSelectedEvent += DoSelectedEvent;
+                d.Day.AddAction += DoAddEvent;
+                d.OnAddEvent += DoAddEvent;
                 d.OnSelectedEvent += DoSelectedEvent;
-                d.AddAction += OnAddEvent;
-            } 
-
+            }
+            _MainGrid.SizeChanged += MainGridSizeChanged;
             _Previous.Content = "<";
             _Next.Content = ">";
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;
-
             UpdateElements();
+        }
+        public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            foreach (var d in _Days)
+            {
+                d.Update();
+            }
         }
         private void DoSelectedEvent(object o)
         {
             if (o is Event)
                 CommandSelectedEvent?.Execute((Event)o);
         }
-        private void OnAddEvent(DateTime date)
+        private void DoAddEvent(DateTime date)
         {
             AddEvent?.Execute(date);
         }

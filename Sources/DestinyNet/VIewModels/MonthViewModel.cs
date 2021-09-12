@@ -15,14 +15,14 @@ namespace DestinyNet
         {
             if (o is DateTime)
             {
-                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data, ((DateTime)o)), true);
+                _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelNewAllDay(_dialogViewsManager.ClosePopUpViewCommand, _data, ((DateTime)o)), true);
             }
         }
         private void DoSelectedEvent(object o)
         {
             if (o is Event)
             {
-                _dialogViewsManager.ShowDialogView(new EventEditorViewModel(_dialogViewsManager.ClosePopUpViewCommand, _data, DateTime.Now, (Event)o), true);
+                _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
             }
         }
         public ObservableCollection<Event> Events {get => _data.Events; }

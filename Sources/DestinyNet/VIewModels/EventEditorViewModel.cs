@@ -24,7 +24,64 @@ namespace DestinyNet
         private RepeatRuleViewModel _selectedRepeatRules;
         private Dictionary<RuleRepeatTypes, EditorViewModel> _viewModelsDictionary;
         private Event _Event;
-        public EventEditorViewModel(ICommand closeWindowCommand, Data data, DateTime date, Event editEvent = null) : base(closeWindowCommand)
+
+
+        public static EventEditorViewModel EventEditorViewModelEdit(ICommand closeWindowCommand, Data data, Event editEvent) 
+        {
+            var e = new EventEditorViewModel(closeWindowCommand, data, editEvent);
+            e.SelectedCalendar = editEvent.Calendar;
+            e.Caption = editEvent.Caption;
+            e.SelectedRepeatRules.RuleType = editEvent.RuleType;
+            e.IsAllDay = editEvent.IsAllDay;
+            e.Start = editEvent.Rule.Start;
+            e.Finish = editEvent.Rule.Finish;
+            e.StartTime = editEvent.Rule.Start;
+            e.FinishTime = editEvent.Rule.Finish;
+            if (e.SelectedRepeatViewModel != null)
+            {
+                e.SelectedRepeatViewModel.Step = editEvent.Rule.Step;
+                e.SelectedRepeatViewModel.FinishRepeatDate = editEvent.Rule.FinishRepeatDate;
+                if (editEvent.RuleType == RuleRepeatTypes.Days)
+                {
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsDayStep = (editEvent.Rule as RuleRepeatDay).IsDayStep;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsWorkDayStep = (editEvent.Rule as RuleRepeatDay).IsWorkDayStep;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsRepeatDay = (editEvent.Rule as RuleRepeatDay).IsRepeatDay;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsMonday = (editEvent.Rule as RuleRepeatDay).IsMonday;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsTuesday = (editEvent.Rule as RuleRepeatDay).IsTuesday;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsWednesday = (editEvent.Rule as RuleRepeatDay).IsWednesday;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsThursday = (editEvent.Rule as RuleRepeatDay).IsThursday;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsFriday = (editEvent.Rule as RuleRepeatDay).IsFriday;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsSaturday = (editEvent.Rule as RuleRepeatDay).IsSaturday;
+                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsSunday = (editEvent.Rule as RuleRepeatDay).IsSunday;
+                }
+            }
+            return e;
+        }
+        public static EventEditorViewModel EventEditorViewModelNewAllDay(ICommand closeWindowCommand, Data data, DateTime date) 
+        {
+            var e = new EventEditorViewModel(closeWindowCommand, data, new Event());
+
+            e.Caption = "New Event";
+            e.IsAllDay = true;
+            e.Start = date;
+            e.Finish = date;
+            e.StartTime = e.Start;
+            e.FinishTime = e.Start.AddHours(1);
+            return e;
+        }
+        public static EventEditorViewModel EventEditorViewModelEditWeek(ICommand closeWindowCommand, Data data, DateTime start)
+        {
+            var e = new EventEditorViewModel(closeWindowCommand, data, new Event());
+
+            e.Caption = "New Event";
+            e.IsAllDay = false;
+            e.Start = start;
+            e.Finish = start;
+            e.StartTime = start;
+            e.FinishTime = start.AddHours(1);
+            return e;
+        }
+        public EventEditorViewModel(ICommand closeWindowCommand, Data data, Event editEvent) : base(closeWindowCommand)
         {
             _data = data;
             _viewModelsDictionary = new Dictionary<RuleRepeatTypes, EditorViewModel>();
@@ -43,47 +100,9 @@ namespace DestinyNet
             SelectedRepeatRules = RepeatRules[0];
 
 
-            if (editEvent == null)
-            {
-                _Event = new Event();
-
-                Caption = "New Event";
-                Start = date;
-                Finish = date;
-                IsAllDay = true;
-                StartTime = DateTime.Now;
-                FinishTime = DateTime.Now;
-                if (_data.Calendars.Count > 0)
-                    SelectedCalendar = _data.Calendars[0];
-            }
-            else
-            {
-                _Event = editEvent;
-                SelectedCalendar = _Event.Calendar;
-                Caption = _Event.Caption;
-                SelectedRepeatRules.RuleType = _Event.RuleType;
-                IsAllDay = _Event.IsAllDay;
-                Start = _Event.Rule.Start;
-                Finish =_Event.Rule.Finish;
-                if (SelectedRepeatViewModel != null)
-                {
-                    SelectedRepeatViewModel.Step = _Event.Rule.Step;
-                    SelectedRepeatViewModel.FinishRepeatDate = _Event.Rule.FinishRepeatDate;
-                    if (_Event.RuleType == RuleRepeatTypes.Days)
-                    {
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsDayStep = (_Event.Rule as RuleRepeatDay).IsDayStep;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsWorkDayStep = (_Event.Rule as RuleRepeatDay).IsWorkDayStep;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsRepeatDay = (_Event.Rule as RuleRepeatDay).IsRepeatDay;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsMonday = (_Event.Rule as RuleRepeatDay).IsMonday;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsTuesday = (_Event.Rule as RuleRepeatDay).IsTuesday;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsWednesday = (_Event.Rule as RuleRepeatDay).IsWednesday;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsThursday = (_Event.Rule as RuleRepeatDay).IsThursday;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsFriday = (_Event.Rule as RuleRepeatDay).IsFriday;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsSaturday = (_Event.Rule as RuleRepeatDay).IsSaturday;
-                        (SelectedRepeatViewModel as DaysEditorViewModel).IsSunday = (_Event.Rule as RuleRepeatDay).IsSunday;   
-                    }
-                }
-            }
+            _Event = editEvent;
+            if (_data.Calendars.Count > 0)
+                SelectedCalendar = _data.Calendars[0];
         }
         private void OnAddEvent(object o)
         {
@@ -92,7 +111,7 @@ namespace DestinyNet
             _Event.RuleType = SelectedRepeatRules.RuleType;
             _Event.IsAllDay = IsAllDay;
             _Event.Rule.Start = new DateTime(Start.Year, Start.Month, Start.Day, StartTime.Hour, StartTime.Minute, 0);
-            _Event.Rule.Finish = _Event.Rule.Start;// new DateTime(Finish.Year, Finish.Month, Finish.Day, FinishTime.Hour, FinishTime.Minute, 0);
+            _Event.Rule.Finish = new DateTime(Start.Year, Start.Month, Start.Day, FinishTime.Hour, FinishTime.Minute, 0);
             if(SelectedRepeatViewModel != null) 
             {
                 _Event.Rule.Step = SelectedRepeatViewModel.Step;

@@ -21,8 +21,7 @@
                         <Button x:Name="xButton"
 								Grid.Column="1"/>
                         <Popup  x:Name="xPopup"
-                                Placement="Bottom"
-                                Width="{TemplateBinding ActualWidth}"
+                                Placement="Bottom" Width="250" Height="250"
 								PlacementTarget="{Binding ElementName=xTimePicker}"
                                 AllowsTransparency="True"
                                 VerticalOffset="0">
@@ -30,14 +29,14 @@
                                     BorderBrush="WhiteSmoke"
                                     BorderThickness="1,1,1,1"
 									CornerRadius="7,7,7,7">
-                                <ListView x:Name="xListView"  
-                                          Height="100">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Label Content="{Binding Path=Name}"/>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                <Grid Background="White">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="5*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <Button x:Name="xButtonDone"  Grid.Row="1" Content="Done" Margin="10"/>
+                                    <Canvas x:Name="xCanvas"  Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="10"/>
+                                </Grid>
                             </Border>
 						</Popup>
                     </Grid>
