@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using Converters;
 using Destiny.Core;
@@ -11,7 +12,7 @@ namespace MonthEvent
 {
     [TemplatePart(Name = DayMonthEventControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = DayMonthEventControl.TP_CONTENT, Type = typeof(FrameworkElement))]
-    public class DayMonthEventControl : Control
+    public class DayMonthEventControl : Selector
     {
         private Label _Title;
         private ListView _Content;
@@ -23,17 +24,8 @@ namespace MonthEvent
         }
         public DayMonthEventControl()
         {
-            //this.Resources.Add("BoolToVisibilityUsageConverter", new BoolToVisibilityUsageConverter());
-            //Visibility="{Binding Path=Calendar.Enabled, Converter={StaticResource BoolToVisibilityUsageConverter}}"
             Events = new ObservableCollectionWithItemNotify<Event>();
         }
-        private void DoSelectedEvent(object o)
-        {
-            OnSelectedEvent?.Invoke(o);       
-        }
-        public ICommand SelectedEventCommand { get => new ActionCommand(DoSelectedEvent); }
-
-        public Action<object> OnSelectedEvent { get; set; }
         #region ItemTemplate
         public static readonly DependencyProperty ItemTemplateProperty =
             DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(DayMonthEventControl), new PropertyMetadata(ItemTemplateChanged));
@@ -94,6 +86,7 @@ namespace MonthEvent
             _Title = (Label)GetTemplateChild(TP_TITLE_PART); 
             _Content = (ListView)GetTemplateChild(TP_CONTENT);
             _Content.ItemsSource = Events;
+            _Content.ItemTemplate = ItemTemplate;
             _Title.MouseLeftButtonDown += OnAddEvent;
             UpdateEvents();
         }

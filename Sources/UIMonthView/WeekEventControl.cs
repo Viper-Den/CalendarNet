@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using Destiny.Core;
 using System.Collections.Specialized;
+using System.Windows.Controls.Primitives;
 
 namespace MonthEvent
 {
@@ -19,7 +20,7 @@ namespace MonthEvent
         public EventDayCol(DayMonthEventControl day, Canvas canvas, Control control)
         {
             _canvas = canvas;
-            _control = control; 
+            _control = control;
             _canvas.MouseLeftButtonDown += DoAddEvent;
             Day = day;
             _events = new Dictionary<Event, Label>();
@@ -153,7 +154,7 @@ namespace MonthEvent
     [TemplatePart(Name = WeekEventControl.TP_CANVAS6, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_CANVAS7, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
-    public class WeekEventControl : Control
+    public class WeekEventControl : Selector
     {
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
@@ -186,7 +187,7 @@ namespace MonthEvent
             _Next.MouseLeftButtonDown -= OnNext;
             _Title.MouseLeftButtonDown -= OnNow;
         }
-        public WeekEventControl()
+        public WeekEventControl() : base()
         {
             _Days = new List<EventDayCol>();
             _TitleDays = new List<Label>();
@@ -470,7 +471,7 @@ namespace MonthEvent
             _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL7), (Canvas)GetTemplateChild(TP_CANVAS7), this));
             foreach (var d in _Days)
             {
-                d.Day.OnSelectedEvent += DoSelectedEvent;
+                d.Day.ItemTemplate = ItemTemplate;
                 d.Day.AddAction += DoAddEvent;
                 d.OnAddEvent += DoAddEvent;
                 d.OnSelectedEvent += DoSelectedEvent;

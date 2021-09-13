@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using Destiny.Core;
 using System.Collections.Specialized;
+using System.Windows.Controls.Primitives;
 
 namespace MonthEvent
 {
@@ -16,7 +17,7 @@ namespace MonthEvent
     [TemplatePart(Name = MonthEventControl.TP_PREVIOUS_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = MonthEventControl.TP_NEXT_PART, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
-    public class MonthEventControl : Control
+    public class MonthEventControl : Selector
     {
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
@@ -59,19 +60,6 @@ namespace MonthEvent
         {
             get { return (ICommand)GetValue(AddEventProperty); }
             set { SetValue(AddEventProperty, value); }
-        }
-        #endregion
-        #region CommandSelectedEvent
-        public static readonly DependencyProperty CommandSelectedEventProperty =
-            DependencyProperty.Register("CommandSelectedEvent", typeof(ICommand), typeof(MonthEventControl), new PropertyMetadata(CommandSelectedEventChanged));
-        public static void CommandSelectedEventChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MonthEventControl)d).CommandSelectedEvent = (ICommand)e.NewValue;
-        }
-        public ICommand CommandSelectedEvent
-        {
-            get { return (ICommand)GetValue(CommandSelectedEventProperty); }
-            set { SetValue(CommandSelectedEventProperty, value); }
         }
         #endregion
         #region ItemTemplate
@@ -360,7 +348,7 @@ namespace MonthEvent
                     Grid.SetRow(d, y);
                     _MainGrid.Children.Add(d);
                     _Days.Add(d);
-                    d.OnSelectedEvent += DoSelectedEvent;
+                    d.ItemTemplate = ItemTemplate;
                     d.AddAction += OnAddEvent;
                 }
             }
@@ -380,11 +368,6 @@ namespace MonthEvent
                     UpdateEvents();
                     break;
             }
-        }
-        private void DoSelectedEvent(object o)
-        {
-            if (o is Event)
-                CommandSelectedEvent?.Execute((Event)o);
         }
         private void OnAddEvent(DateTime date)
         {
