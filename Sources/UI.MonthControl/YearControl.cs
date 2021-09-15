@@ -21,9 +21,9 @@ namespace UIMonthControl
         private const string TP_PREVIOUS_PART = "xPrevious";
         private const string TP_NEXT_PART = "xNext";
         private Grid _MainGrid;
-        private TitleControl _Title;
-        private TitleControl _Previous;
-        private TitleControl _Next;
+        private Label _Title;
+        private Label _Previous;
+        private Label _Next;
         private List<MonthControl> _Month;
        // private Dictionary<DayControl, List<IDateRange>> _dictionaryDateRanges;
 
@@ -153,7 +153,7 @@ namespace UIMonthControl
         }
         private void UpdateElements()
         {
-            _Title.Text = Date.ToString("yyyy");
+            _Title.Content = Date.ToString("yyyy");
             var startDay = Date;
             foreach (var m in _Month)
             {
@@ -187,12 +187,12 @@ namespace UIMonthControl
         {
             base.OnApplyTemplate();
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
-            _Title = (TitleControl)GetTemplateChild(TP_TITLE_PART);
-            _Previous = (TitleControl)GetTemplateChild(TP_PREVIOUS_PART);
-            _Next = (TitleControl)GetTemplateChild(TP_NEXT_PART);
+            _Title = (Label)GetTemplateChild(TP_TITLE_PART);
+            _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
+            _Next = (Label)GetTemplateChild(TP_NEXT_PART);
 
-            _Previous.Text = "<";
-            _Next.Text = ">";
+            _Previous.Content = "<";
+            _Next.Content = ">";
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;

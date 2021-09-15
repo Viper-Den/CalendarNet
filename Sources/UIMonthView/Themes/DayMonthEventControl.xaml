@@ -31,28 +31,7 @@
                                  BorderThickness="0" 
                                  x:Name="xContent"
                                  ItemContainerStyle="{StaticResource xListViewItem}" 
-                                 ItemsSource="{Binding Path=Events}">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        VerticalContentAlignment="Stretch"
-                                        HorizontalContentAlignment="Stretch"
-                                        Command="{Binding RelativeSource={RelativeSource 
-                                                            Mode=FindAncestor, 
-                                                            AncestorLevel=1, 
-                                                            AncestorType={x:Type local:DayMonthEventControl}}, 
-                                                            Path=SelectedEventCommand}"
-                                        CommandParameter="{Binding}">
-                                        <Label 
-                                            VerticalContentAlignment="Center"
-                                            HorizontalAlignment="Stretch"
-                                            Height="30" 
-                                            Background="{Binding Path=Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                                            Content="{Binding Path=Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </Button>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                 ItemsSource="{Binding Path=Events}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

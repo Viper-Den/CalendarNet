@@ -19,4 +19,10 @@
     <Resource Include="Images\Menu1.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Update="Styles\Label.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+
 </Project>

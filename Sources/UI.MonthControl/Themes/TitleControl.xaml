@@ -11,6 +11,7 @@
                                HorizontalAlignment="Stretch"
                                VerticalContentAlignment="Center"
                                HorizontalContentAlignment="Center"
+                               FontSize="18"
                                Background="{TemplateBinding Background}"
                                BorderBrush="{TemplateBinding BorderBrush}"
                                BorderThickness="{TemplateBinding BorderThickness}"/>

@@ -15,30 +15,18 @@ namespace MonthEvent
     public class EventDayCol
     {
         private Canvas _canvas;
-        private Dictionary<Event, Label> _events;
+        private Dictionary<Event, Grid> _events;
         private Control _control;
+        private DataTemplate _itemTemplate;
         public EventDayCol(DayMonthEventControl day, Canvas canvas, Control control)
         {
             _canvas = canvas;
             _control = control;
             _canvas.MouseLeftButtonDown += DoAddEvent;
             Day = day;
-            _events = new Dictionary<Event, Label>();
+            _events = new Dictionary<Event, Grid>();
         }
-        public Action<object> OnSelectedEvent { get; set; }
         public Action<DateTime> OnAddEvent { get; set; }
-        private void DoSelectEvent(object sender, MouseButtonEventArgs e)
-        {
-            if ((sender is Label) && (_events.ContainsValue(sender as Label)))
-                foreach (var ev in _events.Keys)
-                {
-                    if (_events[ev] == (sender as Label))
-                    {
-                        OnSelectedEvent?.Invoke((object)ev);
-                        return;
-                    }
-                }
-        }
         private void DoAddEvent(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -49,7 +37,14 @@ namespace MonthEvent
             }
         }
 
-        public void AddEvent(Event e)
+        public DataTemplate ItemTemplate
+        {
+            get => _itemTemplate; set
+            {
+                _itemTemplate = value;
+            }
+        }
+    public void AddEvent(Event e)
         {
             if (!e.Rule.IsDate(Date))
             {
@@ -58,7 +53,6 @@ namespace MonthEvent
                 if (_events.ContainsKey(e))
                 {
                     var b = _events[e];
-                    b.MouseUp -= DoSelectEvent;
                     _canvas.Children.Remove(b);
                     _events.Remove(e);
                 }
@@ -68,20 +62,23 @@ namespace MonthEvent
                 Day.Events.Add(e);
             else if (!_events.ContainsKey(e))
             {
-                var b = new Label();
-                b.Background = e.Color;
-                b.Content = e.Caption;
-                b.MouseUp += DoSelectEvent;
-                _events.Add(e, b);
-                _canvas.Children.Add(b);
-                Canvas.SetLeft(b, 0);
-                Canvas.SetTop(b, GetSize(e.Rule.Start));
-                b.Width = _canvas.ActualWidth - 10;
+                var c = new Grid();
+                //c.VerticalContentAlignment = VerticalAlignment.Stretch;
+                //c.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                var ch = (Control)ItemTemplate.LoadContent();
+                c.Children.Add(ch);
+                ch.DataContext = e;
+
+                c.DataContext = e;
+                _events.Add(e, c);
+                _canvas.Children.Add(c);
+                Canvas.SetLeft(c, 0);
+                Canvas.SetTop(c, GetSize(e.Rule.Start));
+                c.Width = _canvas.ActualWidth - 10;
                 var t = e.Rule.Finish - e.Rule.Start;
-                b.Height = GetSize(new DateTime(e.Rule.Finish.Year, e.Rule.Finish.Month, e.Rule.Finish.Day, t.Hours, t.Minutes, 0));
+                c.Height = GetSize(new DateTime(e.Rule.Finish.Year, e.Rule.Finish.Month, e.Rule.Finish.Day, t.Hours, t.Minutes, 0));
             }
         }
-
         private double GetSize(DateTime d)
         {
             var r = ((d.Hour * 60) + d.Minute) * (_canvas.ActualHeight / (24 * 60));
@@ -154,7 +151,7 @@ namespace MonthEvent
     [TemplatePart(Name = WeekEventControl.TP_CANVAS6, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_CANVAS7, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
-    public class WeekEventControl : Selector
+    public class WeekEventControl : BaseControl
     {
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
@@ -212,19 +209,6 @@ namespace MonthEvent
         {
             get { return (ICommand)GetValue(AddEventProperty); }
             set { SetValue(AddEventProperty, value); }
-        }
-        #endregion
-        #region CommandSelectedEvent
-        public static readonly DependencyProperty CommandSelectedEventProperty =
-            DependencyProperty.Register("CommandSelectedEvent", typeof(ICommand), typeof(WeekEventControl), new PropertyMetadata(CommandSelectedEventChanged));
-        public static void CommandSelectedEventChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).CommandSelectedEvent = (ICommand)e.NewValue;
-        }
-        public ICommand CommandSelectedEvent
-        {
-            get { return (ICommand)GetValue(CommandSelectedEventProperty); }
-            set { SetValue(CommandSelectedEventProperty, value); }
         }
         #endregion
         #region ColorDayOffFinish
@@ -338,7 +322,47 @@ namespace MonthEvent
             }
         }
         #endregion
+        #region WeekEventTemplate
+        /// <summary>
+        ///     The DependencyProperty for the ItemTemplate property.
+        ///     Flags:              none
+        ///     Default Value:      null
+        /// </summary>
+        public static readonly DependencyProperty WeekEventTemplateProperty =
+                DependencyProperty.Register(nameof(WeekEventTemplate), typeof(DataTemplate), typeof(WeekEventControl),
+                        new FrameworkPropertyMetadata((DataTemplate)null, new PropertyChangedCallback(OnWeekEventTemplateChanged)));
 
+        /// <summary>
+        ///     ItemTemplate is the template used to display each item.
+        /// </summary>
+        public DataTemplate WeekEventTemplate
+        {
+            get { return (DataTemplate)GetValue(WeekEventTemplateProperty); }
+            set 
+            { 
+                SetValue(WeekEventTemplateProperty, value);
+                UpdateTemplate();
+            }
+        }
+
+        private void UpdateTemplate()
+        {
+            foreach (var d in _Days)
+            {
+                d.ItemTemplate = WeekEventTemplate;
+            }
+        }
+
+        /// <summary>
+        ///     Called when ItemTemplateProperty is invalidated on "d."
+        /// </summary>
+        /// <param name="d">The object on which the property was invalidated.</param>
+        /// <param name="e">EventArgs that contains the old and new values for this property</param>
+        private static void OnWeekEventTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).WeekEventTemplate = (DataTemplate)e.NewValue;
+        }
+        #endregion
         public void UpdateEvents()
         {
             if ((_Title != null) && (Events != null))
@@ -474,7 +498,6 @@ namespace MonthEvent
                 d.Day.ItemTemplate = ItemTemplate;
                 d.Day.AddAction += DoAddEvent;
                 d.OnAddEvent += DoAddEvent;
-                d.OnSelectedEvent += DoSelectedEvent;
             }
             _MainGrid.SizeChanged += MainGridSizeChanged;
             _Previous.Content = "<";
@@ -483,6 +506,7 @@ namespace MonthEvent
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;
             UpdateElements();
+            UpdateTemplate();
         }
         public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -490,11 +514,6 @@ namespace MonthEvent
             {
                 d.Update();
             }
-        }
-        private void DoSelectedEvent(object o)
-        {
-            if (o is Event)
-                CommandSelectedEvent?.Execute((Event)o);
         }
         private void DoAddEvent(DateTime date)
         {

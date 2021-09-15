@@ -14,8 +14,7 @@
             Background="White"
             Date="{Binding Path=Date}" 
             Events="{Binding Path=Events}"
-            AddEvent="{Binding Path=AddEventCommand}"
-            CommandSelectedEvent="{Binding Path=SelectedEvent}">
+            AddEvent="{Binding Path=AddEventCommand}">
             <weekevent:WeekEventControl.ItemTemplate>
                 <DataTemplate>
                     <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
@@ -27,6 +26,17 @@
                     </Button>
                 </DataTemplate>
             </weekevent:WeekEventControl.ItemTemplate>
+            <weekevent:WeekEventControl.WeekEventTemplate>
+                <DataTemplate>
+                    <Button Name="Button"  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type weekevent:WeekEventControl}}, Path=DataContext.SelectedEvent}"
+                            CommandParameter="{Binding}">
+                        <Label Name="Label" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"        
+                            Background="{Binding Path=Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Content="{Binding Path=Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Button>
+                </DataTemplate>
+            </weekevent:WeekEventControl.WeekEventTemplate>
         </weekevent:WeekEventControl>
 
     </Grid>

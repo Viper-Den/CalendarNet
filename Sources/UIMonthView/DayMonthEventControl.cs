@@ -12,7 +12,7 @@ namespace MonthEvent
 {
     [TemplatePart(Name = DayMonthEventControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = DayMonthEventControl.TP_CONTENT, Type = typeof(FrameworkElement))]
-    public class DayMonthEventControl : Selector
+    public class DayMonthEventControl : BaseControl
     {
         private Label _Title;
         private ListView _Content;
@@ -26,19 +26,6 @@ namespace MonthEvent
         {
             Events = new ObservableCollectionWithItemNotify<Event>();
         }
-        #region ItemTemplate
-        public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(DayMonthEventControl), new PropertyMetadata(ItemTemplateChanged));
-        public static void ItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((DayMonthEventControl)d).ItemTemplate = (DataTemplate)e.NewValue;
-        }
-        public DataTemplate ItemTemplate
-        {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
-            set {  SetValue(ItemTemplateProperty, value); }
-        }
-        #endregion
         #region EventsProperty
         public static readonly DependencyProperty EventsProperty =
            DependencyProperty.Register("Events", typeof(ObservableCollectionWithItemNotify<Event>), typeof(DayMonthEventControl), new PropertyMetadata(OnEventsChanged));

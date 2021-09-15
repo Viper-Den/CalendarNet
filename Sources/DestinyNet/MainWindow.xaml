@@ -38,9 +38,9 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Content="Meal" Margin="10,5"/>
-                <Button x:Name="xButtonToDo" Grid.Column="2" Content="To-Do" Margin="10,5" Command="{Binding ToDoViewCommand}"/>
-                <Button Grid.Column="3" Content="People" Margin="10,5"/>
+                <Button Grid.Column="1" Content="Meal" Margin="10,5" Visibility="Hidden"/>
+                <Button x:Name="xButtonToDo" Grid.Column="2" Content="To-Do" Margin="10,5" Command="{Binding ToDoViewCommand}" Visibility="Hidden"/>
+                <Button Grid.Column="3" Content="People" Margin="10,5" Visibility="Hidden"/>
                 <Button x:Name="xButtonWeek" Grid.Column="4" Content="Week" Margin="10,5" Command="{Binding WeekViewCommand}"/>
                 <Button x:Name="xButtonMonth" Grid.Column="5" Content="Month" Margin="10,5" Command="{Binding MonthViewCommand}"/>
                 <Button x:Name="xButtonYear" Grid.Column="6" Content="Year" Margin="10,5" Command="{Binding YearViewCommand}"/>

@@ -3,6 +3,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:MonthEvent" 
     xmlns:MonthEvent="clr-namespace:MonthEvent">
+    <Style x:Key="sLabel"  TargetType="{x:Type Label}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
+    <Style x:Key="sButtonLabel"  TargetType="{x:Type Label}" BasedOn="{StaticResource sLabel}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="Control.IsMouseOver" Value="True">
+                <Setter Property="Background" Value="WhiteSmoke"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Trigger>
+            <Trigger Property="Control.IsMouseOver" Value="False">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="FontSize" Value="22"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
     <Style TargetType="{x:Type local:WeekEventControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -34,9 +53,9 @@
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0" Content="Period" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
-                            <Label x:Name="xPrevious" Grid.Row="0" Grid.Column="1" Content="&lt;" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-                            <Label x:Name="xNext" Grid.Row="0" Grid.Column="2"  Content="&gt;" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0" Content="Period" Style="{StaticResource sLabel}"/>
+                            <Label x:Name="xPrevious" Grid.Row="0" Grid.Column="1" Content="&lt;" Style="{StaticResource sButtonLabel}"/>
+                            <Label x:Name="xNext" Grid.Row="0" Grid.Column="2"  Content="&gt;" Style="{StaticResource sButtonLabel}"/>
                         </Grid>
 
                         <MonthEvent:DayMonthEventControl x:Name="xDayMonthEventControl1" Grid.Column="1" Grid.Row="1"/>
