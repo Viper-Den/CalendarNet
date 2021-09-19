@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Destiny.Core;
 
 
 namespace UIMonthControl
@@ -15,7 +16,7 @@ namespace UIMonthControl
     [TemplatePart(Name = YearControl.TP_NEXT_PART, Type = typeof(FrameworkElement))]
     public class YearControl : Control
     {
-   
+
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
         private const string TP_PREVIOUS_PART = "xPrevious";
@@ -25,7 +26,7 @@ namespace UIMonthControl
         private Label _Previous;
         private Label _Next;
         private List<MonthControl> _Month;
-       // private Dictionary<DayControl, List<IDateRange>> _dictionaryDateRanges;
+        private DateTime _startDate;
 
         static YearControl()
         {
@@ -33,13 +34,11 @@ namespace UIMonthControl
         }
         public YearControl()
         {
-            //_dictionaryDateRanges = new Dictionary<DayControl, List<IDateRange>>(); 
             _Month = new List<MonthControl>();
+            Pallete = new PalleteYear();
         }
         ~YearControl()
         {
-            //if (DateRanges != null)
-            //    DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
             _Previous.MouseLeftButtonDown -= OnPrevious;
             _Next.MouseLeftButtonDown -= OnNext;
             _Title.MouseLeftButtonDown -= OnNow;
@@ -73,6 +72,20 @@ namespace UIMonthControl
         }
         #endregion
 
+        #region PeriodSelected
+        public static readonly DependencyProperty PeriodSelectedProperty =
+            DependencyProperty.Register(nameof(PeriodSelected), typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodSelectedPropertyChanged));
+        public static void PeriodSelectedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((YearControl)d).PeriodSelected = (ICommand)e.NewValue;
+        }
+        public ICommand PeriodSelected
+        {
+            get { return (ICommand)GetValue(PeriodSelectedProperty); }
+            set { SetValue(PeriodSelectedProperty, value); }
+        }
+        #endregion
+
         #region Date
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(YearControl), new PropertyMetadata(DatePropertyChanged));
@@ -92,65 +105,56 @@ namespace UIMonthControl
         }
         #endregion
 
-        #region DateRanges
-        //public static readonly DependencyProperty DateRangesProperty =
-        //   DependencyProperty.Register("DateRanges", typeof(ObservableCollection<IDateRange>), typeof(YearControl), new PropertyMetadata(OnDateRangesChanged));
-        //private static void OnDateRangesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        //{
-        //    ((YearControl)d).DateRanges = (ObservableCollection<IDateRange>)e.NewValue;
-        //}
-        //public ObservableCollection<IDateRange> DateRanges
-        //{
-        //    get { return (ObservableCollection<IDateRange>)GetValue(DateRangesProperty); }
-        //    set
-        //    {
-        //        if (DateRanges != null)
-        //            DateRanges.CollectionChanged -= NotifyCollectionChangedEventHandler;
-
-
-        //        SetValue(DateRangesProperty, value);
-        //        if (value != null)
-        //        {
-        //            DateRanges.CollectionChanged += NotifyCollectionChangedEventHandler;
-        //            SelectRanges();
-        //        }
-        //    }
-        //}
+        #region SelectedDates
+        public static readonly DependencyProperty SelectedDatesProperty =
+            DependencyProperty.Register(nameof(SelectedDates), typeof(ObservableCollection<DateTime>), typeof(YearControl), new PropertyMetadata(SelectedDatesChanged));
+        public static void SelectedDatesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((YearControl)d).SelectedDates = (ObservableCollection<DateTime>)e.NewValue;
+        }
+        public ObservableCollection<DateTime> SelectedDates
+        {
+            get { return (ObservableCollection<DateTime>)GetValue(SelectedDatesProperty); }
+            set
+            {
+                SetValue(SelectedDatesProperty, value);
+                UpdateSelectedDates();
+            }
+        }
+        private void UpdateSelectedDates()
+        {
+            foreach (var m in _Month)
+            {
+                m.SelectedDates = SelectedDates;
+            }
+        }
         #endregion
 
-        private void NotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
+        #region Pallete
+        public static readonly DependencyProperty PalleteProperty =
+            DependencyProperty.Register(nameof(Pallete), typeof(Pallete), typeof(YearControl), new PropertyMetadata(PalleteChanged));
+        private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            switch (e.Action)
+            ((YearControl)d).Pallete = (Pallete)e.NewValue;
+        }
+        public Pallete Pallete
+        {
+            get { return (Pallete)GetValue(PalleteProperty); }
+            set
             {
-                case NotifyCollectionChangedAction.Add:
-
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-
-                    break;
-
+                SetValue(PalleteProperty, value);
+                UpdatePallete();
             }
-
-            //NotifyCollectionChangedAction.Remove
-            //NotifyCollectionChangedAction.Replace
-            //NotifyCollectionChangedAction.Move
-            //NotifyCollectionChangedAction.Reset
         }
-        //public bool IsRangeInRange()
-        //{
-        //    if()
-        //    return (DateTime.Compare) || ();
-        //}
-        private void SelectRanges()
+        
+        private void UpdatePallete()
         {
-            //foreach (var dr in DateRanges)
-            //{
-            //    foreach(var m in _Month)
-            //    {
-            //        if(m.Date)
-            //    }
-            //}
+            foreach (var m in _Month)
+            {
+                m.Pallete = Pallete; 
+            }
         }
+        #endregion
         private void UpdateElements()
         {
             _Title.Content = Date.ToString("yyyy");
@@ -177,11 +181,27 @@ namespace UIMonthControl
         }
         private void OnPeriodStart(DateTime date)
         {
+            _startDate = date;
             PeriodStart?.Execute(date);
         }
         private void OnPeriodFinish(DateTime date)
         {
+            var l = new List<DateTime>();
+            DateTime finishDate = date;
+            if(_startDate.Date > date.Date)
+            {
+                finishDate = _startDate;
+                _startDate = date;
+            }
+            DateTime d = _startDate;
+            while(d.Date <= finishDate.Date)
+            {
+                l.Add(d);
+                d = d.AddDays(1);
+            }
+
             PeriodFinish?.Execute(date);
+            PeriodSelected?.Execute(l);
         }
         public override void OnApplyTemplate()
         {
@@ -204,13 +224,13 @@ namespace UIMonthControl
                     var m = new MonthControl()
                     {
                         VerticalAlignment = VerticalAlignment.Stretch,
-                        HorizontalAlignment = HorizontalAlignment.Stretch
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        Margin = new Thickness(10, 10, 10, 10),
+                        SelectedDates = SelectedDates,
+                        Pallete = Pallete
                     };
                     Grid.SetColumn(m, x);
                     Grid.SetRow(m, y);
-                    m.Margin = new Thickness(10, 10, 10, 10);
-                    m.ViewButtons = Visibility.Hidden;
-                    m.ViewBorderingMonths = Visibility.Hidden;
                     m.PeriodStart += OnPeriodStart;
                     m.PeriodFinish += OnPeriodFinish;
                     _MainGrid.Children.Add(m);
@@ -218,6 +238,8 @@ namespace UIMonthControl
                 }
             }
             UpdateElements();
+            UpdateSelectedDates();
+            UpdatePallete();
         }
 
     }

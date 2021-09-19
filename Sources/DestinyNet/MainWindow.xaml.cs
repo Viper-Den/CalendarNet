@@ -37,5 +37,13 @@ namespace DestinyNet
         {
             InitializeComponent();
         }
+        public void OnKeyDownHandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.RightCtrl)
+            {
+            //    if (this.DataContext is YearViewModel)
+            //        ((YearViewModel)this.DataContext).IsMultipleSelection = e.IsDown;
+            }
+        }
     }
 }

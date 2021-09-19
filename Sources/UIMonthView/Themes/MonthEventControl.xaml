@@ -2,27 +2,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:MonthEvent">
-    
-    <Style x:Key="sLabel"  TargetType="{x:Type Label}">
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-    </Style>
-    <Style x:Key="sButtonLabel"  TargetType="{x:Type Label}" BasedOn="{StaticResource sLabel}">
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Style.Triggers>
-            <Trigger Property="Control.IsMouseOver" Value="True">
-                <Setter Property="Background" Value="WhiteSmoke"/>
-                <Setter Property="FontSize" Value="18"/>
-            </Trigger>
-            <Trigger Property="Control.IsMouseOver" Value="False">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="FontSize" Value="22"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/MonthEventControl;component/Styles/Label.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     <Style TargetType="{x:Type local:MonthEventControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -59,9 +41,9 @@
                                 <ColumnDefinition Width="1*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <Label x:Name="xTitle" Grid.Row="0" Grid.Column="0" Style="{StaticResource sLabel}"/>
-                            <Label x:Name="xPrevious"  Grid.Row="0" Grid.Column="1" Style="{StaticResource sButtonLabel}"/>
-                            <Label x:Name="xNext" Grid.Row="0" Grid.Column="2" Style="{StaticResource sButtonLabel}"/>
+                            <local:LabelTitle x:Name="xTitle" Grid.Row="0" Grid.Column="0" Style="{StaticResource sLabel}"/>
+                            <local:LabelTitle x:Name="xPrevious"  Grid.Row="0" Grid.Column="1" Style="{StaticResource sButtonLabel}"/>
+                            <local:LabelTitle x:Name="xNext" Grid.Row="0" Grid.Column="2" Style="{StaticResource sButtonLabel}"/>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using DestinyNet;
 
 namespace DestinyNetViews
 {
@@ -10,6 +13,21 @@ namespace DestinyNetViews
         public YearView()
         {
             InitializeComponent();
+        }
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            var window = Window.GetWindow(this);
+            window.KeyDown += HandleKeyPress;
+            window.KeyUp += HandleKeyPress;
+        }
+
+        private void HandleKeyPress(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftCtrl)
+            {
+                if (this.DataContext is YearViewModel)
+                    ((YearViewModel)this.DataContext).IsMultipleSelection = e.IsDown;
+            }
         }
     }
 }

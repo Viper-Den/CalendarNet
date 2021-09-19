@@ -22,16 +22,30 @@ namespace MonthEvent
         {
             _canvas = canvas;
             _control = control;
+            _canvas.AllowDrop = true;
+            _canvas.Drop += DoDrop;
             _canvas.MouseLeftButtonDown += DoAddEvent;
             Day = day;
             _events = new Dictionary<Event, Grid>();
+        }
+        private void DoDrop(object sender, DragEventArgs e) 
+        {
+            Point p = e.GetPosition(_canvas);
+            int m = (int)((_canvas.ActualHeight / (24 * 60)) * p.Y);
+            if(sender is Event)
+            {
+                var ev = ((Event)sender).Clone();
+                ev.IsAllDay = false;
+                ev.Rule.Start = new DateTime(Date.Year, Date.Month, Date.Day, (m / 60), (m % 60), 0);
+                ev.Rule.Finish = ev.Rule.Start.AddHours(1);
+            }
         }
         public Action<DateTime> OnAddEvent { get; set; }
         private void DoAddEvent(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                Point p = e.GetPosition(_control);
+                Point p = e.GetPosition(_canvas);
                 int m = (int)((_canvas.ActualHeight / (24 * 60)) * p.Y);
                 OnAddEvent?.Invoke(new DateTime(Date.Year, Date.Month, Date.Day, (m / 60), (m % 60), 0));
             }

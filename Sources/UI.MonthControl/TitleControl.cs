@@ -3,11 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Destiny.Core;
 
 namespace UIMonthControl
 {
+
     [TemplatePart(Name = TitleControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
-    public class TitleControl : Control
+    public class TitleControl : Control, ITitleControl
     {
         private Label _Title;
         private const string TP_TITLE_PART = "xTitle";
@@ -25,6 +27,7 @@ namespace UIMonthControl
             _Title.MouseLeave -= DoMouseLeave;
             _Title.MouseUp -= DoMouseUp;
         }
+        public TitleControlType Type { get; set; }
 
         private void DoMouseUp(object sender, MouseButtonEventArgs e)
         {

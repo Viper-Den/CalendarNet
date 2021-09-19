@@ -32,7 +32,6 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-
                         <local:TitleControl x:Name="xTitle" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <local:TitleControl x:Name="xPrevious" Grid.Row="0" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <local:TitleControl x:Name="xNext" Grid.Row="0" Grid.Column="6" VerticalAlignment="Center" HorizontalAlignment="Center"/>

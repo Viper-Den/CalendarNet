@@ -4,6 +4,5 @@
         <ResourceDictionary Source="/MonthEventControl;component/Themes/MonthEventControl.xaml" />
         <ResourceDictionary Source="/MonthEventControl;component/Themes/DayMonthEventControl.xaml" />
         <ResourceDictionary Source="/MonthEventControl;component/Themes/WeekEventControl.xaml" />
-        <ResourceDictionary Source="/MonthEventControl;component/Styles/Label.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

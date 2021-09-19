@@ -14,5 +14,14 @@ namespace Destiny.Core
         {
             return (Start.Date == date.Date);
         }
+        public virtual RuleRepeat Clone()
+        {
+            var r = new RuleRepeat();
+            r.Start = this.Start;
+            r.Finish = this.Finish;
+            r.Step = this.Step;
+            r.FinishRepeatDate = this.FinishRepeatDate;
+            return r;
+        }
     }
 }

@@ -37,9 +37,7 @@
                                                         Margin="5" 
                                                         Width="200" 
                                                         Height="200" 
-                                                        Date="{Binding Path=Date}" 
-                                                        ViewSelectedDate="True" 
-                                                        ColorViewSelectedDate="Green"/>
+                                                        Date="{Binding Path=Date}"/>
                                 </StackPanel>
                              </Border>
 						</Popup>

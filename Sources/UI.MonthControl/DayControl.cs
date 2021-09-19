@@ -3,23 +3,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Destiny.Core;
 
 namespace UIMonthControl
 {
+
     [TemplatePart(Name = DayControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
-    public class DayControl : Control
+    public class DayControl : Control, IDayControl
     {
         private Label _Title;
-        private SolidColorBrush _BaseColor;
         private const string TP_TITLE_PART = "xTitle";
         static DayControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DayControl), new FrameworkPropertyMetadata(typeof(DayControl)));
-        }
-        ~ DayControl()
-        {
-            MouseEnter -= DoMouseEnter;
-            MouseLeave -= DoMouseLeave;
         }
         #region Date
         public static readonly DependencyProperty DateProperty =
@@ -35,39 +31,14 @@ namespace UIMonthControl
             set
             {
                 SetValue(DateProperty, value);
+                Type = Pallete.GetDateType(value);
                 UpdateElement();
             }
         }
         #endregion
-        #region ViewSelectedDate
-        public static readonly DependencyProperty ViewSelectedDateProperty =
-            DependencyProperty.Register("ViewButtons", typeof(bool), typeof(DayControl), new PropertyMetadata(ViewSelectedDatePropertyChanged));
-        public static void ViewSelectedDatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((DayControl)d).ViewSelectedDate = (bool)e.NewValue;
-        }
-        public bool ViewSelectedDate
-        {
-            get { return (bool)GetValue(ViewSelectedDateProperty); }
-            set
-            {
-                SetValue(ViewSelectedDateProperty, value);
-            }
-        }
-        #endregion
-        #region ColorViewSelectedDate
-        public static readonly DependencyProperty ColorViewSelectedDateProperty =
-            DependencyProperty.Register("ColorViewSelectedDate", typeof(SolidColorBrush), typeof(DayControl), new PropertyMetadata(ColorViewSelectedDatePropertyChanged));
-        private static void ColorViewSelectedDatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((DayControl)d).ColorViewSelectedDate = (SolidColorBrush)e.NewValue;
-        }
-        public SolidColorBrush ColorViewSelectedDate
-        {
-            get { return (SolidColorBrush)GetValue(ColorViewSelectedDateProperty); }
-            set { SetValue(ColorViewSelectedDateProperty, value); }
-        }
-        #endregion
+
+        public DayType Type {private set; get;}
+        public bool IsSelected { get; set; }
         private void UpdateElement()
         {
             if (_Title == null) 
@@ -78,21 +49,7 @@ namespace UIMonthControl
         {
             base.OnApplyTemplate();
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
-            _BaseColor = (SolidColorBrush)Background;
-            MouseEnter += DoMouseEnter;
-            MouseLeave += DoMouseLeave;
             UpdateElement();
-        }
-        private void DoMouseEnter(object sender, MouseEventArgs e)
-        {
-            //DateSelected?.Execute(Date);
-            _BaseColor = (SolidColorBrush)Background;
-            if(ViewSelectedDate)
-                Background = ColorViewSelectedDate;
-        }
-        private void DoMouseLeave(object sender, MouseEventArgs e)
-        {
-            Background = _BaseColor;
         }
 
     }

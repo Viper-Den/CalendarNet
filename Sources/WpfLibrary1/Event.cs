@@ -61,6 +61,17 @@ namespace Destiny.Core
             } 
         }
         public RuleRepeat Rule { get; private set; }
+
+        public Event Clone()
+        {
+            var e = new Event();
+            e.Caption = this.Caption;
+            e.Calendar = this.Calendar;
+            e.IsAllDay = this.IsAllDay;
+            e.RuleType = this.RuleType;
+            e.Rule = this.Rule.Clone();
+            return e;
+        }
     }
 }
 

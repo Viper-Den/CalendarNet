@@ -15,6 +15,25 @@ namespace Destiny.Core
         public bool IsSaturday { get; set; }
         public bool IsSunday { get; set; }
 
+        public override RuleRepeat Clone()
+        {
+            var r = new RuleRepeatDay();
+            r.Start = this.Start;
+            r.Finish = this.Finish;
+            r.Step = this.Step;
+            r.FinishRepeatDate = this.FinishRepeatDate;
+            r.IsDayStep = this.IsDayStep;
+            r.IsWorkDayStep = this.IsWorkDayStep;
+            r.IsRepeatDay = this.IsRepeatDay;
+            r.IsMonday = this.IsMonday;
+            r.IsTuesday = this.IsTuesday;
+            r.IsWednesday = this.IsWednesday;
+            r.IsThursday = this.IsThursday;
+            r.IsFriday = this.IsFriday;
+            r.IsSaturday = this.IsSaturday;
+            r.IsSunday = this.IsSunday;
+            return r;
+        }
         public override bool IsDate(DateTime date)
         {
             if (Start.Date == date.Date)
