@@ -1,9 +1,15 @@
 ﻿using Destiny.Core;
 using System;
+using System.Collections.Generic;
+
 namespace DestinyNet
 {
     public class EventDTO
     {
+        public EventDTO()
+        {
+            SpecialDays = new List<DateTime>();
+        }
         public string Caption { get; set; }
         public string CalendarGUID { get; set; }
         public RuleRepeatTypes Type { get; set; }
@@ -22,5 +28,6 @@ namespace DestinyNet
         public bool IsFriday { get; set; }
         public bool IsSaturday { get; set; }
         public bool IsSunday { get; set; }
+        public List<DateTime> SpecialDays { get; private set; }
     }
 }

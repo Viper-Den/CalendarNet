@@ -27,7 +27,7 @@ namespace UIMonthControl
         private Label _Next;
         private List<MonthControl> _Month;
         private DateTime _startDate;
-
+        private Boolean _selectMode;
         static YearControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(YearControl), new FrameworkPropertyMetadata(typeof(YearControl)));
@@ -36,6 +36,7 @@ namespace UIMonthControl
         {
             _Month = new List<MonthControl>();
             Pallete = new PalleteYear();
+            MouseLeave += DoMouseLeave;
         }
         ~YearControl()
         {
@@ -146,12 +147,12 @@ namespace UIMonthControl
                 UpdatePallete();
             }
         }
-        
+
         private void UpdatePallete()
         {
             foreach (var m in _Month)
             {
-                m.Pallete = Pallete; 
+                m.Pallete = Pallete;
             }
         }
         #endregion
@@ -182,24 +183,53 @@ namespace UIMonthControl
         private void OnPeriodStart(DateTime date)
         {
             _startDate = date;
+            _selectMode = true;
             PeriodStart?.Execute(date);
         }
-        private void OnPeriodFinish(DateTime date)
+
+        private void DoMouseLeave(object sender, MouseEventArgs e)
         {
+            _selectMode = false;
+        }
+        private void DoDayEnter(DateTime date)
+        {
+            if (!_selectMode)
+                return;
+
             var l = new List<DateTime>();
             DateTime finishDate = date;
-            if(_startDate.Date > date.Date)
+            if (_startDate.Date > date.Date)
             {
                 finishDate = _startDate;
                 _startDate = date;
             }
             DateTime d = _startDate;
-            while(d.Date <= finishDate.Date)
+            while (d.Date <= finishDate.Date)
             {
                 l.Add(d);
                 d = d.AddDays(1);
             }
-
+            foreach (var m in _Month)
+            {
+                m.SelectDate(l);
+            }
+        }
+        private void OnPeriodFinish(DateTime date)
+        {
+            _selectMode = false;
+            var l = new List<DateTime>();
+            DateTime finishDate = date;
+            if (_startDate.Date > date.Date)
+            {
+                finishDate = _startDate;
+                _startDate = date;
+            }
+            DateTime d = _startDate;
+            while (d.Date <= finishDate.Date)
+            {
+                l.Add(d);
+                d = d.AddDays(1);
+            }
             PeriodFinish?.Execute(date);
             PeriodSelected?.Execute(l);
         }
@@ -233,6 +263,7 @@ namespace UIMonthControl
                     Grid.SetRow(m, y);
                     m.PeriodStart += OnPeriodStart;
                     m.PeriodFinish += OnPeriodFinish;
+                    m.DayEnter += DoDayEnter;
                     _MainGrid.Children.Add(m);
                     _Month.Add(m);
                 }
@@ -241,6 +272,5 @@ namespace UIMonthControl
             UpdateSelectedDates();
             UpdatePallete();
         }
-
     }
 }

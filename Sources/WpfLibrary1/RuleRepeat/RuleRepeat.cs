@@ -1,14 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Destiny.Core
 {
     public class RuleRepeat
     {
+        public RuleRepeat()
+        {
+            SpecialDays = new List<DateTime>();
+        }
         protected const int MAX_PLANNING_HORIZONT = 100;
         public DateTime Start { get; set; }
         public DateTime Finish { get; set; }
         public int Step { get; set; }
         public DateTime FinishRepeatDate { get; set; }
+        public List<DateTime> SpecialDays { get; private set; }
 
         public virtual bool IsDate(DateTime date)
         {

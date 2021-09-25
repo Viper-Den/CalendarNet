@@ -51,6 +51,10 @@ namespace DestinyNet
                 (d.Rule as RuleRepeatDay).IsSaturday = source.IsSaturday;
                 (d.Rule as RuleRepeatDay).IsSunday = source.IsSunday;
             }
+            foreach(var sd in source.SpecialDays)
+            {
+                d.Rule.SpecialDays.Add(sd);
+            }
 
             return d;
         }
@@ -81,6 +85,10 @@ namespace DestinyNet
                 d.IsFriday = (source.Rule as RuleRepeatDay).IsFriday;
                 d.IsSaturday = (source.Rule as RuleRepeatDay).IsSaturday;
                 d.IsSunday = (source.Rule as RuleRepeatDay).IsSunday;
+            }
+            foreach (var sd in source.Rule.SpecialDays)
+            {
+                d.SpecialDays.Add(sd);
             }
 
             if (source.Calendar != null)

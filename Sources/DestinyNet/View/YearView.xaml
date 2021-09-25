@@ -9,9 +9,9 @@
              d:DataContext="{d:DesignInstance Type=DestinyNet:YearViewModel}"
              d:DesignHeight="700" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded">
-    <Grid>
+    <Grid Background="White">
         <MonthView:YearControl x:Name="xYearControl"
-            Background="White" 
+            Background="Transparent" 
             Margin="20,20,20,20" 
             Date="{Binding Path=Date}" 
             PeriodStart="{Binding Path=StartDateCommand}"

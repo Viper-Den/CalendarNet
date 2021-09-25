@@ -27,6 +27,8 @@ namespace UIMonthControl
         private TitleControl _Previous;
         private TitleControl _Next;
         private List<TitleControl> _TitleDays;
+        private List<DateTime> _tempSelection;
+        private Dictionary<DateTime, DayControl> _dictionaryDayControl;
 
         public List<DayControl> Days { get; private set; }
         ~MonthControl()
@@ -41,8 +43,10 @@ namespace UIMonthControl
         public MonthControl()
         {
             Days = new List<DayControl>();
-            _TitleDays = new List<TitleControl>();
             Pallete = new Pallete();
+            _TitleDays = new List<TitleControl>();
+            _tempSelection = new List<DateTime>();
+            _dictionaryDayControl = new Dictionary<DateTime, DayControl>();
 
         }
         static MonthControl()
@@ -94,26 +98,22 @@ namespace UIMonthControl
             switch (e.Action)
             {
                 case (NotifyCollectionChangedAction.Add):
-                    foreach (var d in Days)
+                    foreach (var d in e.NewItems)
                     {
-                        foreach (var dt in e.NewItems)
+                        var dt = ((DateTime)d).Date;
+                        if (_dictionaryDayControl.ContainsKey(dt))
                         {
-                            if (d.Date == ((DateTime)dt).Date)
-                            {
-                                d.Background = Pallete.Selected;
-                            }
+                            _dictionaryDayControl[dt].Background = Pallete.Selected;
                         }
                     }
                     break;
                 case (NotifyCollectionChangedAction.Remove):
-                    foreach (var d in Days)
+                    foreach (var d in e.OldItems)
                     {
-                        foreach (var dt in e.OldItems)
+                        var dt = ((DateTime)d).Date;
+                        if (_dictionaryDayControl.ContainsKey(dt))
                         {
-                            if (d.Date == ((DateTime)dt).Date)
-                            {
-                                Pallete.PaintDay(d, Date);
-                            }
+                            Pallete.PaintDay(_dictionaryDayControl[dt], Date);
                         }
                     }
                     break;
@@ -128,14 +128,11 @@ namespace UIMonthControl
         {
             if (SelectedDates == null)
                 return;
-            foreach (var d in Days)
+            foreach(var dt in SelectedDates)
             {
-                foreach(var dt in SelectedDates)
+                if (_dictionaryDayControl.ContainsKey(dt.Date))
                 {
-                    if (d.Date == dt.Date)
-                    {
-                        d.Background = Pallete.Selected;
-                    }
+                    Pallete.PaintDay(_dictionaryDayControl[dt.Date], Date);
                 }
             }
         }
@@ -158,6 +155,24 @@ namespace UIMonthControl
         }
         #endregion
 
+        public void SelectDate(List<DateTime> dates)
+        {
+            foreach (var oldDate in _tempSelection)
+            {
+                if ((!dates.Contains(oldDate.Date)) && (_dictionaryDayControl.ContainsKey(oldDate.Date)))
+                {
+                    Pallete.PaintDay(_dictionaryDayControl[oldDate.Date], Date);
+                }
+            }
+            foreach (var newDate in dates)
+            {
+                if ((_dictionaryDayControl.ContainsKey(newDate.Date)))
+                {
+                    _dictionaryDayControl[newDate.Date].Background = Pallete.Selected;
+                    _tempSelection.Add(newDate.Date);
+                }
+            }
+        }
         private void UpdateElements()
         {
             if (_Title == null) 
@@ -191,10 +206,12 @@ namespace UIMonthControl
             }
 
             startDay = Date.AddDays(-dayOfWeek);
+            _dictionaryDayControl.Clear();
             foreach (var d in Days)
             {
                 d.Date = startDay;
                 Pallete.PaintDay(d, Date);
+                _dictionaryDayControl.Add(d.Date.Date, d);
                 startDay = startDay.AddDays(1);
             }
             UpdateSelectedDates();
@@ -225,12 +242,20 @@ namespace UIMonthControl
             if (d != null)
                 PeriodStart?.Invoke(d.Date);
         }
-        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        private void DoMouseEnter(object sender, MouseEventArgs e)
         {
             var d = sender as DayControl;
             if (d != null)
+                DayEnter?.Invoke(d.Date);
+        }
+        private void OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            var d = sender as DayControl;
+            _tempSelection.Clear();
+            if (d != null)
                 PeriodFinish?.Invoke(d.Date);
         }
+        public Action<DateTime> DayEnter { get; set; }
         public Action<DateTime> PeriodStart { get; set; }
         public Action<DateTime> PeriodFinish { get; set; }
         public override void OnApplyTemplate()
@@ -284,6 +309,7 @@ namespace UIMonthControl
                     Grid.SetRow(d, y);
                     d.MouseDown += OnMouseDown;
                     d.MouseUp += OnMouseUp;
+                    d.MouseEnter += DoMouseEnter;
                     _MainGrid.Children.Add(d);
                     Days.Add(d);
                 }
