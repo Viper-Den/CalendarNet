@@ -29,7 +29,14 @@ namespace DestinyNet
         public IViewModel ToolPanel  
         { 
             get => _toolPanel;
-            private set { SetField(ref _toolPanel, value); } 
+            private set 
+            { 
+                if(_toolPanel is ToolYearPanelViewModel)
+                    ((ToolYearPanelViewModel)_toolPanel).EventSelected -= ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEventSelected;
+                SetField(ref _toolPanel, value);
+                if (_toolPanel is ToolYearPanelViewModel)
+                    ((ToolYearPanelViewModel)_toolPanel).EventSelected += ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEventSelected;
+            } 
         }
         public IDialogViewsManager DialogViewsManager { get; }
 

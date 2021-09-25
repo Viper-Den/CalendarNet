@@ -66,6 +66,16 @@ namespace DestinyNet
             get => _selectCalendar;
             set { SetField(ref _selectCalendar, value); }
         }
+        public Action<Event> EventSelected { get; set; }
+        public ICommand EventSelectedCommand { get => new ActionCommand(DoEventSelected); }
+
+        private void DoEventSelected(object obj)
+        {
+            if ((obj == null) || (!(obj is Event)))
+                return;
+            EventSelected?.Invoke((Event)obj);
+        }
+
         public ObservableCollection<CalendarView> Calendars { get => _CalendarViewCollection; }
     }
 }

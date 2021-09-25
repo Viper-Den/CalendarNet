@@ -8,6 +8,7 @@ namespace DestinyNet
 {
     public class YearViewModel : ViewModeDataBase
     {
+        private string _titleTip;
         public YearViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
             SelectedDates = new ObservableCollection<DateTime>();
@@ -27,12 +28,49 @@ namespace DestinyNet
                     SelectedDates.Clear();
                 foreach (var d in l)
                 {
-                    if(SelectedDates.Contains(d))
+                    if (SelectedDates.Contains(d))
                         SelectedDates.Remove(d);
                     else
                         SelectedDates.Add(d);
                 }
+                ViewSelectedDates();
             }
+        }
+        private void ViewSelectedDates()
+        {
+            var hd = 0;
+            foreach (var d in SelectedDates)
+            {
+                if ((d.DayOfWeek == DayOfWeek.Saturday) || (d.DayOfWeek == DayOfWeek.Sunday))
+                    hd++;
+            }
+            if (SelectedDates.Count == 0)
+                TitleTip = "";
+            else
+                TitleTip = $"Выходные({hd}) Рабочие({SelectedDates.Count - hd})";
+        }
+
+        public string TitleTip 
+        { 
+            get => _titleTip; 
+            set { SetField(ref _titleTip, value); } 
+        }
+
+        public void DoEventSelected(Event ev)
+        {
+            SelectedDates.Clear();
+            if (ev == null)
+                return;
+            var sd = new DateTime(Date.Year, 1, 1);
+            var fd = new DateTime(Date.AddYears(1).Year, 1, 1);
+            while(sd.Date < fd.Date)
+            {
+                if (ev.Rule.IsDate(sd))
+                    SelectedDates.Add(sd);
+                
+                sd = sd.AddDays(1);
+            }
+            ViewSelectedDates();
         }
         public Boolean IsMultipleSelection { get; set; }
         public ObservableCollection<Event> Event { get; set; }
@@ -40,6 +78,5 @@ namespace DestinyNet
         public ICommand StartDateCommand { get => new ActionCommand(OnStartDate); }
         public ICommand FinishDateCommand { get => new ActionCommand(OnFinishDate); }
         public ICommand PeriodSelectedCommand { get => new ActionCommand(OnPeriodSelectedCommand); }
-
     }
 }

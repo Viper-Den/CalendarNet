@@ -105,6 +105,26 @@ namespace UIMonthControl
             }
         }
         #endregion
+        
+        #region TitleTip
+        public static readonly DependencyProperty TitleTipProperty =
+            DependencyProperty.Register(nameof(TitleTip), typeof(string), typeof(YearControl), new PropertyMetadata(TitleTipPropertyChanged));
+        public static void TitleTipPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((YearControl)d).TitleTip = (string)e.NewValue;
+        }
+        public string TitleTip
+        {
+            get { return (string)GetValue(TitleTipProperty); }
+            set 
+            {
+                if (value == null)
+                    return;
+                SetValue(TitleTipProperty, value);
+                _Title.Content = Date.ToString("yyyy") + "  " + TitleTip;
+            }
+        }
+        #endregion
 
         #region SelectedDates
         public static readonly DependencyProperty SelectedDatesProperty =

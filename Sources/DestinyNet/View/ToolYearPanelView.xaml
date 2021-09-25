@@ -39,7 +39,9 @@
                                 <DataTemplate>
                                     <Button Height="40" 
                                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left" VerticalContentAlignment="Center">
+                                            HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=DataContext.EventSelectedCommand}"
+                                            CommandParameter="{Binding}">
                                         <Label VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                                HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                                Content="{Binding Path=Caption}"/>
