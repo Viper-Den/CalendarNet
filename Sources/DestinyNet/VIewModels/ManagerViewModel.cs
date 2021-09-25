@@ -5,10 +5,11 @@ using Destiny.Core;
 
 namespace DestinyNet
 {
-    public class ManagerViewModel :  INotifyPropertyChanged
+    public class ManagerViewModel :  BaseViewModel
     {
         private readonly Data _data;
         private ViewModelEnum _selectedViewModelEnum;
+        private IViewModel _toolPanel;
         private Dictionary<ViewModelEnum, IViewModel> _viewModelsDictionary;
 
         public ManagerViewModel(Data data)
@@ -25,24 +26,21 @@ namespace DestinyNet
 
         }
         public IViewModel SelectedViewModel {  get { return _viewModelsDictionary[_selectedViewModelEnum]; } }
-        public IViewModel ToolPanel  { get; }
+        public IViewModel ToolPanel  
+        { 
+            get => _toolPanel;
+            private set { SetField(ref _toolPanel, value); } 
+        }
         public IDialogViewsManager DialogViewsManager { get; }
 
         public ViewModelEnum SelectiewModelEnum
         {
             get { return (_selectedViewModelEnum); }
-            set
-            {
-                _selectedViewModelEnum = value;
+            private set 
+            { 
+                SetField(ref _selectedViewModelEnum, value);
                 OnPropertyChanged(nameof(SelectedViewModel));
             }
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         #region Command
@@ -53,18 +51,22 @@ namespace DestinyNet
 
         private void ViewMonth(object o)
         {
+            ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
             SelectiewModelEnum = ViewModelEnum.Month;
         }
         private void ViewWeek(object o)
         {
+            ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
             SelectiewModelEnum = ViewModelEnum.Week;
         }
         private void ViewYear(object o)
         {
             SelectiewModelEnum = ViewModelEnum.Year;
+            ToolPanel = new ToolYearPanelViewModel(_data, DialogViewsManager);
         }
         private void ViewToDo(object o)
         {
+            ToolPanel = null;
             SelectiewModelEnum = ViewModelEnum.ToDo;
         }
         #endregion

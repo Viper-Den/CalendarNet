@@ -197,17 +197,17 @@ namespace UIMonthControl
                 return;
 
             var l = new List<DateTime>();
+            DateTime startDate = _startDate;
             DateTime finishDate = date;
             if (_startDate.Date > date.Date)
             {
                 finishDate = _startDate;
-                _startDate = date;
+                startDate = date;
             }
-            DateTime d = _startDate;
-            while (d.Date <= finishDate.Date)
+            while (startDate.Date <= finishDate.Date)
             {
-                l.Add(d);
-                d = d.AddDays(1);
+                l.Add(startDate);
+                startDate = startDate.AddDays(1);
             }
             foreach (var m in _Month)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows.Input;
 using Destiny.Core;
 
 namespace DestinyNet
@@ -25,7 +26,7 @@ namespace DestinyNet
             _dictionaryCalendarsEvents.Clear();
             foreach (var c in _data.Calendars)
             {
-                var cv = new CalendarView(_data.Events) { Calendar = c, IsOpen = false };
+                var cv = new CalendarView(c, _data.Events);
                 _dictionaryCalendarsEvents.Add(c, cv);
                 _CalendarViewCollection.Add(cv);
             }
@@ -35,17 +36,24 @@ namespace DestinyNet
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var c in e.OldItems)
+                    foreach (var c in e.NewItems)
                     {
-                        if(!_dictionaryCalendarsEvents.ContainsKey((Calendar)c))
-                            _dictionaryCalendarsEvents.Add((Calendar)c, new CalendarView(_data.Events) { Calendar = (Calendar)c, IsOpen = false });
+                        if (!_dictionaryCalendarsEvents.ContainsKey((Calendar)c))
+                        {
+                            var cv = new CalendarView((Calendar)c, _data.Events);
+                            _CalendarViewCollection.Add(cv);
+                            _dictionaryCalendarsEvents.Add((Calendar)c, cv);
+                        }
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     foreach (var c in e.OldItems)
                     {
                         if (_dictionaryCalendarsEvents.ContainsKey((Calendar)c))
+                        {
+                            _CalendarViewCollection.Remove(_dictionaryCalendarsEvents[(Calendar)c]);
                             _dictionaryCalendarsEvents.Remove((Calendar)c);
+                        }
                     }
                     break;
                 case NotifyCollectionChangedAction.Reset:
@@ -53,12 +61,11 @@ namespace DestinyNet
                     break;
             }
         }
-
         public Calendar SelectedCalendar
         {
             get => _selectCalendar;
             set { SetField(ref _selectCalendar, value); }
         }
-        public ObservableCollection<Calendar> Calendars { get => _data.Calendars; }
+        public ObservableCollection<CalendarView> Calendars { get => _CalendarViewCollection; }
     }
 }
