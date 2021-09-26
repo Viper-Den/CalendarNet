@@ -9,15 +9,24 @@ namespace DestinyNet
     public class YearViewModel : ViewModeDataBase
     {
         private string _titleTip;
+        private Pallete _pallete;
         public YearViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
             SelectedDates = new ObservableCollection<DateTime>();
+            Pallete = new PalleteYear();
         }
-        public void OnStartDate(object o)
+        private void DoAddEvent(Object o)
         {
+            if (SelectedDates.Count == 0)
+                return;
+            _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelAddCollectionDays(_dialogViewsManager.ClosePopUpViewCommand, _data, SelectedDates), true);
         }
-        public void OnFinishDate(object o)
+        private void DoEditeEvent(Object o)
         {
+            if (o is Event)
+            {
+                _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
+            }
         }
         public void OnPeriodSelectedCommand(object o)
         {
@@ -25,7 +34,10 @@ namespace DestinyNet
             {
                 var l = (List<DateTime>)o;
                 if (!IsMultipleSelection)
+                {
                     SelectedDates.Clear();
+                    Pallete.Selected = Pallete.SelectedDefault;
+                }
                 foreach (var d in l)
                 {
                     if (SelectedDates.Contains(d))
@@ -47,7 +59,7 @@ namespace DestinyNet
             if (SelectedDates.Count == 0)
                 TitleTip = "";
             else
-                TitleTip = $"Выходные({hd}) Рабочие({SelectedDates.Count - hd})";
+                TitleTip = $"Всего[{SelectedDates.Count}] Выходные[{hd}] Рабочие[{SelectedDates.Count - hd}]";
         }
 
         public string TitleTip 
@@ -55,12 +67,17 @@ namespace DestinyNet
             get => _titleTip; 
             set { SetField(ref _titleTip, value); } 
         }
-
+        public void DoEditEvent(Event ev)
+        {
+            _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEditeCollectionDays(_dialogViewsManager.ClosePopUpViewCommand, _data, SelectedDates, ev));
+        }
         public void DoEventSelected(Event ev)
         {
             SelectedDates.Clear();
+
             if (ev == null)
                 return;
+            Pallete.Selected = ev.Calendar.Color;
             var sd = new DateTime(Date.Year, 1, 1);
             var fd = new DateTime(Date.AddYears(1).Year, 1, 1);
             while(sd.Date < fd.Date)
@@ -72,11 +89,16 @@ namespace DestinyNet
             }
             ViewSelectedDates();
         }
-        public Boolean IsMultipleSelection { get; set; }
+        public Pallete Pallete {
+            get => _pallete;
+            private set => SetField(ref _pallete, value); }
+        public bool IsMultipleSelection { get; set; }
         public ObservableCollection<Event> Event { get; set; }
         public ObservableCollection<DateTime> SelectedDates { get; protected set; }
-        public ICommand StartDateCommand { get => new ActionCommand(OnStartDate); }
-        public ICommand FinishDateCommand { get => new ActionCommand(OnFinishDate); }
+        public ICommand AddEventCommand { get => new ActionCommand(DoAddEvent); }
+        public ICommand EditeEventCommand { get => new ActionCommand(DoEditeEvent); }
+        //public ICommand StartDateCommand { get => new ActionCommand(OnStartDate); }
+        //public ICommand FinishDateCommand { get => new ActionCommand(OnFinishDate); }
         public ICommand PeriodSelectedCommand { get => new ActionCommand(OnPeriodSelectedCommand); }
     }
 }

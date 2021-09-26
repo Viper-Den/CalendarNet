@@ -149,6 +149,8 @@ namespace UIMonthControl
             get { return (Pallete)GetValue(PalleteProperty); }
             set
             {
+                if (value == null)
+                    return;
                 SetValue(PalleteProperty, value);
                 UpdateElements();
             }
@@ -303,7 +305,9 @@ namespace UIMonthControl
                     var d = new DayControl()
                     {
                         VerticalAlignment = VerticalAlignment.Stretch,
-                        HorizontalAlignment = HorizontalAlignment.Stretch
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalContentAlignment = VerticalAlignment.Center,
+                        HorizontalContentAlignment = HorizontalAlignment.Center,
                     };
                     Grid.SetColumn(d, x);
                     Grid.SetRow(d, y);

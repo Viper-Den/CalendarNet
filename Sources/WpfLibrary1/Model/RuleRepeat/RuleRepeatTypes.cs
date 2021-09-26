@@ -6,6 +6,7 @@
         Days,
         Week,
         Mounth,
-        Year
+        Year,
+        SpecialDays
     }
 }

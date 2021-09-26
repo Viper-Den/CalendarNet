@@ -157,11 +157,8 @@ namespace MonthEvent
                 dayOfWeek--;
 
             Pallete.PaintTitle(_Title, Date);
-            _Title.Type = TitleControlType.Title;
             Pallete.PaintTitle(_Next, Date);
-            _Title.Type = TitleControlType.Button;
             Pallete.PaintTitle(_Previous, Date);
-            _Title.Type = TitleControlType.Button;
 
 
             if (_Previous.Visibility == Visibility.Hidden)

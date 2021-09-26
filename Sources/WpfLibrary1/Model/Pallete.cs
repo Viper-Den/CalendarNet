@@ -48,13 +48,15 @@ namespace Destiny.Core
             DayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
             DayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
             ToDay = new SolidColorBrush(Color.FromRgb(17, 110, 190));
-            Selected = Brushes.Green;
+            SelectedDefault = Brushes.Gray;
+            Selected = SelectedDefault;
             ViewBorderingMonths = Visibility.Hidden;
         }
         public SolidColorBrush DayOff { get; set; }
         public SolidColorBrush DayFinish { get; set; }
         public SolidColorBrush DayOffFinish { get; set; }
         public SolidColorBrush Selected { get; set; }
+        public SolidColorBrush SelectedDefault { get; private set; }
         public SolidColorBrush ToDay { get; set; }
         public Visibility ViewBorderingMonths { get; set; }
         public virtual void PaintTitle(ITitleControl title, DateTime date)

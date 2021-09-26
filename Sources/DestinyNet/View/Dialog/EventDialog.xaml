@@ -119,22 +119,31 @@
                       Content="All Day"/>
 
             <Button Grid.Row="6" 
-                    Grid.Column="0" 
-                    Grid.ColumnSpan="2"
-                    Content="Ok" 
-                    Margin="10,5"
-                    Command="{Binding AddEventCommand}"/>
-            
+                    Grid.Column="0"
+                    Content="Delete" 
+                    IsEnabled="{Binding IsDeletebel}"
+                    Margin="10,5,5,5"
+                    Command="{Binding Path=AddDeleteCommand}"/>
+
+
+            <Button Grid.Row="6" 
+                    Grid.Column="1"
+                    Content="Save" 
+                    Margin="10,5,119,5"
+                    Command="{Binding Path=AddCommand}" Grid.ColumnSpan="2"/>
+
             <Button Grid.Row="6" 
                     Grid.Column="2" 
                     Content="Cancel" 
-                    Margin="5"
+                    Margin="49,5,5,5"
                     Command="{Binding CloseWindowCommand}"/>
 
-            <StackPanel Grid.Row="5" 
-                            Grid.Column="0"
-                            Grid.ColumnSpan="3">
-                <ComboBox Margin="10" 
+            <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="6*"/>
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" Margin="10" 
                           ItemsSource="{Binding Path=RepeatRules}"
                           SelectedItem="{Binding Path=SelectedRepeatRules}">
                     <ComboBox.ItemTemplate>
@@ -144,15 +153,14 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Line X2="1" 
+                <Line Grid.Row="0"  X2="1" 
                       Stretch="Fill" 
                       VerticalAlignment="Bottom" 
                       Stroke="Gray" 
                       Margin="10,0"/>
-                <ContentControl HorizontalAlignment="Stretch" 
-                                VerticalAlignment="Stretch" 
+                <ContentControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                                 Content="{Binding Path=SelectedRepeatViewModel}"/>
-            </StackPanel>
+            </Grid>
         </Grid>
     </Border>
 </UserControl>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using AutoMapper;
 using Destiny.Core;
 
@@ -51,10 +52,8 @@ namespace DestinyNet
                 (d.Rule as RuleRepeatDay).IsSaturday = source.IsSaturday;
                 (d.Rule as RuleRepeatDay).IsSunday = source.IsSunday;
             }
-            foreach(var sd in source.SpecialDays)
-            {
-                d.Rule.SpecialDays.Add(sd);
-            }
+            if (source.Type == RuleRepeatTypes.SpecialDays)
+                (d.Rule as RuleRepeatSpecialDays).SpecialDays = new List<DateTime>(source.SpecialDays);
 
             return d;
         }
@@ -86,10 +85,8 @@ namespace DestinyNet
                 d.IsSaturday = (source.Rule as RuleRepeatDay).IsSaturday;
                 d.IsSunday = (source.Rule as RuleRepeatDay).IsSunday;
             }
-            foreach (var sd in source.Rule.SpecialDays)
-            {
-                d.SpecialDays.Add(sd);
-            }
+            if (source.RuleType == RuleRepeatTypes.SpecialDays)
+              d.SpecialDays = new List<DateTime>((source.Rule as RuleRepeatSpecialDays).SpecialDays);
 
             if (source.Calendar != null)
                 d.CalendarGUID = source.Calendar.GUID;

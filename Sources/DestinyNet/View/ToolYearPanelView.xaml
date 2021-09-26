@@ -11,6 +11,7 @@
     </UserControl.Resources>
     <Grid>
         <ListView 
+            BorderThickness="0"
             ItemsSource="{Binding Path=Calendars}"  
             ItemContainerStyle="{StaticResource xListViewItem}" 
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -18,37 +19,51 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="10*"/>
-                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="40"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Column="0" Grid.Row="0"
+                        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                Content="{Binding Path=Calendar.Name}" Background="{Binding Path=Calendar.Color}"/>
-                        <Button Grid.Column="1" Grid.Row="0" Command="{Binding Path=OpenEventsViewCommand}"/>
-                        <ListView Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"
-                            Visibility="{Binding Path=IsOpened, Converter={StaticResource BoolToVisibilityConverter}}"
-                            ItemsSource="{Binding Path=Events}" 
-                            ItemContainerStyle="{StaticResource xListViewItem}"  
-                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Button Height="40" 
-                                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                                            Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}, Path=DataContext.EventSelectedCommand}"
-                                            CommandParameter="{Binding}">
-                                        <Label VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                                               Content="{Binding Path=Caption}"/>
-                                    </Button>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                        <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource sButton}" Command="{Binding Path=OpenEventsViewCommand}"/>
+                        <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Background="{Binding Path=BackgroundColor}" 
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <ListView Background="Transparent"
+                                BorderThickness="0"
+                                ItemsSource="{Binding Path=Events}"  
+                                Visibility="{Binding Path=IsOpened, Converter={StaticResource BoolToVisibilityConverter}}"
+                                ItemContainerStyle="{StaticResource xListViewItem}"  
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Height="40" Background="Transparent"
+                                                Style="{StaticResource sButton}" 
+                                                Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type ListView}}, Path=DataContext.SelectedEventCommand}"
+                                                CommandParameter="{Binding}">
+                                            <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="20"/>
+                                                </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Background="Transparent" 
+                                                               HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+                                                               Content="{Binding Path=Caption}"/>
+
+                                                <Button Grid.Column="1" Background="Transparent"
+                                                        Style="{StaticResource sButton}" 
+                                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ListView}}, Path=DataContext.EditEventCommand}"
+                                                        CommandParameter="{Binding}"/>
+                                            </Grid>
+                                        </Button>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

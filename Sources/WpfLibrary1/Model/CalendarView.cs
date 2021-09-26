@@ -2,13 +2,15 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Destiny.Core
 {
     public class CalendarView : BaseViewModel
     {
         private ObservableCollectionWithItemNotify<Event> _sourceEvents;
-        private Boolean _isOpened;
+        private bool _isOpened;
+
         public CalendarView(Calendar calendar, ObservableCollectionWithItemNotify<Event> source)
         {
             _sourceEvents = source;
@@ -22,18 +24,38 @@ namespace Destiny.Core
             }
             _sourceEvents.CollectionChanged += DoCollectionChangedEvents;
         }
+        ~CalendarView()
+        {
+            if(!(_sourceEvents == null))
+                _sourceEvents.CollectionChanged -= DoCollectionChangedEvents;
+        }
+        public SolidColorBrush BackgroundColor { get => Brushes.Transparent; }// new SolidColorBrush(Color.FromArgb(200, Calendar.Color.Color.R, Calendar.Color.Color.G, Calendar.Color.Color.B)); }
+        public Calendar Calendar { get; private set; }
+        public bool IsOpened
+        {
+            get => _isOpened;
+            set 
+            { 
+                SetField(ref _isOpened, value);
+                if(_isOpened)
+                    OnMenuOpened?.Invoke(this);
+            }
+        }
+        public ObservableCollection<Event> Events { get; private set; }
+        public ICommand SelectedEventCommand { get => new ActionCommand(SelectedEvent); }
+        public void SelectedEvent(object o)
+        {
+            if (!(o is Event))
+                return;
+            SelectedEventAction?.Invoke((Event)o);
+        }
+        public Action<Event> SelectedEventAction { get; set; }
+        public ICommand OpenEventsViewCommand { get => new ActionCommand(OpenEventsView); }
         public void OpenEventsView(object o)
         {
             IsOpened = !IsOpened;
         }
-        public Calendar Calendar { get; private set; }
-        public Boolean IsOpened
-        {
-            get => _isOpened;
-            set { SetField(ref _isOpened, value); }
-        }
-        public ObservableCollection<Event> Events { get; private set; }
-        public ICommand OpenEventsViewCommand { get => new ActionCommand(OpenEventsView); }
+        public Action<CalendarView> OnMenuOpened { get; set; }
         private void DoCollectionChangedEvents(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -41,7 +63,7 @@ namespace Destiny.Core
                 case NotifyCollectionChangedAction.Add:
                     foreach (var ev in e.NewItems)
                     {
-                        if(((Event)ev).Calendar == Calendar)
+                        if((((Event)ev).Calendar == Calendar)&&(!Events.Contains((Event)ev)))
                             Events.Add((Event)ev);
                     }
                     break;

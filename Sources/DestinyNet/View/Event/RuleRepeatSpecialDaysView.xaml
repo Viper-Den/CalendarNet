@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="DestinyNet.Menu.RuleRepeatSpecialDaysView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+             xmlns:local="clr-namespace:DestinyNet.Menu"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--<UserControl.Resources>
+        <converters:DateToStrConverter x:Key="DateToStrConverter"/>
+    </UserControl.Resources>
+    --><!--,Converter={StaticResource DateToStrConverter}-->
+    <Grid>
+        <ListBox Grid.Row="1"
+                 ItemsSource="{Binding SpecialDays}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding StringFormat={}{0:dd.MM.yyyy}}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

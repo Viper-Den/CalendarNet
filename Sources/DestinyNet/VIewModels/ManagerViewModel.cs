@@ -9,15 +9,15 @@ namespace DestinyNet
     {
         private readonly Data _data;
         private ViewModelEnum _selectedViewModelEnum;
-        private IViewModel _toolPanel;
-        private Dictionary<ViewModelEnum, IViewModel> _viewModelsDictionary;
+        private BaseViewModel _toolPanel;
+        private Dictionary<ViewModelEnum, BaseViewModel> _viewModelsDictionary;
 
         public ManagerViewModel(Data data)
         {
             _data = data;
             DialogViewsManager = new DialogViewsManager();
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
-            _viewModelsDictionary = new Dictionary<ViewModelEnum, IViewModel>();
+            _viewModelsDictionary = new Dictionary<ViewModelEnum, BaseViewModel>();
             _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data, DialogViewsManager));
             _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data, DialogViewsManager));
             _viewModelsDictionary.Add(ViewModelEnum.Year, new YearViewModel(_data, DialogViewsManager));
@@ -25,17 +25,22 @@ namespace DestinyNet
             _selectedViewModelEnum = ViewModelEnum.Month;
 
         }
-        public IViewModel SelectedViewModel {  get { return _viewModelsDictionary[_selectedViewModelEnum]; } }
-        public IViewModel ToolPanel  
+        public BaseViewModel SelectedViewModel {  get { return _viewModelsDictionary[_selectedViewModelEnum]; } }
+        public BaseViewModel ToolPanel  
         { 
             get => _toolPanel;
             private set 
-            { 
-                if(_toolPanel is ToolYearPanelViewModel)
-                    ((ToolYearPanelViewModel)_toolPanel).EventSelected -= ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEventSelected;
-                SetField(ref _toolPanel, value);
+            {
                 if (_toolPanel is ToolYearPanelViewModel)
-                    ((ToolYearPanelViewModel)_toolPanel).EventSelected += ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEventSelected;
+                {
+                    ((ToolYearPanelViewModel)_toolPanel).SelectedEventAction -= ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEventSelected;
+                    ((ToolYearPanelViewModel)_toolPanel).EditEventAction -= ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEditEvent;
+                }                SetField(ref _toolPanel, value);
+                if (_toolPanel is ToolYearPanelViewModel)
+                {
+                    ((ToolYearPanelViewModel)_toolPanel).SelectedEventAction += ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEventSelected;
+                    ((ToolYearPanelViewModel)_toolPanel).EditEventAction += ((YearViewModel)_viewModelsDictionary[ViewModelEnum.Year]).DoEditEvent;
+                }
             } 
         }
         public IDialogViewsManager DialogViewsManager { get; }

@@ -53,6 +53,9 @@ namespace Destiny.Core
                     case RuleRepeatTypes.Year:
                         Rule = new RuleRepeatYear() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate };
                     break;
+                    case RuleRepeatTypes.SpecialDays:
+                        Rule = new RuleRepeatSpecialDays() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate };
+                    break;
                     default:
                         Rule = new RuleRepeat() { Start = Rule.Start, Finish = Rule.Finish, Step = Rule.Step, FinishRepeatDate = Rule.FinishRepeatDate }; 
                     break;

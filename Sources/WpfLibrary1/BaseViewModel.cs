@@ -4,11 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Destiny.Core
 {
-    public interface IViewModel
-    {
-    }
-
-    public class BaseViewModel : IViewModel, INotifyPropertyChanged
+    public class BaseViewModel :INotifyPropertyChanged
     { 
         public event PropertyChangedEventHandler PropertyChanged;
 

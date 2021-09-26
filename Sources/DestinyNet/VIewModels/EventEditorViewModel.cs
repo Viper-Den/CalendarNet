@@ -7,104 +7,124 @@ using System.Collections.Specialized;
 
 namespace DestinyNet
 {
-    public class RepeatRuleViewModel
+    public enum EventEditorMode
     {
-        public RepeatRuleViewModel(RuleRepeatTypes ruleType, string name)
-        {
-            RuleType = ruleType;
-            Name = name;
-        }
-        public RuleRepeatTypes RuleType { get; set; }
-        public string Name { get; set; }
+        Edit,
+        New
     }
-
     public class EventEditorViewModel : DialogBaseViewMode
     {
         private readonly Data _data;
         private RepeatRuleViewModel _selectedRepeatRules;
         private Dictionary<RuleRepeatTypes, EditorViewModel> _viewModelsDictionary;
+        private Dictionary<RuleRepeatTypes, RepeatRuleViewModel> _repeatRuleViewModelDictionary;
         private Event _Event;
+        private EventEditorMode _mode;
 
-
-        public static EventEditorViewModel EventEditorViewModelEdit(ICommand closeWindowCommand, Data data, Event editEvent) 
+        public static EventEditorViewModel EventEditorViewModelAddCollectionDays(ICommand closeWindowCommand, Data data, ObservableCollection<DateTime> dates)
         {
-            var e = new EventEditorViewModel(closeWindowCommand, data, editEvent);
-            e.SelectedCalendar = editEvent.Calendar;
-            e.Caption = editEvent.Caption;
-            e.SelectedRepeatRules.RuleType = editEvent.RuleType;
-            e.IsAllDay = editEvent.IsAllDay;
-            e.Start = editEvent.Rule.Start;
-            e.Finish = editEvent.Rule.Finish;
-            e.StartTime = editEvent.Rule.Start;
-            e.FinishTime = editEvent.Rule.Finish;
-            if (e.SelectedRepeatViewModel != null)
-            {
-                e.SelectedRepeatViewModel.Step = editEvent.Rule.Step;
-                e.SelectedRepeatViewModel.FinishRepeatDate = editEvent.Rule.FinishRepeatDate;
-                if (editEvent.RuleType == RuleRepeatTypes.Days)
-                {
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsDayStep = (editEvent.Rule as RuleRepeatDay).IsDayStep;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsWorkDayStep = (editEvent.Rule as RuleRepeatDay).IsWorkDayStep;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsRepeatDay = (editEvent.Rule as RuleRepeatDay).IsRepeatDay;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsMonday = (editEvent.Rule as RuleRepeatDay).IsMonday;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsTuesday = (editEvent.Rule as RuleRepeatDay).IsTuesday;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsWednesday = (editEvent.Rule as RuleRepeatDay).IsWednesday;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsThursday = (editEvent.Rule as RuleRepeatDay).IsThursday;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsFriday = (editEvent.Rule as RuleRepeatDay).IsFriday;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsSaturday = (editEvent.Rule as RuleRepeatDay).IsSaturday;
-                    (e.SelectedRepeatViewModel as DaysEditorViewModel).IsSunday = (editEvent.Rule as RuleRepeatDay).IsSunday;
-                }
-            }
+            var ev = new Event();
+            ev.Caption = "New Event";
+            ev.IsAllDay = true;
+            ev.RuleType = RuleRepeatTypes.SpecialDays;
+            ev.Rule.Start = dates[0];
+            ev.Rule.Finish = ev.Rule.Start.AddHours(1);
+            ((RuleRepeatSpecialDays)ev.Rule).SpecialDays = new List<DateTime>(dates);
+            return new EventEditorViewModel(closeWindowCommand, data, ev, EventEditorMode.New);
+        }
+        public static EventEditorViewModel EventEditorViewModelEditeCollectionDays(ICommand closeWindowCommand, Data data, ObservableCollection<DateTime> dates, Event ev)
+        {
+            if (ev == null) 
+                return null;
+            var e = new EventEditorViewModel(closeWindowCommand, data, ev, EventEditorMode.Edit);
+            e.RuleRepeatTypes = RuleRepeatTypes.SpecialDays;
+            ((SpecialDaysEditorViewModel)e.SelectedRepeatViewModel).SpecialDays = new ObservableCollection<DateTime>(dates);
             return e;
         }
-        public static EventEditorViewModel EventEditorViewModelNewAllDay(ICommand closeWindowCommand, Data data, DateTime date) 
+        public static EventEditorViewModel EventEditorViewModelNewAllDay(ICommand closeWindowCommand, Data data, DateTime date)
         {
-            var e = new EventEditorViewModel(closeWindowCommand, data, new Event());
-
-            e.Caption = "New Event";
-            e.IsAllDay = true;
-            e.Start = date;
-            e.Finish = date;
-            e.StartTime = e.Start;
-            e.FinishTime = e.Start.AddHours(1);
-            return e;
+            var ev = new Event();
+            ev.Caption = "New Event";
+            ev.IsAllDay = true;
+            ev.RuleType = RuleRepeatTypes.SpecialDays;
+            ev.Rule.Start = date;
+            ev.Rule.Finish = date.AddHours(1);
+            return new EventEditorViewModel(closeWindowCommand, data, ev, EventEditorMode.New);
         }
-        public static EventEditorViewModel EventEditorViewModelEditWeek(ICommand closeWindowCommand, Data data, DateTime start)
+        public static EventEditorViewModel EventEditorViewModelEditWeek(ICommand closeWindowCommand, Data data, DateTime date)
         {
-            var e = new EventEditorViewModel(closeWindowCommand, data, new Event());
-
-            e.Caption = "New Event";
-            e.IsAllDay = false;
-            e.Start = start;
-            e.Finish = start;
-            e.StartTime = start;
-            e.FinishTime = start.AddHours(1);
-            return e;
+            var ev = new Event();
+            ev.Caption = "New Event";
+            ev.IsAllDay = false;
+            ev.RuleType = RuleRepeatTypes.SpecialDays;
+            ev.Rule.Start = date;
+            ev.Rule.Finish = date.AddHours(1);
+            return new EventEditorViewModel(closeWindowCommand, data, ev, EventEditorMode.Edit);
         }
-        public EventEditorViewModel(ICommand closeWindowCommand, Data data, Event editEvent) : base(closeWindowCommand)
+        public static EventEditorViewModel EventEditorViewModelEdit(ICommand closeWindowCommand, Data data, Event editEvent)
+        {
+            return new EventEditorViewModel(closeWindowCommand, data, editEvent, EventEditorMode.Edit);
+        }
+        public EventEditorViewModel(ICommand closeWindowCommand, Data data, Event editEvent, EventEditorMode mode) : base(closeWindowCommand)
         {
             _data = data;
+            _Event = editEvent;
+            _mode = mode;
+
+            if (_data.Calendars.Count == 0)
+                return;
+
             _viewModelsDictionary = new Dictionary<RuleRepeatTypes, EditorViewModel>();
             _viewModelsDictionary.Add(RuleRepeatTypes.None, null);
             _viewModelsDictionary.Add(RuleRepeatTypes.Days, new DaysEditorViewModel());
             _viewModelsDictionary.Add(RuleRepeatTypes.Week, new WeekEditorViewModel());
             _viewModelsDictionary.Add(RuleRepeatTypes.Mounth, new MounthEditorViewModel());
             _viewModelsDictionary.Add(RuleRepeatTypes.Year, new YearEditorViewModel());
+            _viewModelsDictionary.Add(RuleRepeatTypes.SpecialDays, new SpecialDaysEditorViewModel());
 
-            RepeatRules = new ObservableCollection<RepeatRuleViewModel>();
-            RepeatRules.Add(new RepeatRuleViewModel(RuleRepeatTypes.None, ""));
-            RepeatRules.Add(new RepeatRuleViewModel(RuleRepeatTypes.Days, "Повторять по дням"));
-            RepeatRules.Add(new RepeatRuleViewModel(RuleRepeatTypes.Week, "Повторять по неделям"));
-            RepeatRules.Add(new RepeatRuleViewModel(RuleRepeatTypes.Mounth, "Повторять по месяцам"));
-            RepeatRules.Add(new RepeatRuleViewModel(RuleRepeatTypes.Year, "Повторять по годам"));
-            SelectedRepeatRules = RepeatRules[0];
+            _repeatRuleViewModelDictionary = new Dictionary<RuleRepeatTypes, RepeatRuleViewModel>();
+            _repeatRuleViewModelDictionary.Add(RuleRepeatTypes.None, new RepeatRuleViewModel(RuleRepeatTypes.None, ""));
+            _repeatRuleViewModelDictionary.Add(RuleRepeatTypes.Days, new RepeatRuleViewModel(RuleRepeatTypes.Days, "Повторять по дням"));
+            _repeatRuleViewModelDictionary.Add(RuleRepeatTypes.Week, new RepeatRuleViewModel(RuleRepeatTypes.Week, "Повторять по неделям"));
+            _repeatRuleViewModelDictionary.Add(RuleRepeatTypes.Mounth, new RepeatRuleViewModel(RuleRepeatTypes.Mounth, "Повторять по месяцам"));
+            _repeatRuleViewModelDictionary.Add(RuleRepeatTypes.Year, new RepeatRuleViewModel(RuleRepeatTypes.Year, "Повторять по годам"));
+            _repeatRuleViewModelDictionary.Add(RuleRepeatTypes.SpecialDays, new RepeatRuleViewModel(RuleRepeatTypes.SpecialDays, "Особые дни"));
+            RepeatRules  = new ObservableCollection<RepeatRuleViewModel>(_repeatRuleViewModelDictionary.Values);
 
 
-            _Event = editEvent;
-            if (_data.Calendars.Count > 0)
+
+                SelectedCalendar = _Event.Calendar;
+            if ((SelectedCalendar == null) && (_data.Calendars.Count > 0))
                 SelectedCalendar = _data.Calendars[0];
+            Caption = _Event.Caption;
+            SelectedRepeatRules = _repeatRuleViewModelDictionary[_Event.RuleType];
+            IsAllDay = _Event.IsAllDay;
+            Start = _Event.Rule.Start;
+            Finish = _Event.Rule.Finish;
+            StartTime = _Event.Rule.Start;
+            FinishTime = _Event.Rule.Finish;
+            if (SelectedRepeatViewModel != null)
+            {
+                SelectedRepeatViewModel.Step = _Event.Rule.Step;
+                SelectedRepeatViewModel.FinishRepeatDate = _Event.Rule.FinishRepeatDate;
+                if (_Event.RuleType == RuleRepeatTypes.Days)
+                {
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsDayStep = (_Event.Rule as RuleRepeatDay).IsDayStep;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsWorkDayStep = (_Event.Rule as RuleRepeatDay).IsWorkDayStep;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsRepeatDay = (_Event.Rule as RuleRepeatDay).IsRepeatDay;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsMonday = (_Event.Rule as RuleRepeatDay).IsMonday;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsTuesday = (_Event.Rule as RuleRepeatDay).IsTuesday;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsWednesday = (_Event.Rule as RuleRepeatDay).IsWednesday;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsThursday = (_Event.Rule as RuleRepeatDay).IsThursday;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsFriday = (_Event.Rule as RuleRepeatDay).IsFriday;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsSaturday = (_Event.Rule as RuleRepeatDay).IsSaturday;
+                    (SelectedRepeatViewModel as DaysEditorViewModel).IsSunday = (_Event.Rule as RuleRepeatDay).IsSunday;
+                }
+                if(_Event.RuleType == RuleRepeatTypes.SpecialDays)
+                    (SelectedRepeatViewModel as SpecialDaysEditorViewModel).SpecialDays = new ObservableCollection<DateTime>((_Event.Rule as RuleRepeatSpecialDays).SpecialDays);
+            }
         }
-        private void OnAddEvent(object o)
+        private void DoAddEvent(object o)
         {
             _Event.Calendar = SelectedCalendar;
             _Event.Caption = Caption;
@@ -130,13 +150,20 @@ namespace DestinyNet
                     (_Event.Rule as RuleRepeatDay).IsSunday = (SelectedRepeatViewModel as DaysEditorViewModel).IsSunday;
                 }
             }
+            if (_Event.RuleType == RuleRepeatTypes.SpecialDays)
+                (_Event.Rule as RuleRepeatSpecialDays).SpecialDays = new List<DateTime>((SelectedRepeatViewModel as SpecialDaysEditorViewModel).SpecialDays);
+
             if (!_data.Events.Contains(_Event))
                 _data.Events.Add(_Event);
             else
                 _data.Events.UpdateItem(_Event);// , new List<Event>() {_Event }
-            CloseWindowCommand?.Execute(o);
+            CloseWindowCommand?.Execute(null);
         }
-        
+        public RuleRepeatTypes RuleRepeatTypes 
+        { 
+            get => SelectedRepeatRules.RuleType; 
+            set { SelectedRepeatRules = _repeatRuleViewModelDictionary[value]; } 
+        }
         public string Caption { get; set; }
         public bool IsAllDay { get; set; }
         public DateTime Start { get; set; }
@@ -145,8 +172,19 @@ namespace DestinyNet
         public DateTime FinishTime { get; set; }
         public ObservableCollection<Calendar> Calendars { get => _data.Calendars; }
         public Calendar SelectedCalendar { get; set; }
+        public bool IsDeletebel { get => (_mode == EventEditorMode.Edit); }
+        
+        public ICommand AddCommand { get => new ActionCommand(DoAddEvent); }
 
-        public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
+        public ICommand AddDeleteCommand { get => new ActionCommand(DoDeleteEvent); }
+
+        private void DoDeleteEvent(object o)
+        {
+            if (_data.Events.Contains(_Event))
+                _data.Events.Remove(_Event);
+            CloseWindowCommand?.Execute(null);
+        }
+
         public EditorViewModel SelectedRepeatViewModel { get => _viewModelsDictionary[SelectedRepeatRules.RuleType]; }
 
         public RepeatRuleViewModel SelectedRepeatRules
@@ -158,8 +196,18 @@ namespace DestinyNet
                 OnPropertyChanged(nameof(SelectedRepeatViewModel));
             }
         }
-        public ObservableCollection<RepeatRuleViewModel> RepeatRules { get; set; }
+        public ObservableCollection<RepeatRuleViewModel> RepeatRules { private set; get; }
 
+    }
+    public class RepeatRuleViewModel
+    {
+        public RepeatRuleViewModel(RuleRepeatTypes ruleType, string name)
+        {
+            RuleType = ruleType;
+            Name = name;
+        }
+        public RuleRepeatTypes RuleType { get; set; }
+        public string Name { get; set; }
     }
     public class EditorViewModel : BaseViewModel
     {
@@ -221,5 +269,13 @@ namespace DestinyNet
     { }
     public class YearEditorViewModel : EditorViewModel
     { }
+    public class SpecialDaysEditorViewModel : EditorViewModel
+    {
+        public SpecialDaysEditorViewModel()
+        {
+            SpecialDays = new ObservableCollection<DateTime>();
+        }
+        public ObservableCollection<DateTime> SpecialDays { get; set; }
+    }
 
 }

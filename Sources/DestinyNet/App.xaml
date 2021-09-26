@@ -34,6 +34,9 @@
             <DataTemplate DataType="{x:Type ViewModels:EventEditorViewModel}">
                 <Dialogs:EventDialog/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:EventYearViewModel}">
+                <Dialogs:EventYearView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModels:DaysEditorViewModel}">
                 <Menu:RepeatDayView/>
             </DataTemplate>
@@ -45,6 +48,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type ViewModels:YearEditorViewModel}">
                 <Menu:RepeatYearView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type ViewModels:SpecialDaysEditorViewModel}">
+                <Menu:RuleRepeatSpecialDaysView/>
             </DataTemplate>
         </ResourceDictionary>
 

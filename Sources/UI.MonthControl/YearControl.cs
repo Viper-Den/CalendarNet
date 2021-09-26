@@ -163,6 +163,8 @@ namespace UIMonthControl
             get { return (Pallete)GetValue(PalleteProperty); }
             set
             {
+                if (value == null)
+                    return;
                 SetValue(PalleteProperty, value);
                 UpdatePallete();
             }

@@ -28,6 +28,6 @@ namespace DestinyNet
         public bool IsFriday { get; set; }
         public bool IsSaturday { get; set; }
         public bool IsSunday { get; set; }
-        public List<DateTime> SpecialDays { get; private set; }
+        public List<DateTime> SpecialDays { get; set; }
     }
 }

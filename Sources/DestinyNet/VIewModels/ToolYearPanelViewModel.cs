@@ -10,26 +10,44 @@ namespace DestinyNet
     public class ToolYearPanelViewModel : ViewModeDataBase
     {
         private Calendar _selectCalendar;
-        private ObservableCollection<CalendarView> _CalendarViewCollection;
         private Dictionary<Calendar, CalendarView> _dictionaryCalendarsEvents; 
 
         public ToolYearPanelViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
-            _CalendarViewCollection = new ObservableCollection<CalendarView>();
+            Calendars = new ObservableCollection<CalendarView>();
             _data.Calendars.CollectionChanged += DoCollectionChangedCalendars;
             _dictionaryCalendarsEvents = new Dictionary<Calendar, CalendarView>();
             FillEvents();
         }
         public void FillEvents()
         {
-            _CalendarViewCollection.Clear();
+            foreach (var c in _dictionaryCalendarsEvents.Values)
+            {
+                c.SelectedEventAction -= DoSelectedEventAction;
+                c.OnMenuOpened -= DoMenuOpened;
+            }
+            Calendars.Clear();
             _dictionaryCalendarsEvents.Clear();
             foreach (var c in _data.Calendars)
             {
-                var cv = new CalendarView(c, _data.Events);
-                _dictionaryCalendarsEvents.Add(c, cv);
-                _CalendarViewCollection.Add(cv);
+                AddCalendar(c);
             }
+        }
+        private void DoMenuOpened(CalendarView calendar)
+        {
+            foreach (var cv in Calendars)
+            {
+                if (calendar != cv)
+                    cv.IsOpened = false;
+            }
+        }
+        private void AddCalendar(Calendar calendar)
+        {
+            var cv = new CalendarView(calendar, _data.Events);
+            Calendars.Add(cv);
+            _dictionaryCalendarsEvents.Add(calendar, cv);
+            cv.SelectedEventAction += DoSelectedEventAction;
+            cv.OnMenuOpened += DoMenuOpened;
         }
         private void DoCollectionChangedCalendars(object sender, NotifyCollectionChangedEventArgs e)
         {
@@ -39,11 +57,7 @@ namespace DestinyNet
                     foreach (var c in e.NewItems)
                     {
                         if (!_dictionaryCalendarsEvents.ContainsKey((Calendar)c))
-                        {
-                            var cv = new CalendarView((Calendar)c, _data.Events);
-                            _CalendarViewCollection.Add(cv);
-                            _dictionaryCalendarsEvents.Add((Calendar)c, cv);
-                        }
+                            AddCalendar((Calendar)c);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
@@ -51,7 +65,9 @@ namespace DestinyNet
                     {
                         if (_dictionaryCalendarsEvents.ContainsKey((Calendar)c))
                         {
-                            _CalendarViewCollection.Remove(_dictionaryCalendarsEvents[(Calendar)c]);
+                            _dictionaryCalendarsEvents[(Calendar)c].SelectedEventAction -= DoSelectedEventAction;
+                            _dictionaryCalendarsEvents[(Calendar)c].OnMenuOpened -= DoMenuOpened;
+                            Calendars.Remove(_dictionaryCalendarsEvents[(Calendar)c]);
                             _dictionaryCalendarsEvents.Remove((Calendar)c);
                         }
                     }
@@ -66,16 +82,20 @@ namespace DestinyNet
             get => _selectCalendar;
             set { SetField(ref _selectCalendar, value); }
         }
-        public Action<Event> EventSelected { get; set; }
-        public ICommand EventSelectedCommand { get => new ActionCommand(DoEventSelected); }
-
-        private void DoEventSelected(object obj)
+        private void DoSelectedEventAction(Event ev)
         {
-            if ((obj == null) || (!(obj is Event)))
+            if (ev == null)
                 return;
-            EventSelected?.Invoke((Event)obj);
+            SelectedEventAction?.Invoke(ev);
         }
+        public Action<Event> SelectedEventAction { get; set; }
+        public ObservableCollection<CalendarView> Calendars { get; }
+        public ICommand EditEventCommand { get => new ActionCommand(DoEditEvent); }
+        public void DoEditEvent(object o)
+        {
+            EditEventAction?.Invoke((Event)o);
+        }
+        public Action<Event> EditEventAction { get; set; }
 
-        public ObservableCollection<CalendarView> Calendars { get => _CalendarViewCollection; }
     }
 }
