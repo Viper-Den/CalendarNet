@@ -11,7 +11,7 @@ namespace DestinyNet
         }
         public string Name { get; set; }
         public SolidColorBrush Color { get; set; }
-        public Boolean Enabled { get; set; }
+        public bool Enabled { get; set; }
         public string GUID { get; set; }
     }
 }

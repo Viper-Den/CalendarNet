@@ -5,21 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:MonthView="clr-namespace:MonthEvent;assembly=MonthEventControl"
              xmlns:DestinyNet="clr-namespace:DestinyNet" 
+             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              xmlns:weekevent="clr-namespace:MonthEvent;assembly=MonthEventControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <weekevent:WeekEventControl 
             Margin="20" 
             Background="White"
             Date="{Binding Path=Date}" 
             Events="{Binding Path=Events}"
+            IgnoreHours="{Binding Path=IgnoreHours}"
+            HourHeight="{Binding Path=HourHeight}"
             AddEvent="{Binding Path=AddEventCommand}">
             <weekevent:WeekEventControl.ItemTemplate>
                 <DataTemplate>
                     <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type weekevent:WeekEventControl}}, Path=DataContext.SelectedEvent}"
-                            CommandParameter="{Binding}">
+                            CommandParameter="{Binding}" Visibility="{Binding Path=Calendar.Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Label Height="30" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"        
                             Background="{Binding Path=Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                             Content="{Binding Path=Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>

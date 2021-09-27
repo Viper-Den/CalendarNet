@@ -27,7 +27,7 @@ namespace UIMonthControl
         private Label _Next;
         private List<MonthControl> _Month;
         private DateTime _startDate;
-        private Boolean _selectMode;
+        private bool _selectMode;
         static YearControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(YearControl), new FrameworkPropertyMetadata(typeof(YearControl)));
