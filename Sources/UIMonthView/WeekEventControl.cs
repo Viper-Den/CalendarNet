@@ -58,7 +58,7 @@ namespace MonthEvent
                 _itemTemplate = value;
             }
         }
-    public void AddEvent(Event e)
+        public void AddEvent(Event e)
         {
             if (!e.Rule.IsDate(Date))
             {
@@ -191,15 +191,18 @@ namespace MonthEvent
         private Grid _MainGrid;
         private List<EventDayCol> _Days;
         private List<Label> _TitleDays;
+        private Dictionary<int, RowDefinition> _Rows;
 
         ~WeekEventControl()
         {
+            _Rows.Clear();
             _Previous.MouseLeftButtonDown -= OnPrevious;
             _Next.MouseLeftButtonDown -= OnNext;
             _Title.MouseLeftButtonDown -= OnNow;
         }
         public WeekEventControl() : base()
         {
+            _Rows = new Dictionary<int, RowDefinition>();
             _Days = new List<EventDayCol>();
             _TitleDays = new List<Label>();
             ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
@@ -212,6 +215,23 @@ namespace MonthEvent
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WeekEventControl), new FrameworkPropertyMetadata(typeof(WeekEventControl)));
         }
 
+        #region IgnoreHours
+        public static readonly DependencyProperty IgnoreHoursProperty =
+            DependencyProperty.Register(nameof(IgnoreHours), typeof(ObservableCollection<int>), typeof(WeekEventControl), new PropertyMetadata(IgnoreHoursPropertyChanged));
+        public static void IgnoreHoursPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).IgnoreHours = (ObservableCollection<int>)e.NewValue;
+        }
+        public ObservableCollection<int> IgnoreHours
+        {
+            get { return (ObservableCollection<int>)GetValue(IgnoreHoursProperty); }
+            set 
+            { 
+                SetValue(IgnoreHoursProperty, value); 
+                UpdateRows(); 
+            }
+        }
+        #endregion
         #region AddEvent
         public static readonly DependencyProperty AddEventProperty =
             DependencyProperty.Register("AddEvent", typeof(ICommand), typeof(WeekEventControl), new PropertyMetadata(AddEventPropertyChanged));
@@ -280,6 +300,24 @@ namespace MonthEvent
             {
                 SetValue(ColorDayOffProperty, value);
                 UpdateElements();
+            }
+        }
+        #endregion
+        #region HourHeight
+        public static readonly DependencyProperty HourHeightProperty =
+            DependencyProperty.Register(nameof(HourHeight), typeof(int), typeof(WeekEventControl), new PropertyMetadata(HourHeightChanged));
+
+        public static void HourHeightChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).HourHeight = (int)e.NewValue;
+        }
+        public int HourHeight
+        {
+            get { return (int)GetValue(HourHeightProperty); }
+            set
+            {
+                SetValue(HourHeightProperty, value); 
+                UpdateRows();
             }
         }
         #endregion
@@ -377,7 +415,19 @@ namespace MonthEvent
             ((WeekEventControl)d).WeekEventTemplate = (DataTemplate)e.NewValue;
         }
         #endregion
-        public void UpdateEvents()
+        public void UpdateRows()
+        {
+            if (IgnoreHours == null)
+                return;
+            foreach (var i in _Rows.Keys)
+            {
+                if(IgnoreHours.Contains(i))
+                    _Rows[i].Height = new GridLength(0);
+                else
+                    _Rows[i].Height = new GridLength(HourHeight);
+            }
+        }
+            public void UpdateEvents()
         {
             if ((_Title != null) && (Events != null))
             {
@@ -507,6 +557,9 @@ namespace MonthEvent
             _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL5), (Canvas)GetTemplateChild(TP_CANVAS5), this));
             _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL6), (Canvas)GetTemplateChild(TP_CANVAS6), this));
             _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL7), (Canvas)GetTemplateChild(TP_CANVAS7), this));
+            for (var i = 1; i < 25; i++)
+                _Rows.Add(i, (RowDefinition)GetTemplateChild($"R{i}"));
+
             foreach (var d in _Days)
             {
                 d.Day.ItemTemplate = ItemTemplate;
@@ -521,6 +574,7 @@ namespace MonthEvent
             _Title.MouseLeftButtonDown += OnNow;
             UpdateElements();
             UpdateTemplate();
+            UpdateRows();
         }
         public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
         {

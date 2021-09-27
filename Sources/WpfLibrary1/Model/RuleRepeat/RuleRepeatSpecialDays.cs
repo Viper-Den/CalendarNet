@@ -14,7 +14,7 @@ namespace Destiny.Core
         public List<DateTime> SpecialDays { get; set; }
         public override bool IsDate(DateTime date)
         {
-            return SpecialDays.Contains(date);
+            return (Start.Date == date.Date) || SpecialDays.Contains(date);
         }
     }
 }

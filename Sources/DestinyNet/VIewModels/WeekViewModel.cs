@@ -10,8 +10,13 @@ namespace DestinyNet
 {
     public class WeekViewModel : ViewModeDataBase
     {
+        private int _hourHeight;
         public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
+            IgnoreHours = new ObservableCollection<int>();
+            //for (var i = 0; i < 9; i++)
+            //    IgnoreHours.Add(i);
+            HourHeight = 40;
         }
         private void OnAddEvent(object o)
         {
@@ -27,6 +32,12 @@ namespace DestinyNet
                 _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
             }
         }
+        public int HourHeight 
+        { 
+            get => _hourHeight;
+            set { SetField(ref _hourHeight, value); } 
+        }
+        public ObservableCollection<int> IgnoreHours { get; set; }
         public ObservableCollection<Event> Events { get => _data.Events; }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }

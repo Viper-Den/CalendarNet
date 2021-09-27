@@ -5,6 +5,12 @@
     <ResourceDictionary.MergedDictionaries>
             <ResourceDictionary Source="/MonthEventControl;component/Styles/Label.xaml" />
     </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="tLabel" TargetType="Label">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
     <Style TargetType="{x:Type local:WeekEventControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -54,7 +60,7 @@
                         <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Top" Grid.ColumnSpan="8" Stroke="DarkSlateGray"/>
 
                         <ScrollViewer x:Name="xScrollHours" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" VerticalScrollBarVisibility="Auto">
-                            <Grid Height="1200">
+                            <Grid Height="Auto">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="4*"/>
@@ -66,32 +72,30 @@
                                     <ColumnDefinition Width="4*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition x:Name="R1" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R2" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R3" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R4" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R5" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R6" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R7" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R8" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R9" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R10" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R11" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R12" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R13" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R14" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R15" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R16" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R17" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R18" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R19" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R20" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R21" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R22" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R23" Height="{Binding Path=HourHeight}"/>
+                                    <RowDefinition x:Name="R24" Height="{Binding Path=HourHeight}"/>
                                     
                                 </Grid.RowDefinitions>
                                 <Line Grid.Row="0"  Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"/>
@@ -137,30 +141,30 @@
                                 <Canvas x:Name="xCanvas5" Grid.Column="5" Grid.Row="0" Grid.RowSpan="24" Background="Transparent"/>
                                 <Canvas x:Name="xCanvas6" Grid.Column="6" Grid.Row="0" Grid.RowSpan="24" Background="Transparent"/>
                                 <Canvas x:Name="xCanvas7" Grid.Column="7" Grid.Row="0" Grid.RowSpan="24" Background="Transparent"/>
-                                <Label  Grid.Row="0" Grid.Column="0" Content="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="1" Grid.Column="0" Content="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="2" Grid.Column="0" Content="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="3" Grid.Column="0" Content="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="4" Grid.Column="0" Content="4" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="5" Grid.Column="0" Content="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="6" Grid.Column="0" Content="6" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="7" Grid.Column="0" Content="7" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="8" Grid.Column="0" Content="8" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="9" Grid.Column="0" Content="9" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="10" Grid.Column="0" Content="10" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="11" Grid.Column="0" Content="11" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="12" Grid.Column="0" Content="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="13" Grid.Column="0" Content="13" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="14" Grid.Column="0" Content="14" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="15" Grid.Column="0" Content="15" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="16" Grid.Column="0" Content="16" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="17" Grid.Column="0" Content="17" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="18" Grid.Column="0" Content="18" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="19" Grid.Column="0" Content="19" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="20" Grid.Column="0" Content="20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="21" Grid.Column="0" Content="21" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="22" Grid.Column="0" Content="22" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                <Label  Grid.Row="23" Grid.Column="0" Content="23" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                <Label Grid.Row="0"  Grid.Column="0" Content="00:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="1"  Grid.Column="0" Content="01:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="2"  Grid.Column="0" Content="02:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="3"  Grid.Column="0" Content="03:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="4"  Grid.Column="0" Content="04:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="5"  Grid.Column="0" Content="05:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="6"  Grid.Column="0" Content="06:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="7"  Grid.Column="0" Content="07:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="8"  Grid.Column="0" Content="08:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="9"  Grid.Column="0" Content="09:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="10" Grid.Column="0" Content="10:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="11" Grid.Column="0" Content="11:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="12" Grid.Column="0" Content="12:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="13" Grid.Column="0" Content="13:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="14" Grid.Column="0" Content="14:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="15" Grid.Column="0" Content="15:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="16" Grid.Column="0" Content="16:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="17" Grid.Column="0" Content="17:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="18" Grid.Column="0" Content="18:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="19" Grid.Column="0" Content="19:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="20" Grid.Column="0" Content="20:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="21" Grid.Column="0" Content="21:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="22" Grid.Column="0" Content="22:00" Style="{StaticResource tLabel}"/>
+                                <Label Grid.Row="23" Grid.Column="0" Content="23:00" Style="{StaticResource tLabel}"/>
                             </Grid>
                         </ScrollViewer>
                         <Line Grid.Row="1" Grid.Column="0" Y2="1" Stretch="Fill" HorizontalAlignment="Left"  Stroke="DarkSlateGray"/>
