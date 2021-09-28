@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:MonthEvent">
     <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="/MonthEventControl;component/Styles/Label.xaml" />
+        <ResourceDictionary Source="/MonthEventControl;component/Styles/Label.xaml" />
     </ResourceDictionary.MergedDictionaries>
     <Style x:Key="tLabel" TargetType="Label">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -32,7 +32,7 @@
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="3*"/>
-                            <RowDefinition Height="5*"/>
+                            <RowDefinition Height="5*" x:Name="xRowEventsView"/>
                             <RowDefinition Height="24*"/>
                         </Grid.RowDefinitions>
 
@@ -55,12 +55,16 @@
                         <local:DayMonthEventControl x:Name="xDayMonthEventControl6" Grid.Column="6" Grid.Row="1"/>
                         <local:DayMonthEventControl x:Name="xDayMonthEventControl7" Grid.Column="7" Grid.Row="1"/>
 
+                        <StackPanel  Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                            <Button x:Name="xHide" Height="20" Content="H" />
+                            <Button x:Name="xHideHours" Height="20" Content="H2" />
+                        </StackPanel>
 
                         <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"/>
                         <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Top" Grid.ColumnSpan="8" Stroke="DarkSlateGray"/>
 
-                        <ScrollViewer x:Name="xScrollHours" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" VerticalScrollBarVisibility="Auto">
-                            <Grid Height="Auto">
+                        <ScrollViewer x:Name="xScrollViewer" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" VerticalScrollBarVisibility="Auto">
+                            <Grid x:Name="xTimeGrid" Height="Auto">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>
                                     <ColumnDefinition Width="4*"/>

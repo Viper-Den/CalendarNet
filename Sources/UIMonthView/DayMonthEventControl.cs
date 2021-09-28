@@ -69,6 +69,7 @@ namespace MonthEvent
                     _Title.Content = Date.ToString("dd");
             }
         }
+        public double TitleSize { get => _Title.ActualHeight; }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();

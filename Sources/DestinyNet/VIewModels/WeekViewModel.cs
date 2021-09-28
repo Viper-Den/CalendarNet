@@ -14,9 +14,9 @@ namespace DestinyNet
         public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
             IgnoreHours = new ObservableCollection<int>();
-            //for (var i = 0; i < 9; i++)
-            //    IgnoreHours.Add(i);
-            HourHeight = 40;
+            for (var i = 0; i < 9; i++)  // скроем все часы до 9 утра
+                IgnoreHours.Add(i);
+            HourHeight = 50;
         }
         private void OnAddEvent(object o)
         {

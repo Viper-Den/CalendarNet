@@ -20,7 +20,9 @@ namespace Destiny.Core
         {
             return date.Date.AddDays(6 - GetIndexDay(date.Date));
         }
-
+        public const int MIN_IN_HOUR = 60;
+        public const int HOUR_IN_DAY = 24;
+        public const int MIN_IN_DAY = HOUR_IN_DAY * MIN_IN_HOUR;
         static DateHelper()
         {
             _IndexDays = new Dictionary<DayOfWeek, int>();

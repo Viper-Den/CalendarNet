@@ -16,23 +16,23 @@ namespace MonthEvent
     {
         private Canvas _canvas;
         private Dictionary<Event, Grid> _events;
-        private Control _control;
-        private DataTemplate _itemTemplate;
-        public EventDayCol(DayMonthEventControl day, Canvas canvas, Control control)
+        private ScrollViewer _scrollViewer;
+        private ITimeCalculator _timeCalculator;
+        public EventDayCol(DayMonthEventControl day, Canvas canvas, ScrollViewer scrollViewer, ITimeCalculator timeCalculator)
         {
+            _timeCalculator = timeCalculator;
             _canvas = canvas;
-            _control = control;
+            _scrollViewer = scrollViewer;
             _canvas.AllowDrop = true;
             _canvas.Drop += DoDrop;
             _canvas.MouseLeftButtonDown += DoAddEvent;
             Day = day;
             _events = new Dictionary<Event, Grid>();
         }
-        private void DoDrop(object sender, DragEventArgs e) 
+        private void DoDrop(object sender, DragEventArgs e)
         {
-            Point p = e.GetPosition(_canvas);
-            int m = (int)((_canvas.ActualHeight / (24 * 60)) * p.Y);
-            if(sender is Event)
+            int m = GetMin(e.GetPosition(_scrollViewer).Y);
+            if (sender is Event)
             {
                 var ev = ((Event)sender).Clone();
                 ev.IsAllDay = false;
@@ -41,26 +41,30 @@ namespace MonthEvent
             }
         }
         public Action<DateTime> OnAddEvent { get; set; }
+        public DataTemplate ItemTemplate { get; set; }
         private void DoAddEvent(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
             {
-                Point p = e.GetPosition(_canvas);
-                int m = (int)((_canvas.ActualHeight / (24 * 60)) * p.Y);
-                OnAddEvent?.Invoke(new DateTime(Date.Year, Date.Month, Date.Day, (m / 60), (m % 60), 0));
+                int m = GetMin(e.GetPosition(_scrollViewer).Y);
+                OnAddEvent?.Invoke(new DateTime(Date.Year, Date.Month, Date.Day, (m / 60), 0, 0)); // (m % 60) 
             }
+        }
+        private int GetMin(double posY)
+        {
+            var Y = posY + _scrollViewer.VerticalOffset;
+            int m = _timeCalculator.GetMin(Y);
+            if (m > (24 * 60))
+                return (24 * 60);
+            else if (m < 0)
+                return 0;
+            else
+                return m;
         }
 
-        public DataTemplate ItemTemplate
+        public void Remove(Event e)
         {
-            get => _itemTemplate; set
-            {
-                _itemTemplate = value;
-            }
-        }
-        public void AddEvent(Event e)
-        {
-            if (!e.Rule.IsDate(Date))
+            if (e.Rule.IsDate(Date))
             {
                 if (Day.Events.Contains(e))
                     Day.Events.Remove(e);
@@ -70,11 +74,15 @@ namespace MonthEvent
                     _canvas.Children.Remove(b);
                     _events.Remove(e);
                 }
-                return;
             }
+        }
+        public void AddEvent(Event e)
+        {
+            if (!e.Rule.IsDate(Date))
+                return;
             if ((e.IsAllDay) && (!Day.Events.Contains(e)))
                 Day.Events.Add(e);
-            else if (!_events.ContainsKey(e))
+            else if ((!e.IsAllDay) && (!_events.ContainsKey(e)))
             {
                 var c = new Grid();
                 //c.VerticalContentAlignment = VerticalAlignment.Stretch;
@@ -87,18 +95,11 @@ namespace MonthEvent
                 _events.Add(e, c);
                 _canvas.Children.Add(c);
                 Canvas.SetLeft(c, 0);
-                Canvas.SetTop(c, GetSize(e.Rule.Start));
+                Canvas.SetTop(c, _timeCalculator.GetPos(e.Rule.Start));
                 c.Width = _canvas.ActualWidth - 10;
-                var t = e.Rule.Finish - e.Rule.Start;
-                c.Height = GetSize(new DateTime(e.Rule.Finish.Year, e.Rule.Finish.Month, e.Rule.Finish.Day, t.Hours, t.Minutes, 0));
+                c.Height = _timeCalculator.GetSize(e.Rule.Start, e.Rule.Finish);
             }
         }
-        private double GetSize(DateTime d)
-        {
-            var r = ((d.Hour * 60) + d.Minute) * (_canvas.ActualHeight / (24 * 60));
-            return r;
-        }
-
         public void RemoveEvent(Event e)
         {
             if (!e.Rule.IsDate(Date))
@@ -111,7 +112,7 @@ namespace MonthEvent
                 _canvas.Children.Remove(b);
             }
         }
-        private void Clear()
+        public void Clear()
         {
             Day.Events.Clear();
             foreach (var e in _events.Keys)
@@ -121,12 +122,13 @@ namespace MonthEvent
             }
             _events.Clear();
         }
-
         public void Update()
         {
-            foreach (var l in _events.Values)
+            foreach (var ev in _events.Keys)
             {
-                l.Width = _canvas.ActualWidth - 10;
+                _events[ev].Width = _canvas.ActualWidth - 10;
+                _events[ev].Height = _timeCalculator.GetSize(ev.Rule.Start, ev.Rule.Finish);
+                Canvas.SetTop(_events[ev], _timeCalculator.GetPos(ev.Rule.Start));
             }
         }
         public DayMonthEventControl Day { get; }
@@ -143,6 +145,35 @@ namespace MonthEvent
             }
         }
     }
+
+    public class HourRow
+    {
+        private RowDefinition _row;
+        public HourRow(RowDefinition row)
+        {
+            _row = row ?? throw new ArgumentNullException(nameof(row));
+        }
+        public double GetSizeMin()
+        {
+            return (_row.Height.Value / DateHelper.MIN_IN_HOUR);
+        }
+        public double GetSizeHour()
+        {
+            return _row.Height.Value;
+        }
+        public void SetSize(int size)
+        {
+            _row.Height = new GridLength(size);
+        }
+    }
+
+    public interface ITimeCalculator
+    {
+        int GetMin(double clickPos);
+        double GetPos(DateTime time);
+        double GetSize(DateTime start, DateTime finish);
+    }
+
 
     //https://docs.microsoft.com/ru-ru/dotnet/api/system.windows.controls.itemscontrol?view=netcore-3.1
     [TemplatePart(Name = WeekEventControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
@@ -164,8 +195,13 @@ namespace MonthEvent
     [TemplatePart(Name = WeekEventControl.TP_CANVAS5, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_CANVAS6, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_CANVAS7, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_BUTTON_HIDE, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_BUTTON_HIDE_HOURS, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_SCROLLVIEWER, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_ROW_EVENTS_VIEW, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = WeekEventControl.TP_TIME_GRID, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
-    public class WeekEventControl : BaseControl
+    public class WeekEventControl : BaseControl, ITimeCalculator
     {
         private const string TP_MAIN_GRID_PART = "MainGrid";
         private const string TP_TITLE_PART = "xTitle";
@@ -185,13 +221,25 @@ namespace MonthEvent
         private const string TP_CANVAS5 = "xCanvas5";
         private const string TP_CANVAS6 = "xCanvas6";
         private const string TP_CANVAS7 = "xCanvas7";
+        private const string TP_SCROLLVIEWER = "xScrollViewer";
+        private const string TP_BUTTON_HIDE = "xHide";
+        private const string TP_BUTTON_HIDE_HOURS = "xHideHours";
+        private const string TP_ROW_EVENTS_VIEW = "xRowEventsView";
+        private const string TP_TIME_GRID = "xTimeGrid"; 
         private Label _Title;
         private Label _Previous;
         private Label _Next;
         private Grid _MainGrid;
+        private Grid _TimeGrid;
+        private Button _Hide;
+        private Button _HideHours;
+        private ScrollViewer _scrollViewer;
         private List<EventDayCol> _Days;
         private List<Label> _TitleDays;
-        private Dictionary<int, RowDefinition> _Rows;
+        private RowDefinition _RowEventsView;
+        private Dictionary<int, HourRow> _Rows;
+        private bool _IsHoursHide;
+        private bool _IsEventsHide;
 
         ~WeekEventControl()
         {
@@ -202,7 +250,7 @@ namespace MonthEvent
         }
         public WeekEventControl() : base()
         {
-            _Rows = new Dictionary<int, RowDefinition>();
+            _Rows = new Dictionary<int, HourRow>();
             _Days = new List<EventDayCol>();
             _TitleDays = new List<Label>();
             ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
@@ -213,6 +261,78 @@ namespace MonthEvent
         static WeekEventControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WeekEventControl), new FrameworkPropertyMetadata(typeof(WeekEventControl)));
+        }
+        public bool IsHoursHide { get => _IsHoursHide; 
+            set 
+            {
+                _IsHoursHide = value;
+                UpdateRows();
+                UpdateEventDayCol();
+            } 
+        }
+        public bool IsEventsHide { get => _IsEventsHide;
+            set
+            {
+                _IsEventsHide = value;
+                UpdateEventsView();
+            }
+        }
+        public double GetPos(DateTime time)
+        {
+            double h = 0;
+            double m = 0;
+            foreach (var i in _Rows.Keys)
+            {
+                h += _Rows[i].GetSizeHour();
+                if (i == time.Hour)
+                {
+                    m = _Rows[i].GetSizeMin() * time.Minute;
+                    break;
+                }
+            }
+            return h + m;
+        }
+        public double GetSize(DateTime start, DateTime finish)
+        {
+            double h = 0;
+            double m = 0;
+            foreach (var i in _Rows.Keys)
+            {
+                if(i < start.Hour)
+                {
+                    continue;
+                }
+
+                if (i == start.Hour)
+                {
+                    m = _Rows[i].GetSizeMin() * start.Minute;
+                }
+                if (i == finish.Hour)
+                {
+                    m += _Rows[i].GetSizeMin() * finish.Minute;
+                    break;
+                }
+                h += _Rows[i].GetSizeHour();
+            }
+            return h + m;
+        }
+
+        public int GetMin(double clickPos)
+        {
+            double p = 0;
+            int i = 0;
+            foreach(var r in _Rows.Values)
+            {
+                p += r.GetSizeHour();
+                if (clickPos < p)
+                {
+                    p -= r.GetSizeHour();
+                    break;
+                }
+                i++;
+            }
+            var d = (i * DateHelper.MIN_IN_HOUR) + ((clickPos - p) / _Rows[i].GetSizeMin());
+            return Convert.ToInt32(d);
         }
 
         #region IgnoreHours
@@ -225,10 +345,10 @@ namespace MonthEvent
         public ObservableCollection<int> IgnoreHours
         {
             get { return (ObservableCollection<int>)GetValue(IgnoreHoursProperty); }
-            set 
-            { 
-                SetValue(IgnoreHoursProperty, value); 
-                UpdateRows(); 
+            set
+            {
+                SetValue(IgnoreHoursProperty, value);
+                UpdateRows();
             }
         }
         #endregion
@@ -280,9 +400,9 @@ namespace MonthEvent
                     Events.CollectionChanged -= DoNotifyCollectionChangedEventHandler;
 
                 SetValue(EventsProperty, value);
+                UpdateEvents();
                 if (Events != null)
                     Events.CollectionChanged += DoNotifyCollectionChangedEventHandler;
-                UpdateEvents();
             }
         }
         #endregion
@@ -316,7 +436,7 @@ namespace MonthEvent
             get { return (int)GetValue(HourHeightProperty); }
             set
             {
-                SetValue(HourHeightProperty, value); 
+                SetValue(HourHeightProperty, value);
                 UpdateRows();
             }
         }
@@ -390,8 +510,8 @@ namespace MonthEvent
         public DataTemplate WeekEventTemplate
         {
             get { return (DataTemplate)GetValue(WeekEventTemplateProperty); }
-            set 
-            { 
+            set
+            {
                 SetValue(WeekEventTemplateProperty, value);
                 UpdateTemplate();
             }
@@ -421,21 +541,32 @@ namespace MonthEvent
                 return;
             foreach (var i in _Rows.Keys)
             {
-                if(IgnoreHours.Contains(i))
-                    _Rows[i].Height = new GridLength(0);
+                if ((IgnoreHours.Contains(i))&&(_IsHoursHide))
+                    _Rows[i].SetSize(0);
                 else
-                    _Rows[i].Height = new GridLength(HourHeight);
+                    _Rows[i].SetSize(HourHeight);
             }
         }
-            public void UpdateEvents()
+        private void UpdateEventsView()
+        {
+            if ((_RowEventsView == null) ||(_Days.Count == 0))
+                return;
+
+            if (IsEventsHide)
+                _RowEventsView.Height = new GridLength(_Days[0].Day.TitleSize);
+            else
+                _RowEventsView.Height = new GridLength(80); // 80 приблизительно
+        }
+        public void UpdateEvents()
         {
             if ((_Title != null) && (Events != null))
             {
                 foreach (var d in _Days)
                 {
+                    d.Clear();
                     foreach (var e in Events)
                     {
-                        d.AddEvent(e);
+                      d.AddEvent(e);
                     }
                 }
             }
@@ -446,10 +577,22 @@ namespace MonthEvent
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    UpdateEvents();
+                    foreach (var d in _Days)
+                    {
+                        foreach (var ev in e.NewItems)
+                        {
+                          d.AddEvent((Event)ev);
+                        }
+                    }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    UpdateEvents();
+                    foreach (var d in _Days)
+                    {
+                        foreach (var ev in e.OldItems)
+                        {
+                            d.Remove((Event)ev);
+                        }
+                    }
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     UpdateEvents();
@@ -547,18 +690,23 @@ namespace MonthEvent
         {
             base.OnApplyTemplate();
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
+            _TimeGrid = (Grid)GetTemplateChild(TP_TIME_GRID); 
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
             _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
             _Next = (Label)GetTemplateChild(TP_NEXT_PART);
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL1), (Canvas)GetTemplateChild(TP_CANVAS1), this));
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL2), (Canvas)GetTemplateChild(TP_CANVAS2), this));
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL3), (Canvas)GetTemplateChild(TP_CANVAS3), this));
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL4), (Canvas)GetTemplateChild(TP_CANVAS4), this));
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL5), (Canvas)GetTemplateChild(TP_CANVAS5), this));
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL6), (Canvas)GetTemplateChild(TP_CANVAS6), this));
-            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL7), (Canvas)GetTemplateChild(TP_CANVAS7), this));
+            _scrollViewer = (ScrollViewer)GetTemplateChild(TP_SCROLLVIEWER);
+            _Hide = (Button)GetTemplateChild(TP_BUTTON_HIDE);
+            _HideHours = (Button)GetTemplateChild(TP_BUTTON_HIDE_HOURS);
+            _RowEventsView = (RowDefinition)GetTemplateChild(TP_ROW_EVENTS_VIEW);
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL1), (Canvas)GetTemplateChild(TP_CANVAS1), _scrollViewer, this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL2), (Canvas)GetTemplateChild(TP_CANVAS2), _scrollViewer, this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL3), (Canvas)GetTemplateChild(TP_CANVAS3), _scrollViewer, this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL4), (Canvas)GetTemplateChild(TP_CANVAS4), _scrollViewer, this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL5), (Canvas)GetTemplateChild(TP_CANVAS5), _scrollViewer, this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL6), (Canvas)GetTemplateChild(TP_CANVAS6), _scrollViewer, this));
+            _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL7), (Canvas)GetTemplateChild(TP_CANVAS7), _scrollViewer, this));
             for (var i = 1; i < 25; i++)
-                _Rows.Add(i, (RowDefinition)GetTemplateChild($"R{i}"));
+                _Rows.Add(i, new HourRow((RowDefinition)GetTemplateChild($"R{i}")));
 
             foreach (var d in _Days)
             {
@@ -572,16 +720,35 @@ namespace MonthEvent
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;
+            _Hide.Click += DoHideClick;
+            _HideHours.Click += DoHideHoursClick;
             UpdateElements();
             UpdateTemplate();
             UpdateRows();
+            UpdateEventsView();
+            UpdateRows();
         }
-        public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
+        private void UpdateEventDayCol()
         {
             foreach (var d in _Days)
             {
                 d.Update();
             }
+        }
+
+        private void DoHideHoursClick(object sender, RoutedEventArgs e)
+        {
+            IsHoursHide = !IsHoursHide;
+        }
+
+        private void DoHideClick(object sender, RoutedEventArgs e)
+        {
+            IsEventsHide = !IsEventsHide;
+        }
+
+        public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateEventDayCol();
         }
         private void DoAddEvent(DateTime date)
         {
