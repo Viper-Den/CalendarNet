@@ -10,6 +10,5 @@ namespace Destiny.Core
         string Text { get; set; }
         TitleControlType Type { get; set; }
         Visibility Visibility { get; set; }
-
     }
 }

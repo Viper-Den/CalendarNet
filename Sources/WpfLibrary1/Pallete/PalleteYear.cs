@@ -5,7 +5,6 @@ namespace Destiny.Core
 {
     public class PalleteYear : Palette
     {
-
         public override void PaintTitle(ITitleControl title, DateTime date)
         {
             switch (title.Type)
@@ -26,6 +25,8 @@ namespace Destiny.Core
                 case TitleControlType.Button:
                     title.Visibility = Visibility.Hidden;
                     break;
+                default:
+                    throw new ArgumentException("Type not supports");
             }
         }
         public override void PaintDay(IDayControl day, DateTime date)

@@ -4,7 +4,6 @@ namespace Destiny.Core
 {
     public class PalleteMounthEvent : Palette
     {
-
         public override void PaintTitle(ITitleControl title, DateTime date)
         {
             switch (title.Type)
@@ -22,6 +21,8 @@ namespace Destiny.Core
                     title.Background = DayOff.Background;
                     title.Foreground = DayOff.Foreground;
                     break;
+                default:
+                    throw new ArgumentException("Type not supports");
             }
         }
         public override void PaintDay(IDayControl day, DateTime date)
