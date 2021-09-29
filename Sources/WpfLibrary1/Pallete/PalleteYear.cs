@@ -5,38 +5,38 @@ namespace Destiny.Core
 {
     public class PalleteYear : Palette
     {
-        public override void PaintTitle(ITitleControl title, DateTime date)
+        public override void PaintTitle(ITitleControl control, DateTime date)
         {
-            switch (title.Type)
+            switch (control.Type)
             {
                 case TitleControlType.Title:
-                    title.Text = date.ToString("MMMM");
+                    control.Text = date.ToString("MMMM");
                     break;
                 case TitleControlType.WeekTitle:
-                    title.Text = date.ToString("ddd");
-                    title.Foreground = Day.Foreground;
-                    title.Background = Day.Background;
+                    control.Text = date.ToString("ddd");
+                    control.Foreground = Day.Foreground;
+                    control.Background = Day.Background;
                     break;
                 case TitleControlType.WeekTitleDayOff:
-                    title.Text = date.ToString("ddd");
-                    title.Foreground = DayOff.Foreground;
-                    title.Background = DayOff.Background;
+                    control.Text = date.ToString("ddd");
+                    control.Foreground = DayOff.Foreground;
+                    control.Background = DayOff.Background;
                     break;
                 case TitleControlType.Button:
-                    title.Visibility = Visibility.Hidden;
+                    control.Visibility = Visibility.Hidden;
                     break;
                 default:
                     throw new ArgumentException("Type not supports");
             }
         }
-        public override void PaintDay(IDayControl day, DateTime date)
+        public override void PaintDay(IDayControl control, DateTime date)
         {
-            if (day.Date.Month != date.Month)
+            if (control.Date.Month != date.Month)
             {
-                day.Visibility = Visibility.Collapsed;
+                control.Visibility = Visibility.Collapsed;
                 return;
             }
-            base.PaintDay(day, date);
+            base.PaintDay(control, date);
         }
     }
 }

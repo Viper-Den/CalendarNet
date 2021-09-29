@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace Destiny.Core
 {
-    public class Palette
+    public class Palette: IPalette
     {
         private Dictionary<EvementStyleType, EvementStyle> _evementStyleDictionary;
         public Palette()
@@ -31,58 +31,58 @@ namespace Destiny.Core
         public EvementStyle ToDay { get => _evementStyleDictionary[EvementStyleType.ToDay]; }
         public EvementStyle Day { get => _evementStyleDictionary[EvementStyleType.Day]; }
         public Visibility ViewBorderingMonths { get; set; }
-        public virtual void PaintTitle(ITitleControl title, DateTime date)
+        public virtual void PaintTitle(ITitleControl control, DateTime date)
         {
-            switch (title.Type)
+            switch (control.Type)
             {
                 case TitleControlType.Title:
-                    title.Text = date.ToString("MMMM yyyy");
+                    control.Text = date.ToString("MMMM yyyy");
                     break;
                 case TitleControlType.WeekTitle:
-                    title.Text = date.ToString("ddd");
-                    title.Foreground = Day.Foreground;
-                    title.Background = Day.Background;
+                    control.Text = date.ToString("ddd");
+                    control.Foreground = Day.Foreground;
+                    control.Background = Day.Background;
                     break;
                 case TitleControlType.WeekTitleDayOff:
-                    title.Text = date.ToString("ddd");
-                    title.Foreground = DayOff.Foreground;
-                    title.Background = DayOff.Background;
+                    control.Text = date.ToString("ddd");
+                    control.Foreground = DayOff.Foreground;
+                    control.Background = DayOff.Background;
                     break;
                 case TitleControlType.Button:
-                    title.Visibility = Visibility.Visible;
+                    control.Visibility = Visibility.Visible;
                     break;
             }
         }
-        public virtual void PaintDay(IDayControl day, DateTime date)
+        public virtual void PaintDay(IDayControl control, DateTime date)
         {
-            if (day.Date.Month != date.Month)
+            if (control.Date.Month != date.Month)
             {
-                day.Foreground = DayNoMonth.Foreground;
-                day.Background = DayNoMonth.Background;
+                control.Foreground = DayNoMonth.Foreground;
+                control.Background = DayNoMonth.Background;
                 return;
             }
 
-            switch (day.Type)
+            switch (control.Type)
             {
                 case DayType.Today:
-                    day.Foreground = ToDay.Foreground;
-                    day.Background = ToDay.Background;
+                    control.Foreground = ToDay.Foreground;
+                    control.Background = ToDay.Background;
                     break;
                 case DayType.Day:
-                    day.Foreground = Day.Foreground;
-                    day.Background = Day.Background;
+                    control.Foreground = Day.Foreground;
+                    control.Background = Day.Background;
                     break;
                 case DayType.DayOff:
-                    day.Foreground = DayOff.Foreground;
-                    day.Background = DayOff.Background;
+                    control.Foreground = DayOff.Foreground;
+                    control.Background = DayOff.Background;
                     break;
                 case DayType.DayFinish:
-                    day.Foreground = DayFinish.Foreground;
-                    day.Background = DayFinish.Background;
+                    control.Foreground = DayFinish.Foreground;
+                    control.Background = DayFinish.Background;
                     break;
                 case DayType.DayOffFinish:
-                    day.Foreground = DayFinish.Foreground;
-                    day.Background = DayOffFinish.Background;
+                    control.Foreground = DayFinish.Foreground;
+                    control.Background = DayOffFinish.Background;
                     break;
             }
         }
