@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 
 namespace Destiny.Core
 {
@@ -20,6 +21,9 @@ namespace Destiny.Core
                     title.Text = date.ToString("dddd");
                     title.Background = DayOff.Background;
                     title.Foreground = DayOff.Foreground;
+                    break;
+                case TitleControlType.Button:
+                    title.Visibility = Visibility.Visible;
                     break;
                 default:
                     throw new ArgumentException("Type not supports");
