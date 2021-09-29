@@ -2,9 +2,9 @@
 
 namespace Destiny.Core
 {
-    public class ControlStyle
+    public class EvementStyle
     {
-        public ControlStyle(Brush background, Brush foreground)
+        public EvementStyle(Brush background, Brush foreground)
         {
             Background = background;
             Foreground = foreground;
