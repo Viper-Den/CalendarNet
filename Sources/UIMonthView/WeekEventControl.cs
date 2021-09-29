@@ -225,7 +225,7 @@ namespace MonthEvent
         private const string TP_BUTTON_HIDE = "xHide";
         private const string TP_BUTTON_HIDE_HOURS = "xHideHours";
         private const string TP_ROW_EVENTS_VIEW = "xRowEventsView";
-        private const string TP_TIME_GRID = "xTimeGrid"; 
+        private const string TP_TIME_GRID = "xTimeGrid";
         private Label _Title;
         private Label _Previous;
         private Label _Next;
@@ -240,6 +240,7 @@ namespace MonthEvent
         private Dictionary<int, HourRow> _Rows;
         private bool _IsHoursHide;
         private bool _IsEventsHide;
+        private double _heightDayMonth;
 
         ~WeekEventControl()
         {
@@ -555,7 +556,7 @@ namespace MonthEvent
             if (IsEventsHide)
                 _RowEventsView.Height = new GridLength(_Days[0].Day.TitleSize);
             else
-                _RowEventsView.Height = new GridLength(80); // 80 приблизительно
+                _RowEventsView.Height = new GridLength(_heightDayMonth); // 80 приблизительно
         }
         public void UpdateEvents()
         {
@@ -696,7 +697,7 @@ namespace MonthEvent
             _Next = (Label)GetTemplateChild(TP_NEXT_PART);
             _scrollViewer = (ScrollViewer)GetTemplateChild(TP_SCROLLVIEWER);
             _Hide = (Button)GetTemplateChild(TP_BUTTON_HIDE);
-            _HideHours = (Button)GetTemplateChild(TP_BUTTON_HIDE_HOURS);
+            _HideHours = (Button)GetTemplateChild(TP_BUTTON_HIDE_HOURS);  
             _RowEventsView = (RowDefinition)GetTemplateChild(TP_ROW_EVENTS_VIEW);
             _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL1), (Canvas)GetTemplateChild(TP_CANVAS1), _scrollViewer, this));
             _Days.Add(new EventDayCol((DayMonthEventControl)GetTemplateChild(TP_CALL2), (Canvas)GetTemplateChild(TP_CANVAS2), _scrollViewer, this));
@@ -717,6 +718,7 @@ namespace MonthEvent
             _MainGrid.SizeChanged += MainGridSizeChanged;
             _Previous.Content = "<";
             _Next.Content = ">";
+            _heightDayMonth = _RowEventsView.Height.Value;
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;

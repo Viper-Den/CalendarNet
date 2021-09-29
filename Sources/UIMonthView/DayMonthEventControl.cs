@@ -48,7 +48,7 @@ namespace MonthEvent
             set
             {
                 SetValue(DateProperty, value);
-                Type = Pallete.GetDateType(value);
+                Type = Palette.GetDateType(value);
                 UpdateEvents();
             }
         }

@@ -28,12 +28,12 @@
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="4*"/>
                             <ColumnDefinition Width="4*"/>
-                            <ColumnDefinition Width="17"/>
+                            <ColumnDefinition x:Name="xOffset" Width="17"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="3*"/>
-                            <RowDefinition Height="5*" x:Name="xRowEventsView"/>
-                            <RowDefinition Height="24*"/>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="130" x:Name="xRowEventsView"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
                         <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="9">
@@ -47,13 +47,13 @@
                             <Label x:Name="xNext" Grid.Row="0" Grid.Column="2"  Content="&gt;" Style="{StaticResource sButtonLabel}"/>
                         </Grid>
 
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl1" Grid.Column="1" Grid.Row="1"/>
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl2" Grid.Column="2" Grid.Row="1"/>
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl3" Grid.Column="3" Grid.Row="1"/>
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl4" Grid.Column="4" Grid.Row="1"/>
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl5" Grid.Column="5" Grid.Row="1"/>
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl6" Grid.Column="6" Grid.Row="1"/>
-                        <local:DayMonthEventControl x:Name="xDayMonthEventControl7" Grid.Column="7" Grid.Row="1"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl1" Grid.Column="1" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl2" Grid.Column="2" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl3" Grid.Column="3" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl4" Grid.Column="4" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl5" Grid.Column="5" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl6" Grid.Column="6" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <local:DayMonthEventControl x:Name="xDayMonthEventControl7" Grid.Column="7" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
 
                         <StackPanel  Grid.Row="1" Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                             <Button x:Name="xHide" Height="20" Content="H" />
@@ -63,7 +63,7 @@
                         <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Bottom" Grid.ColumnSpan="8" Stroke="DarkSlateGray"/>
                         <Line Grid.Row="1" Grid.Column="0" X2="1" Stretch="Fill" VerticalAlignment="Top" Grid.ColumnSpan="8" Stroke="DarkSlateGray"/>
 
-                        <ScrollViewer x:Name="xScrollViewer" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" VerticalScrollBarVisibility="Auto">
+                        <ScrollViewer x:Name="xScrollViewer" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="9" VerticalScrollBarVisibility="Visible">
                             <Grid x:Name="xTimeGrid" Height="Auto">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="1*"/>

@@ -130,14 +130,14 @@ namespace MonthEvent
         #endregion
         #region Pallete
         public static readonly DependencyProperty PalleteProperty =
-            DependencyProperty.Register(nameof(Pallete), typeof(Pallete), typeof(MonthEventControl), new PropertyMetadata(PalleteChanged));
+            DependencyProperty.Register(nameof(Pallete), typeof(Palette), typeof(MonthEventControl), new PropertyMetadata(PalleteChanged));
         private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthEventControl)d).Pallete = (Pallete)e.NewValue;
+            ((MonthEventControl)d).Pallete = (Palette)e.NewValue;
         }
-        public Pallete Pallete
+        public Palette Pallete
         {
-            get { return (Pallete)GetValue(PalleteProperty); }
+            get { return (Palette)GetValue(PalleteProperty); }
             set
             {
                 SetValue(PalleteProperty, value);
@@ -259,6 +259,7 @@ namespace MonthEvent
                 Grid.SetRow(d, 1);
                 _MainGrid.Children.Add(d);
                 _TitleDays.Add(d);
+                d.Type = TitleControlType.Title;
             }
 
             for (int y = 2; y < 8; y++) // first for - title; Second - for - day title

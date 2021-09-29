@@ -58,7 +58,6 @@ namespace UIMonthControl
             set { SetValue(PeriodStartProperty, value); }
         }
         #endregion
-
         #region PeriodFinish
         public static readonly DependencyProperty PeriodFinishProperty =
             DependencyProperty.Register("PeriodFinish", typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodFinishPropertyChanged));
@@ -72,7 +71,6 @@ namespace UIMonthControl
             set { SetValue(PeriodFinishProperty, value); }
         }
         #endregion
-
         #region PeriodSelected
         public static readonly DependencyProperty PeriodSelectedProperty =
             DependencyProperty.Register(nameof(PeriodSelected), typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodSelectedPropertyChanged));
@@ -86,7 +84,6 @@ namespace UIMonthControl
             set { SetValue(PeriodSelectedProperty, value); }
         }
         #endregion
-
         #region Date
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register("Date", typeof(DateTime), typeof(YearControl), new PropertyMetadata(DatePropertyChanged));
@@ -104,8 +101,7 @@ namespace UIMonthControl
                     UpdateElements();
             }
         }
-        #endregion
-        
+        #endregion   
         #region TitleTip
         public static readonly DependencyProperty TitleTipProperty =
             DependencyProperty.Register(nameof(TitleTip), typeof(string), typeof(YearControl), new PropertyMetadata(TitleTipPropertyChanged));
@@ -125,7 +121,6 @@ namespace UIMonthControl
             }
         }
         #endregion
-
         #region SelectedDates
         public static readonly DependencyProperty SelectedDatesProperty =
             DependencyProperty.Register(nameof(SelectedDates), typeof(ObservableCollection<DateTime>), typeof(YearControl), new PropertyMetadata(SelectedDatesChanged));
@@ -150,17 +145,16 @@ namespace UIMonthControl
             }
         }
         #endregion
-
         #region Pallete
         public static readonly DependencyProperty PalleteProperty =
-            DependencyProperty.Register(nameof(Pallete), typeof(Pallete), typeof(YearControl), new PropertyMetadata(PalleteChanged));
+            DependencyProperty.Register(nameof(Pallete), typeof(Palette), typeof(YearControl), new PropertyMetadata(PalleteChanged));
         private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((YearControl)d).Pallete = (Pallete)e.NewValue;
+            ((YearControl)d).Pallete = (Palette)e.NewValue;
         }
-        public Pallete Pallete
+        public Palette Pallete
         {
-            get { return (Pallete)GetValue(PalleteProperty); }
+            get { return (Palette)GetValue(PalleteProperty); }
             set
             {
                 if (value == null)

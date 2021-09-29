@@ -23,7 +23,7 @@
             AddEvent="{Binding Path=AddEventCommand}">
             <weekevent:WeekEventControl.ItemTemplate>
                 <DataTemplate>
-                    <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  BorderBrush="Transparent" Background="Transparent"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type weekevent:WeekEventControl}}, Path=DataContext.SelectedEvent}"
                             CommandParameter="{Binding}" Visibility="{Binding Path=Calendar.Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Label Height="30" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"        
@@ -34,7 +34,7 @@
             </weekevent:WeekEventControl.ItemTemplate>
             <weekevent:WeekEventControl.WeekEventTemplate>
                 <DataTemplate>
-                    <Button Name="Button"  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" 
+                    <Button Name="Button"  VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="Transparent" Background="Transparent"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type weekevent:WeekEventControl}}, Path=DataContext.SelectedEvent}"
                             CommandParameter="{Binding}">
                         <Label Name="Label" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"        

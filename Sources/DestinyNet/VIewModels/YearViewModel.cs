@@ -9,7 +9,7 @@ namespace DestinyNet
     public class YearViewModel : ViewModeDataBase
     {
         private string _titleTip;
-        private Pallete _pallete;
+        private Palette _pallete;
         public YearViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
             SelectedDates = new ObservableCollection<DateTime>();
@@ -77,7 +77,7 @@ namespace DestinyNet
 
             if (ev == null)
                 return;
-            Pallete.Selected = ev.Calendar.Color;
+            Pallete.Selected.Background = ev.Calendar.Color;
             var sd = new DateTime(Date.Year, 1, 1);
             var fd = new DateTime(Date.AddYears(1).Year, 1, 1);
             while(sd.Date < fd.Date)
@@ -89,7 +89,7 @@ namespace DestinyNet
             }
             ViewSelectedDates();
         }
-        public Pallete Pallete {
+        public Palette Pallete {
             get => _pallete;
             private set => SetField(ref _pallete, value); }
         public bool IsMultipleSelection { get; set; }

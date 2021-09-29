@@ -43,7 +43,7 @@ namespace UIMonthControl
         public MonthControl()
         {
             Days = new List<DayControl>();
-            Pallete = new Pallete();
+            Pallete = new Palette();
             _TitleDays = new List<TitleControl>();
             _tempSelection = new List<DateTime>();
             _dictionaryDayControl = new Dictionary<DateTime, DayControl>();
@@ -103,7 +103,8 @@ namespace UIMonthControl
                         var dt = ((DateTime)d).Date;
                         if (_dictionaryDayControl.ContainsKey(dt))
                         {
-                            _dictionaryDayControl[dt].Background = Pallete.Selected;
+                            _dictionaryDayControl[dt].Background = Pallete.Selected.Background;
+                            _dictionaryDayControl[dt].Foreground = Pallete.Selected.Foreground;
                         }
                     }
                     break;
@@ -139,14 +140,14 @@ namespace UIMonthControl
         #endregion
         #region Pallete
         public static readonly DependencyProperty PalleteProperty =
-            DependencyProperty.Register(nameof(Pallete), typeof(Pallete), typeof(MonthControl), new PropertyMetadata(PalleteChanged));
+            DependencyProperty.Register(nameof(Pallete), typeof(Palette), typeof(MonthControl), new PropertyMetadata(PalleteChanged));
         private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthControl)d).Pallete = (Pallete)e.NewValue;
+            ((MonthControl)d).Pallete = (Palette)e.NewValue;
         }
-        public Pallete Pallete
+        public Palette Pallete
         {
-            get { return (Pallete)GetValue(PalleteProperty); }
+            get { return (Palette)GetValue(PalleteProperty); }
             set
             {
                 if (value == null)
@@ -170,7 +171,8 @@ namespace UIMonthControl
             {
                 if ((_dictionaryDayControl.ContainsKey(newDate.Date)))
                 {
-                    _dictionaryDayControl[newDate.Date].Background = Pallete.Selected;
+                    _dictionaryDayControl[newDate.Date].Background = Pallete.Selected.Background;
+                    _dictionaryDayControl[newDate.Date].Foreground = Pallete.Selected.Foreground;
                     _tempSelection.Add(newDate.Date);
                 }
             }

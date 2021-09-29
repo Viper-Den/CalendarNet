@@ -37,27 +37,54 @@ namespace Destiny.Core
         Brush Foreground { get; set; }
         Brush Background { get; set; }
         DateTime Date { get; set; }
-        DayType Type {  get; }
+        DayType Type { get; }
+    }
+    public class ControlBrush
+    {
+        public ControlBrush(Brush background, Brush foreground)
+        {
+            Background = background;
+            Foreground = foreground;
+        }
+        public Brush Foreground { get; set; }
+        public Brush Background { get; set; }
+    }
+    public enum EvementStyle
+    {
+        DayNoMonth,
+        Day,
+        DayFinish,
+        DayOff,
+        DayOffFinish,
+        ToDay,
+        SelectedDefault
     }
 
-    public class Pallete
+    public class Palette
     {
-        public Pallete()
+        private Dictionary<EvementStyle, ControlBrush> _evementStyles;
+        public Palette()
         {
-            DayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-            DayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-            DayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
-            ToDay = new SolidColorBrush(Color.FromRgb(17, 110, 190));
-            SelectedDefault = Brushes.Gray;
+            _evementStyles = new Dictionary<EvementStyle, ControlBrush>();
+            _evementStyles[EvementStyle.DayNoMonth] = new ControlBrush(Brushes.Transparent, Brushes.Gainsboro);
+            _evementStyles[EvementStyle.Day] = new ControlBrush(Brushes.Transparent, Brushes.Black);
+            _evementStyles[EvementStyle.DayFinish] = new ControlBrush(new SolidColorBrush(Color.FromRgb(230, 230, 230)), Brushes.Black);
+            _evementStyles[EvementStyle.DayOff] = new ControlBrush(new SolidColorBrush(Color.FromRgb(230, 230, 230)), Brushes.Black);
+            _evementStyles[EvementStyle.DayOffFinish] = new ControlBrush(new SolidColorBrush(Color.FromRgb(210, 210, 210)), Brushes.Black);
+            _evementStyles[EvementStyle.ToDay] = new ControlBrush(new SolidColorBrush(Color.FromRgb(17, 110, 190)), Brushes.White);
+            _evementStyles[EvementStyle.SelectedDefault] = new ControlBrush(Brushes.Gray, Brushes.White);
             Selected = SelectedDefault;
             ViewBorderingMonths = Visibility.Hidden;
         }
-        public SolidColorBrush DayOff { get; set; }
-        public SolidColorBrush DayFinish { get; set; }
-        public SolidColorBrush DayOffFinish { get; set; }
-        public SolidColorBrush Selected { get; set; }
-        public SolidColorBrush SelectedDefault { get; private set; }
-        public SolidColorBrush ToDay { get; set; }
+        public string Name { get; set; }
+        public ControlBrush DayNoMonth { get => _evementStyles[EvementStyle.DayNoMonth]; }
+        public ControlBrush DayOff { get => _evementStyles[EvementStyle.DayOff]; }
+        public ControlBrush DayFinish { get => _evementStyles[EvementStyle.DayFinish]; }
+        public ControlBrush DayOffFinish { get => _evementStyles[EvementStyle.DayOffFinish]; }
+        public ControlBrush Selected { get; set; }
+        public ControlBrush SelectedDefault { get => _evementStyles[EvementStyle.SelectedDefault]; }
+        public ControlBrush ToDay { get => _evementStyles[EvementStyle.ToDay]; }
+        public ControlBrush Day { get => _evementStyles[EvementStyle.Day]; }
         public Visibility ViewBorderingMonths { get; set; }
         public virtual void PaintTitle(ITitleControl title, DateTime date)
         {
@@ -68,11 +95,13 @@ namespace Destiny.Core
                     break;
                 case TitleControlType.WeekTitle:
                     title.Text = date.ToString("ddd");
-                    title.Background = Brushes.Transparent;
+                    title.Foreground = Day.Foreground;
+                    title.Background = Day.Background;
                     break;
                 case TitleControlType.WeekTitleDayOff:
                     title.Text = date.ToString("ddd");
-                    title.Background = DayOff;
+                    title.Foreground = DayOff.Foreground;
+                    title.Background = DayOff.Background;
                     break;
                 case TitleControlType.Button:
                     title.Visibility = Visibility.Visible;
@@ -83,32 +112,32 @@ namespace Destiny.Core
         {
             if (day.Date.Month != date.Month)
             {
-                day.Foreground = Brushes.Gainsboro;
-                day.Background = Brushes.Transparent;
+                day.Foreground = DayNoMonth.Foreground;
+                day.Background = DayNoMonth.Background;
                 return;
             }
 
             switch (day.Type)
             {
                 case DayType.Today:
-                    day.Foreground = Brushes.White;
-                    day.Background = ToDay;
+                    day.Foreground = ToDay.Foreground;
+                    day.Background = ToDay.Background;
                     break;
                 case DayType.Day:
-                    day.Foreground = Brushes.Black;
-                    day.Background = Brushes.Transparent;
+                    day.Foreground = Day.Foreground;
+                    day.Background = Day.Background;
                     break;
                 case DayType.DayOff:
-                    day.Foreground = Brushes.Black;
-                    day.Background = DayOff;
+                    day.Foreground = DayOff.Foreground;
+                    day.Background = DayOff.Background;
                     break;
                 case DayType.DayFinish:
-                    day.Foreground = Brushes.Black;
-                    day.Background = DayFinish;
+                    day.Foreground = DayFinish.Foreground;
+                    day.Background = DayFinish.Background;
                     break;
                 case DayType.DayOffFinish:
-                    day.Foreground = Brushes.Black;
-                    day.Background = DayOffFinish;
+                    day.Foreground = DayFinish.Foreground;
+                    day.Background = DayOffFinish.Background;
                     break;
             }
         }
@@ -143,7 +172,7 @@ namespace Destiny.Core
             }
         }
     }
-    public class PalleteYear : Pallete
+    public class PalleteYear : Palette
     {
 
         public override void PaintTitle(ITitleControl title, DateTime date)
@@ -155,11 +184,13 @@ namespace Destiny.Core
                     break;
                 case TitleControlType.WeekTitle:
                     title.Text = date.ToString("ddd");
-                    title.Background = Brushes.Transparent;
+                    title.Foreground = Day.Foreground;
+                    title.Background = Day.Background;
                     break;
                 case TitleControlType.WeekTitleDayOff:
                     title.Text = date.ToString("ddd");
-                    title.Background = DayOff;
+                    title.Foreground = DayOff.Foreground;
+                    title.Background = DayOff.Background;
                     break;
                 case TitleControlType.Button:
                     title.Visibility = Visibility.Hidden;
@@ -176,7 +207,7 @@ namespace Destiny.Core
             base.PaintDay(day, date);
         }
     }
-    public class PalleteMounthEvent : Pallete
+    public class PalleteMounthEvent : Palette
     {
 
         public override void PaintTitle(ITitleControl title, DateTime date)
@@ -187,12 +218,14 @@ namespace Destiny.Core
                     title.Text = date.ToString("MMMM yyyy");
                     break;
                 case TitleControlType.WeekTitle:
-                    title.Text = date.ToString("ddd");
-                    title.Background = Brushes.Transparent;
+                    title.Text = date.ToString("dddd");
+                    title.Background = Day.Background;
+                    title.Foreground = Day.Foreground;
                     break;
                 case TitleControlType.WeekTitleDayOff:
-                    title.Text = date.ToString("ddd");
-                    title.Background = DayOff;
+                    title.Text = date.ToString("dddd");
+                    title.Background = DayOff.Background;
+                    title.Foreground = DayOff.Foreground;
                     break;
             }
         }
@@ -203,17 +236,17 @@ namespace Destiny.Core
                 switch (day.Date.DayOfWeek)
                 {
                     case DayOfWeek.Saturday:
-                        day.Foreground = Brushes.Black;
-                        day.Background = DayOffFinish;
+                        day.Background = DayOffFinish.Background;
+                        day.Foreground = DayOffFinish.Foreground;
                         break;
                     case DayOfWeek.Sunday:
-                        day.Foreground = Brushes.Black;
-                        day.Background = DayOffFinish;
+                        day.Background = DayOffFinish.Background;
+                        day.Foreground = DayOffFinish.Foreground;
                         break;
                     default:
-                        day.Foreground = Brushes.Black;
-                        day.Background = DayFinish;
-                        break; 
+                        day.Background = DayFinish.Background;
+                        day.Foreground = DayFinish.Foreground;
+                        break;
                 }
                 return;
             }
@@ -221,24 +254,16 @@ namespace Destiny.Core
             switch (day.Type)
             {
                 case DayType.Today:
-                    day.Foreground = Brushes.White;
-                    day.Background = ToDay;
-                    break;
-                case DayType.Day:
-                    day.Foreground = Brushes.Black;
-                    day.Background = Brushes.Transparent;
+                    day.Background = ToDay.Background;
+                    day.Foreground = ToDay.Foreground;
                     break;
                 case DayType.DayOff:
-                    day.Foreground = Brushes.Black;
-                    day.Background = DayOff;
+                    day.Background = DayOff.Background;
+                    day.Foreground = DayOff.Foreground;
                     break;
-                case DayType.DayFinish:
-                    day.Foreground = Brushes.Black;
-                    day.Background = Brushes.Transparent;
-                    break;
-                case DayType.DayOffFinish:
-                    day.Foreground = Brushes.Black;
-                    day.Background = DayOff;
+                default:
+                    day.Background = Day.Background;
+                    day.Foreground = Day.Foreground;
                     break;
             }
         }
