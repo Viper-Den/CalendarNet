@@ -1,6 +1,6 @@
 ﻿namespace Destiny.Core
 {
-    public enum EvementStyle
+    public enum EvementStyleType
     {
         DayNoMonth,
         Day,
