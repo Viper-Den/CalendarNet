@@ -13,7 +13,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <TreeView Background="Transparent">
+        <TreeView Grid.Column="0" Background="Transparent">
             <TreeViewItem Header="General"/>
             <TreeViewItem Header="Presets palette">
                 <TreeViewItem Header="White"/>
@@ -21,5 +21,7 @@
             </TreeViewItem>
             <TreeViewItem Header="Weather"/>
         </TreeView>
+        <ContentControl Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                        Content="{Binding Path=SettingsContent}"/>
     </Grid>
 </UserControl>

@@ -4,12 +4,19 @@
              xmlns:ViewModels="clr-namespace:DestinyNet"
              xmlns:Dialogs="clr-namespace:DestinyNet.View.Dialog"
              xmlns:Menu="clr-namespace:DestinyNet.Menu"
+             xmlns:settings="clr-namespace:DestinyNet.View.Settings"
              xmlns:Views="clr-namespace:DestinyNetViews">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!--<DataTemplate DataType="{x:Type settings:PaletteView}">
+                <Views:PaletteViewModel/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type settings:SettingsView}">
+                <Views:SettingsViewModel/>
+            </DataTemplate>-->
             <DataTemplate DataType="{x:Type ViewModels:YearViewModel}">
                 <Views:YearView/>
             </DataTemplate>
