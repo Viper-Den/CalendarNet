@@ -11,12 +11,12 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Resources.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <!--<DataTemplate DataType="{x:Type settings:PaletteView}">
-                <Views:PaletteViewModel/>
+            <DataTemplate DataType="{x:Type viewModels:PaletteViewModel}">
+                <settings:PaletteView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type settings:SettingsView}">
-                <Views:SettingsViewModel/>
-            </DataTemplate>-->
+            <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                <settings:SettingsView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:YearViewModel}">
                 <views:YearView/>
             </DataTemplate>

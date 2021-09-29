@@ -10,11 +10,13 @@ namespace DestinyNet
         private readonly Data _data;
         private ViewModelEnum _selectedViewModelEnum;
         private BaseViewModel _toolPanel;
+        private PaletteManager _paletteManager;
         private Dictionary<ViewModelEnum, BaseViewModel> _viewModelsDictionary;
 
         public ManagerViewModel(Data data)
         {
             _data = data;
+            _paletteManager = new PaletteManager(new Palette());
             DialogViewsManager = new DialogViewsManager();
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
             _viewModelsDictionary = new Dictionary<ViewModelEnum, BaseViewModel>();
@@ -60,7 +62,11 @@ namespace DestinyNet
         public ICommand WeekViewCommand { get => new ActionCommand(ViewWeek); }
         public ICommand YearViewCommand { get => new ActionCommand(ViewYear); }
         public ICommand ToDoViewCommand { get => new ActionCommand(ViewToDo); }
-
+        public ICommand SettingsCommand { get => new ActionCommand(DoSettingsCommand); }
+        private void DoSettingsCommand(object o)
+        {
+            DialogViewsManager.ShowDialogView(new SettingsViewModel(DialogViewsManager.ClosePopUpViewCommand, _paletteManager), true);
+        }
         private void ViewMonth(object o)
         {
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);

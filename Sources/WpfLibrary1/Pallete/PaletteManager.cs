@@ -14,7 +14,7 @@ namespace Destiny.Core
             PaletteCollection = new ObservableCollection<Palette>();
             _selectedPalette = DefaultSelectedPalette;
         }
-        private ObservableCollection<Palette> PaletteCollection { get; }
+        public ObservableCollection<Palette> PaletteCollection { get; }
         public Palette SelectedPalette
         {
             get => _selectedPalette;

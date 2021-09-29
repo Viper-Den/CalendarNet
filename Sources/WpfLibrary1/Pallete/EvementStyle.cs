@@ -2,14 +2,14 @@
 
 namespace Destiny.Core
 {
-    public class EvementStyle
+    public class EvementStyle: BaseViewModel
     {
         public EvementStyle(Brush background, Brush foreground)
         {
             Background = background;
             Foreground = foreground;
         }
-        public Brush Foreground { get; set; }
         public Brush Background { get; set; }
+        public Brush Foreground { get; set; }
     }
 }

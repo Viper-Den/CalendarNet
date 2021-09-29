@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media;
 
@@ -10,7 +11,8 @@ namespace Destiny.Core
         private Dictionary<EvementStyleType, EvementStyle> _evementStyleDictionary;
         public Palette()
         {
-            _evementStyleDictionary = new Dictionary<EvementStyleType, EvementStyle>();
+            EvementStyleCollection = new ObservableCollection<EvementStyle>();
+               _evementStyleDictionary = new Dictionary<EvementStyleType, EvementStyle>();
             _evementStyleDictionary[EvementStyleType.DayNoMonth] = new EvementStyle(Brushes.Transparent, Brushes.Gainsboro);
             _evementStyleDictionary[EvementStyleType.Day] = new EvementStyle(Brushes.Transparent, Brushes.Black);
             _evementStyleDictionary[EvementStyleType.DayFinish] = new EvementStyle(new SolidColorBrush(Color.FromRgb(230, 230, 230)), Brushes.Black);
@@ -19,9 +21,12 @@ namespace Destiny.Core
             _evementStyleDictionary[EvementStyleType.ToDay] = new EvementStyle(new SolidColorBrush(Color.FromRgb(17, 110, 190)), Brushes.White);
             _evementStyleDictionary[EvementStyleType.SelectedDefault] = new EvementStyle(Brushes.Gray, Brushes.White);
             Selected = SelectedDefault;
+
+            EvementStyleCollection = new ObservableCollection<EvementStyle>(_evementStyleDictionary.Values);
             ViewBorderingMonths = Visibility.Hidden;
         }
         public string Name { get; set; }
+        public ObservableCollection<EvementStyle> EvementStyleCollection { get; }
         public EvementStyle DayNoMonth { get => _evementStyleDictionary[EvementStyleType.DayNoMonth]; }
         public EvementStyle DayOff { get => _evementStyleDictionary[EvementStyleType.DayOff]; }
         public EvementStyle DayFinish { get => _evementStyleDictionary[EvementStyleType.DayFinish]; }
