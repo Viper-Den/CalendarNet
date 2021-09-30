@@ -5,8 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNet.View.Settings" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="800"
-             Background="white">
+             d:DesignHeight="800" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="sBase" TargetType="Control">
             <Setter Property="Margin" Value="10"/>
@@ -28,7 +27,7 @@
         <Label Grid.Row="0" Grid.Column="0" Style="{StaticResource sBase}" Content="Name"/>
         <TextBox  Grid.Row="0" Grid.Column="1" Height="20" Text="{Binding Path=Palette.Name}"/>
 
-        <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Path=Palette.EvementStyleCollection}">
+        <ListBox Grid.Row="1" Grid.ColumnSpan="2" ItemsSource="{Binding Path=Palette.EvementStyleCollection}" Background="Transparent">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid>
@@ -44,9 +43,9 @@
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Style="{StaticResource sBase}" Content="Day style"/>
                         <Label Grid.Row="1" Grid.Column="0" Style="{StaticResource sBase}" Content="Background"/>
-                        <xctk:ColorPicker Grid.Row="1" Grid.Column="1" Margin="10" SelectedColor="{Binding Path=Palette.Background, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <xctk:ColorPicker Grid.Row="1" Grid.Column="1" Margin="10" SelectedColor="{Binding Path=Background, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Grid.Row="1" Grid.Column="2" Style="{StaticResource sBase}" Content="Foreground"/>
-                        <xctk:ColorPicker Grid.Row="1" Grid.Column="3" Margin="10" SelectedColor="{Binding Path=Palette.Foreground, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <xctk:ColorPicker Grid.Row="1" Grid.Column="3" Margin="10" SelectedColor="{Binding Path=Foreground, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>

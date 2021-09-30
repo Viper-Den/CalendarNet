@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\UI.MonthControl\MonthControl.csproj" />
     <ProjectReference Include="..\UIMonthView\MonthEventControl.csproj" />
+    <ProjectReference Include="..\Weather\AccuWeather.csproj" />
     <ProjectReference Include="..\WpfLibrary1\Destiny.Core.csproj" />
   </ItemGroup>
 
