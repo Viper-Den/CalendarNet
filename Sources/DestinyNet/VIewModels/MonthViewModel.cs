@@ -8,8 +8,10 @@ namespace DestinyNet
 {
     public class MonthViewModel : ViewModeDataBase
     {
-        public MonthViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
+        private WeatherViewModel _weatherViewModel;
+        public MonthViewModel(Data data, IDialogViewsManager dialogViewsManager, WeatherViewModel weatherViewModel) : base(data, dialogViewsManager)
         {
+            _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
         }
         private void OnAddEvent(object o)
         {
@@ -25,6 +27,7 @@ namespace DestinyNet
                 _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
             }
         }
+        public ObservableCollection<IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
         public ObservableCollection<Event> Events {get => _data.Events; }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Destiny.Core;
+using System;
 
 namespace DestinyNet
 {
@@ -11,17 +12,19 @@ namespace DestinyNet
         private ViewModelEnum _selectedViewModelEnum;
         private BaseViewModel _toolPanel;
         private PaletteManager _paletteManager;
+        private WeatherViewModel _weatherViewModel;
         private Dictionary<ViewModelEnum, BaseViewModel> _viewModelsDictionary;
 
-        public ManagerViewModel(Data data)
+        public ManagerViewModel(Data data, Settings settings, WeatherViewModel weatherViewModel)
         {
-            _data = data;
-            _paletteManager = new PaletteManager(new Palette());
+            _data = data ?? throw new ArgumentNullException(nameof(data));
+            _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
+            _paletteManager = new PaletteManager(settings.Palettes);
             DialogViewsManager = new DialogViewsManager();
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
             _viewModelsDictionary = new Dictionary<ViewModelEnum, BaseViewModel>();
-            _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data, DialogViewsManager));
-            _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data, DialogViewsManager));
+            _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data, DialogViewsManager, _weatherViewModel));
+            _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data, DialogViewsManager, _weatherViewModel));
             _viewModelsDictionary.Add(ViewModelEnum.Year, new YearViewModel(_data, DialogViewsManager));
             _viewModelsDictionary.Add(ViewModelEnum.ToDo, new ToDoViewModel(_data, DialogViewsManager));
             _selectedViewModelEnum = ViewModelEnum.Month;

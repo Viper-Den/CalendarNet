@@ -6,15 +6,16 @@ namespace Destiny.Core
 {
     public class PaletteManager: BaseViewModel, IPalette
     {
-        private Palette _selectedPalette;
+        private PaletteSettings _settings;
+        private Palette _selectedPalette; 
 
-        public PaletteManager(Palette defaultSelectedPalette)
+        public PaletteManager(PaletteSettings settings)
         {
-            DefaultSelectedPalette = defaultSelectedPalette ?? throw new NullReferenceException(nameof(defaultSelectedPalette));
-            PaletteCollection = new ObservableCollection<Palette>();
-            _selectedPalette = DefaultSelectedPalette;
+            _settings = settings ?? throw new NullReferenceException(nameof(settings));
+            _selectedPalette = _settings.Default;
         }
-        public ObservableCollection<Palette> PaletteCollection { get; }
+        public ObservableCollection<Palette> PaletteCollection { get => _settings.PaletteCollection; }
+        public Palette DefaultSelectedPalette { get => _settings.Default; }
         public Palette SelectedPalette
         {
             get => _selectedPalette;
@@ -32,7 +33,6 @@ namespace Destiny.Core
                 OnPropertyChanged(nameof(ViewBorderingMonths));
             }
         }
-        public Palette DefaultSelectedPalette { get; private set; }
         public string Name { get => _selectedPalette.Name; }
         public EvementStyle DayNoMonth { get => _selectedPalette.DayNoMonth; }
         public EvementStyle DayOff { get => _selectedPalette.DayOff; }

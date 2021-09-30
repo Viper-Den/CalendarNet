@@ -17,8 +17,11 @@
         <MonthView:MonthEventControl 
             Margin="20,20,20,20" 
             Background="White"
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
             Date="{Binding Path=Date}" 
             Events="{Binding Path=Events}"
+            DayWatherCollection="{Binding Path=DayWatherCollection}"
             AddEvent="{Binding Path=AddEventCommand}">
             <MonthView:MonthEventControl.ItemTemplate>
                 <DataTemplate>
@@ -31,6 +34,21 @@
                     </Button>
                 </DataTemplate>
             </MonthView:MonthEventControl.ItemTemplate>
+            <MonthView:MonthEventControl.WeatherTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                               Source="{Binding Path=Image}" Stretch="Fill" ToolTip="{Binding Path=ToolTip}"/>
+                        <Label Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                               VerticalContentAlignment="Stretch" HorizontalContentAlignment="Left"
+                               Content="{Binding Path=Temperature}" ToolTip="{Binding Path=ToolTip}"/>
+                    </Grid>
+                </DataTemplate>
+            </MonthView:MonthEventControl.WeatherTemplate>
         </MonthView:MonthEventControl>
 
     </Grid>

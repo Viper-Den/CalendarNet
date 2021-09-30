@@ -20,7 +20,8 @@
             Events="{Binding Path=Events}"
             IgnoreHours="{Binding Path=IgnoreHours}"
             HourHeight="{Binding Path=HourHeight}"
-            AddEvent="{Binding Path=AddEventCommand}">
+            AddEvent="{Binding Path=AddEventCommand}"
+            DayWatherCollection="{Binding Path=DayWatherCollection}">
             <weekevent:WeekEventControl.ItemTemplate>
                 <DataTemplate>
                     <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  BorderBrush="Transparent" Background="Transparent"
@@ -43,6 +44,21 @@
                     </Button>
                 </DataTemplate>
             </weekevent:WeekEventControl.WeekEventTemplate>
+            <weekevent:WeekEventControl.WeatherTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                               Source="{Binding Path=Image}" Stretch="Fill" ToolTip="{Binding Path=ToolTip}"/>
+                        <Label Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                               VerticalContentAlignment="Stretch" HorizontalContentAlignment="Left"
+                               Content="{Binding Path=Temperature}" ToolTip="{Binding Path=ToolTip}"/>
+                    </Grid>
+                </DataTemplate>
+            </weekevent:WeekEventControl.WeatherTemplate>
         </weekevent:WeekEventControl>
 
     </Grid>

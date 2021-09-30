@@ -59,7 +59,7 @@ namespace MonthEvent
 
         #region AddEvent
         public static readonly DependencyProperty AddEventProperty =
-            DependencyProperty.Register("AddEvent", typeof(ICommand), typeof(MonthEventControl), new PropertyMetadata(AddEventPropertyChanged));
+            DependencyProperty.Register(nameof(AddEvent), typeof(ICommand), typeof(MonthEventControl), new PropertyMetadata(AddEventPropertyChanged));
         public static void AddEventPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthEventControl)d).AddEvent = (ICommand)e.NewValue;
@@ -72,7 +72,7 @@ namespace MonthEvent
         #endregion
         #region ItemTemplate
         public static readonly DependencyProperty ItemTemplateProperty =
-            DependencyProperty.Register("ItemTemplate", typeof(DataTemplate), typeof(MonthEventControl), new PropertyMetadata(ItemTemplateChanged));
+            DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(MonthEventControl), new PropertyMetadata(ItemTemplateChanged));
         public static void ItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthEventControl)d).ItemTemplate = (DataTemplate)e.NewValue;
@@ -89,7 +89,7 @@ namespace MonthEvent
         #endregion
         #region Events
         public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<Event>), typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
+           DependencyProperty.Register(nameof(Events), typeof(ObservableCollection<Event>), typeof(MonthEventControl), new PropertyMetadata(OnEventsChanged));
 
         private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -112,7 +112,7 @@ namespace MonthEvent
         #endregion
         #region Date
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(MonthEventControl), new PropertyMetadata(DatePropertyChanged));
+            DependencyProperty.Register(nameof(Date), typeof(DateTime), typeof(MonthEventControl), new PropertyMetadata(DatePropertyChanged));
 
         public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -142,6 +142,59 @@ namespace MonthEvent
             {
                 SetValue(PalleteProperty, value);
                 UpdateElements();
+            }
+        }
+        #endregion
+        #region Wather
+        public static readonly DependencyProperty DayWatherCollectionProperty =
+            DependencyProperty.Register(nameof(DayWatherCollection), typeof(ObservableCollection<IDayWather>), typeof(MonthEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+
+        public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthEventControl)d).DayWatherCollection = (ObservableCollection<IDayWather>)e.NewValue;
+        }
+        public ObservableCollection<IDayWather> DayWatherCollection
+        {
+            get { return (ObservableCollection<IDayWather>)GetValue(DayWatherCollectionProperty); }
+            set
+            {
+                SetValue(DayWatherCollectionProperty, value);
+                UpdateWather();
+            }
+        }
+        public void UpdateWather()
+        {
+            if (_Days == null)
+                return;
+            foreach (var d in _Days)
+            {
+                d.DayWatherCollection = DayWatherCollection;
+            }
+        }
+        #endregion
+        #region WeatherTemplate
+        public static readonly DependencyProperty WeatherTemplateProperty =
+            DependencyProperty.Register(nameof(WeatherTemplate), typeof(DataTemplate), typeof(MonthEventControl), new PropertyMetadata(WeatherTemplateChanged));
+        public static void WeatherTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthEventControl)d).WeatherTemplate = (DataTemplate)e.NewValue;
+        }
+        public DataTemplate WeatherTemplate
+        {
+            get { return (DataTemplate)GetValue(WeatherTemplateProperty); }
+            set
+            {
+                SetValue(WeatherTemplateProperty, value);
+                UpdateWeatherTemplate();
+            }
+        }
+        public void UpdateWeatherTemplate()
+        {
+            if (_Days == null)
+                return;
+            foreach (var d in _Days)
+            {
+                d.WeatherTemplate = WeatherTemplate;
             }
         }
         #endregion
@@ -280,6 +333,8 @@ namespace MonthEvent
                 }
             }
             UpdateElements();
+            UpdateWeatherTemplate();
+            UpdateWather();
         }
         private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
         {

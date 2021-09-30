@@ -21,11 +21,16 @@
                         <Grid.Resources>
                             <ResourceDictionary Source="/Destiny.Core;component/Themes/Generic.xaml"/>
                         </Grid.Resources>
-
-                        <Label x:Name="xTitle" Grid.Row="0" Content="Date" 
-                               Foreground="{TemplateBinding Foreground}"
-                               VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
-                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        <Grid x:Name="xTitleGrid" Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="xTitle" Grid.Column="0" Foreground="{TemplateBinding Foreground}"
+                                   VerticalContentAlignment="Center" HorizontalContentAlignment="Left" 
+                                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                            <ContentControl  x:Name="xTitleContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                        </Grid>
                         <ListView Grid.Row="1" 
                                  Background="Transparent"
                                  BorderThickness="0" 

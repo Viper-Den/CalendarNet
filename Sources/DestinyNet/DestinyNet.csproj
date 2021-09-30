@@ -8,6 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Weather\Cloudy.png" />
+    <None Remove="Images\Weather\Fog.png" />
+    <None Remove="Images\Weather\Intermittent Clouds.png" />
+    <None Remove="Images\Weather\None.png" />
+    <None Remove="Images\Weather\Overcast.png" />
+    <None Remove="Images\Weather\Partially_Cloudy.png" />
+    <None Remove="Images\Weather\Rain.png" />
+    <None Remove="Images\Weather\Rain_Snow.png" />
+    <None Remove="Images\Weather\Sleet.png" />
+    <None Remove="Images\Weather\Snow.png" />
+    <None Remove="Images\Weather\Sunny_Clear.png" />
+    <None Remove="Images\Weather\ThunderStorm.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
     <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
@@ -20,6 +35,21 @@
     <ProjectReference Include="..\UIMonthView\MonthEventControl.csproj" />
     <ProjectReference Include="..\Weather\AccuWeather.csproj" />
     <ProjectReference Include="..\WpfLibrary1\Destiny.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Weather\Cloudy.png" />
+    <Resource Include="Images\Weather\Fog.png" />
+    <Resource Include="Images\Weather\Intermittent Clouds.png" />
+    <Resource Include="Images\Weather\None.png" />
+    <Resource Include="Images\Weather\Overcast.png" />
+    <Resource Include="Images\Weather\Partially_Cloudy.png" />
+    <Resource Include="Images\Weather\Rain.png" />
+    <Resource Include="Images\Weather\Rain_Snow.png" />
+    <Resource Include="Images\Weather\Sleet.png" />
+    <Resource Include="Images\Weather\Snow.png" />
+    <Resource Include="Images\Weather\Sunny_Clear.png" />
+    <Resource Include="Images\Weather\ThunderStorm.png" />
   </ItemGroup>
 
 </Project>

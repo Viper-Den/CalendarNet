@@ -23,9 +23,9 @@ namespace DestinyNet
         {
             base.OnStartup(e);
             _settings = LoadSettings();
-            var a = new AccuWeatherManager(_settings.AccuWeather);
+            var weatherViewModel = new WeatherViewModel(new AccuWeatherManager(_settings.AccuWeather));
             _data = Load();
-            MainWindow app = new MainWindow() { DataContext = new ManagerViewModel(_data) };
+            MainWindow app = new MainWindow() { DataContext = new ManagerViewModel(_data, _settings, weatherViewModel) };
             app.Show();
         }
         protected override void OnExit(ExitEventArgs e)

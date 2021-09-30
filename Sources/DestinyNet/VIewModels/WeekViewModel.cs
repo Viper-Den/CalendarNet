@@ -11,8 +11,10 @@ namespace DestinyNet
     public class WeekViewModel : ViewModeDataBase
     {
         private int _hourHeight;
-        public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
+        private WeatherViewModel _weatherViewModel;
+            public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager, WeatherViewModel weatherViewModel) : base(data, dialogViewsManager)
         {
+            _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
             IgnoreHours = new ObservableCollection<int>();
             for (var i = 0; i < 9; i++)  // скроем все часы до 9 утра
                 IgnoreHours.Add(i);
@@ -35,8 +37,9 @@ namespace DestinyNet
         public int HourHeight 
         { 
             get => _hourHeight;
-            set { SetField(ref _hourHeight, value); } 
+            set { SetField(ref _hourHeight, value); }
         }
+        public ObservableCollection<IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
         public ObservableCollection<int> IgnoreHours { get; set; }
         public ObservableCollection<Event> Events { get => _data.Events; }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }

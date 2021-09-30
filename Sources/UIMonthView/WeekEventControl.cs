@@ -536,6 +536,59 @@ namespace MonthEvent
             ((WeekEventControl)d).WeekEventTemplate = (DataTemplate)e.NewValue;
         }
         #endregion
+        #region Wather
+        public static readonly DependencyProperty DayWatherCollectionProperty =
+            DependencyProperty.Register(nameof(DayWatherCollection), typeof(ObservableCollection<IDayWather>), typeof(WeekEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+
+        public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).DayWatherCollection = (ObservableCollection<IDayWather>)e.NewValue;
+        }
+        public ObservableCollection<IDayWather> DayWatherCollection
+        {
+            get { return (ObservableCollection<IDayWather>)GetValue(DayWatherCollectionProperty); }
+            set
+            {
+                SetValue(DayWatherCollectionProperty, value);
+                UpdateWather();
+            }
+        }
+        public void UpdateWather()
+        {
+            if (_Days == null)
+                return;
+            foreach (var d in _Days)
+            {
+                d.Day.DayWatherCollection = DayWatherCollection;
+            }
+        }
+        #endregion
+        #region WeatherTemplate
+        public static readonly DependencyProperty WeatherTemplateProperty =
+            DependencyProperty.Register(nameof(WeatherTemplate), typeof(DataTemplate), typeof(WeekEventControl), new PropertyMetadata(WeatherTemplateChanged));
+        public static void WeatherTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).WeatherTemplate = (DataTemplate)e.NewValue;
+        }
+        public DataTemplate WeatherTemplate
+        {
+            get { return (DataTemplate)GetValue(WeatherTemplateProperty); }
+            set
+            {
+                SetValue(WeatherTemplateProperty, value);
+                UpdateWeatherTemplate();
+            }
+        }
+        public void UpdateWeatherTemplate()
+        {
+            if (_Days == null)
+                return;
+            foreach (var d in _Days)
+            {
+                d.Day.WeatherTemplate = WeatherTemplate;
+            }
+        }
+        #endregion
         public void UpdateRows()
         {
             if (IgnoreHours == null)
@@ -729,6 +782,8 @@ namespace MonthEvent
             UpdateRows();
             UpdateEventsView();
             UpdateRows();
+            UpdateWeatherTemplate();
+            UpdateWather();
         }
         private void UpdateEventDayCol()
         {
