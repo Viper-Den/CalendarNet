@@ -21,8 +21,9 @@
             HorizontalAlignment="Stretch"
             Date="{Binding Path=Date}" 
             Events="{Binding Path=Events}"
-            DayWatherCollection="{Binding Path=DayWatherCollection}"
-            AddEvent="{Binding Path=AddEventCommand}">
+            DayWeatherCollection="{Binding Path=DayWeatherCollection}"
+            AddEvent="{Binding Path=AddEventCommand}"
+            Palette="{Binding Path=Palette, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             <MonthView:MonthEventControl.ItemTemplate>
                 <DataTemplate>
                     <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" BorderBrush="Transparent" Background="Transparent"

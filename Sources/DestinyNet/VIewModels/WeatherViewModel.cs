@@ -13,12 +13,12 @@ namespace DestinyNet
         public string Path { get; set; }
         public string ToolTip { get; set; }
     }
-    public class DayWatherViewModel : IDayWather
+    public class DayWeatherCollection : IDayWeather
     {
         private DayWeather _dayWeather;
         private static Dictionary<DayWeatherType, ImageInfo> _dayWeatherPathDictionary;
 
-        static DayWatherViewModel()
+        static DayWeatherCollection()
         {
             _dayWeatherPathDictionary = new Dictionary<DayWeatherType, ImageInfo>();
             _dayWeatherPathDictionary.Add(DayWeatherType.None, new ImageInfo() { Path = "None.png", ToolTip= "None" });
@@ -34,7 +34,7 @@ namespace DestinyNet
             _dayWeatherPathDictionary.Add(DayWeatherType.Sleet, new ImageInfo() { Path = "Sleet.png", ToolTip = "Sleet" });
             _dayWeatherPathDictionary.Add(DayWeatherType.Rain_Snow, new ImageInfo() { Path = "Rain_Snow.png", ToolTip = "Rain and snow" });
         }
-        public DayWatherViewModel(DayWeather dayWeather)
+        public DayWeatherCollection(DayWeather dayWeather)
         {
             _dayWeather = dayWeather ?? throw new ArgumentNullException(nameof(dayWeather)); 
         }
@@ -62,13 +62,13 @@ namespace DestinyNet
         {
             _accuWeatherManager = accuWeatherManager ?? throw new ArgumentNullException(nameof(accuWeatherManager));
             
-            DayWatherCollection = new Dictionary<DateTime, IDayWather>();
+            DayWeatherCollection = new Dictionary<DateTime, IDayWeather>();
             var list = _accuWeatherManager.GetFiveDaysWeather();
 
 
             foreach(var d in list)
-                DayWatherCollection.Add(d.Date.Date, new DayWatherViewModel(d));
+                DayWeatherCollection.Add(d.Date.Date, new DayWeatherCollection(d));
         }
-        public Dictionary<DateTime, IDayWather> DayWatherCollection { get; }
+        public Dictionary<DateTime, IDayWeather> DayWeatherCollection { get; }
     }
 }

@@ -11,6 +11,8 @@ namespace DestinyNet
     public class WeekViewModel : ViewModeDataBase
     {
         private int _hourHeight;
+        private Palette _palette;
+
         private WeatherViewModel _weatherViewModel;
             public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager, WeatherViewModel weatherViewModel) : base(data, dialogViewsManager)
         {
@@ -40,10 +42,13 @@ namespace DestinyNet
             get => _hourHeight;
             set { SetField(ref _hourHeight, value); }
         }
-        public Dictionary<DateTime, IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
+        public Dictionary<DateTime, IDayWeather> DayWeatherCollection { get => _weatherViewModel.DayWeatherCollection; }
         public ObservableCollection<int> IgnoreHours { get; set; }
         public ObservableCollection<Event> Events { get => _data.Events; }
-        public Palette Palette { get; }
+        public Palette Palette { 
+            get => _palette; 
+            private set => SetField(ref _palette, value); 
+        }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }
     }

@@ -2,7 +2,7 @@
 
 namespace MonthEvent
 {
-    public interface IDayWather
+    public interface IDayWeather
     {
         public bool IsDate(DateTime date);
     }

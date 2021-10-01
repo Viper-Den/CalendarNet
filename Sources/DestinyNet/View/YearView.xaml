@@ -19,8 +19,7 @@
             PeriodFinish="{Binding Path=FinishDateCommand}"
             SelectedDates="{Binding Path=SelectedDates}"
             PeriodSelected="{Binding Path=PeriodSelectedCommand}"
-            Palette="{Binding Path=Palette, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-            Grid.ColumnSpan="2"/>
+            Palette="{Binding Path=Palette, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Background="Transparent" BorderBrush="Transparent"
                 VerticalAlignment="Top" HorizontalAlignment="Right" Margin="120,17"
                 Command="{Binding Path=AddEventCommand}">

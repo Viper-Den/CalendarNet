@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              xmlns:weekevent="clr-namespace:MonthEvent;assembly=MonthEventControl"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=DestinyNet:WeekViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -21,8 +22,8 @@
             IgnoreHours="{Binding Path=IgnoreHours}"
             HourHeight="{Binding Path=HourHeight}"
             AddEvent="{Binding Path=AddEventCommand}"
-            Palette="{Binding Path=Palette}"
-            DayWatherCollection="{Binding Path=DayWatherCollection}">
+            DayWeatherCollection="{Binding Path=DayWeatherCollection}"
+            Palette="{Binding Path=Palette, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             <weekevent:WeekEventControl.ItemTemplate>
                 <DataTemplate>
                     <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  BorderBrush="Transparent" Background="Transparent"

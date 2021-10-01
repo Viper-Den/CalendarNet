@@ -89,9 +89,10 @@ namespace DestinyNet
             }
             ViewSelectedDates();
         }
-        public Palette Palette {
-            get => _palette;
-            private set => SetField(ref _palette, value); }
+        public Palette Palette { 
+            get => _palette; 
+            private set => SetField(ref _palette, value); 
+        }
         public bool IsMultipleSelection { get; set; }
         public ObservableCollection<Event> Event { get; set; }
         public ObservableCollection<DateTime> SelectedDates { get; protected set; }

@@ -341,6 +341,8 @@ namespace MonthEvent
             get { return (ObservableCollection<int>)GetValue(IgnoreHoursProperty); }
             set
             {
+                if (value == null)
+                    return;
                 SetValue(IgnoreHoursProperty, value);
                 UpdateRows();
             }
@@ -425,7 +427,8 @@ namespace MonthEvent
         public DataTemplate WeekEventTemplate
         {
             get { return (DataTemplate)GetValue(WeekEventTemplateProperty); }
-            set {
+            set
+            {
                 SetValue(WeekEventTemplateProperty, value);
                 UpdateWeekEventTemplate();
             }
@@ -447,28 +450,30 @@ namespace MonthEvent
             ((WeekEventControl)d).WeekEventTemplate = (DataTemplate)e.NewValue;
         }
         #endregion
-        #region Wather
-        public static readonly DependencyProperty DayWatherCollectionProperty =
-            DependencyProperty.Register(nameof(DayWatherCollection), typeof(Dictionary<DateTime, IDayWather>), typeof(WeekEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+        #region Weather
+        public static readonly DependencyProperty DayWeatherCollectionProperty =
+            DependencyProperty.Register(nameof(DayWeatherCollection), typeof(Dictionary<DateTime, IDayWeather>), typeof(WeekEventControl), new PropertyMetadata(DayWeatherCollectionPropertyChanged));
 
-        public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static void DayWeatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((WeekEventControl)d).DayWatherCollection = (Dictionary<DateTime, IDayWather>)e.NewValue;
+            ((WeekEventControl)d).DayWeatherCollection = (Dictionary<DateTime, IDayWeather>)e.NewValue;
         }
-        public Dictionary<DateTime, IDayWather> DayWatherCollection
+        public Dictionary<DateTime, IDayWeather> DayWeatherCollection
         {
-            get { return (Dictionary<DateTime, IDayWather>)GetValue(DayWatherCollectionProperty); }
+            get { return (Dictionary<DateTime, IDayWeather>)GetValue(DayWeatherCollectionProperty); }
             set {
-                SetValue(DayWatherCollectionProperty, value);
-                UpdateWather();
+                if (value == null)
+                    return;
+                SetValue(DayWeatherCollectionProperty, value);
+                UpdateWeather();
             }
         }
-        public void UpdateWather()
+        public void UpdateWeather()
         {
             if (_Days == null)
                 return;
             foreach (var d in _Days)
-                d.Day.DayWatherCollection = DayWatherCollection;
+                d.Day.DayWeatherCollection = DayWeatherCollection;
         }
         #endregion
         #region WeatherTemplate
@@ -507,6 +512,8 @@ namespace MonthEvent
             get { return (Palette)GetValue(PaletteProperty); }
             set
             {
+                if (value == null)
+                    return;
                 SetValue(PaletteProperty, value);
                 UpdateElements();
             }
@@ -574,7 +581,7 @@ namespace MonthEvent
 
         private void UpdateElements()
         {
-            if (_Title == null)
+            if ((_Title == null) || (Palette == null))
                 return;
 
             Palette.PaintTitle(_Title, Date);
@@ -670,7 +677,7 @@ namespace MonthEvent
             UpdateElements();
             UpdateRows();
             UpdateRows();
-            UpdateWather();
+            UpdateWeather();
         }
         private void UpdateEventDayCol()
         {

@@ -87,15 +87,15 @@ namespace MonthEvent
         }
         public ObservableCollection<Event> Events
         {
-            get { return (ObservableCollection<Event>) GetValue(EventsProperty);}
+            get { return (ObservableCollection<Event>)GetValue(EventsProperty); }
             set
             {
                 if (Events != null)
                     Events.CollectionChanged -= DoNotifyCollectionChangedEventHandler;
 
                 SetValue(EventsProperty, value);
-                if(Events != null)
-                  Events.CollectionChanged += DoNotifyCollectionChangedEventHandler;
+                if (Events != null)
+                    Events.CollectionChanged += DoNotifyCollectionChangedEventHandler;
                 UpdateEvents();
             }
         }
@@ -120,7 +120,7 @@ namespace MonthEvent
         #endregion
         #region Palette
         public static readonly DependencyProperty PaletteProperty =
-            DependencyProperty.Register(nameof(Palette), typeof(Palette), typeof(MonthEventControl), new PropertyMetadata(PaletteProperty));
+            DependencyProperty.Register(nameof(Palette), typeof(Palette), typeof(MonthEventControl), new PropertyMetadata(PalettePropertyChanged));
         private static void PalettePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((MonthEventControl)d).Palette = (Palette)e.NewValue;
@@ -130,34 +130,38 @@ namespace MonthEvent
             get { return (Palette)GetValue(PaletteProperty); }
             set
             {
+                if (value == null)
+                    return;
                 SetValue(PaletteProperty, value);
                 UpdateElements();
             }
         }
         #endregion
-        #region Wather
-        public static readonly DependencyProperty DayWatherCollectionProperty =
-            DependencyProperty.Register(nameof(DayWatherCollection), typeof(Dictionary<DateTime, IDayWather>), typeof(MonthEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+        #region DayWeatherCollection
+        public static readonly DependencyProperty DayWeatherCollectionProperty =
+            DependencyProperty.Register(nameof(DayWeatherCollection), typeof(Dictionary<DateTime, IDayWeather>), typeof(MonthEventControl), new PropertyMetadata(DayWeatherCollectionPropertyChanged));
 
-        public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static void DayWeatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthEventControl)d).DayWatherCollection = (Dictionary<DateTime, IDayWather>)e.NewValue;
+            ((MonthEventControl)d).DayWeatherCollection = (Dictionary<DateTime, IDayWeather>)e.NewValue;
         }
-        public Dictionary<DateTime, IDayWather> DayWatherCollection
+        public Dictionary<DateTime, IDayWeather> DayWeatherCollection
         {
-            get { return (Dictionary<DateTime, IDayWather>)GetValue(DayWatherCollectionProperty); }
+            get { return (Dictionary<DateTime, IDayWeather>)GetValue(DayWeatherCollectionProperty); }
             set
             {
-                SetValue(DayWatherCollectionProperty, value);
-                UpdateWather();
+                if (value == null)
+                    return;
+                SetValue(DayWeatherCollectionProperty, value);
+                UpdateWeather();
             }
         }
-        public void UpdateWather()
+        public void UpdateWeather()
         {
             if (_Days == null)
                 return;
             foreach (var d in _Days)
-                d.DayWatherCollection = DayWatherCollection;
+                d.DayWeatherCollection = DayWeatherCollection;
         }
         #endregion
         #region WeatherTemplate
@@ -186,7 +190,7 @@ namespace MonthEvent
         #endregion
         private void UpdateElements()
         {
-            if (_Title == null)
+            if ((_Title == null)||(Palette == null))
                 return;
 
             Palette.PaintTitle(_Title, Date);
@@ -312,7 +316,7 @@ namespace MonthEvent
             }
             UpdateWeatherTemplate();
             UpdateElements();
-            UpdateWather();
+            UpdateWeather();
         }
         private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
         {

@@ -83,31 +83,33 @@ namespace MonthEvent
             _TitleContentControl.Content = (WeatherTemplate == null) ? null : WeatherTemplate.LoadContent();
         }
         #endregion
-        #region Wather
-        public static readonly DependencyProperty DayWatherCollectionProperty =
-            DependencyProperty.Register(nameof(DayWatherCollection), typeof(Dictionary<DateTime, IDayWather>), typeof(DayMonthEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+        #region DayWeatherCollection
+        public static readonly DependencyProperty DayWeatherCollectionProperty =
+            DependencyProperty.Register(nameof(DayWeatherCollection), typeof(Dictionary<DateTime, IDayWeather>), typeof(DayMonthEventControl), new PropertyMetadata(DayWeatherCollectionPropertyChanged));
 
-        public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static void DayWeatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DayMonthEventControl)d).DayWatherCollection = (Dictionary<DateTime, IDayWather>)e.NewValue;
+            ((DayMonthEventControl)d).DayWeatherCollection = (Dictionary<DateTime, IDayWeather>)e.NewValue;
         }
-        public Dictionary<DateTime, IDayWather> DayWatherCollection
+        public Dictionary<DateTime, IDayWeather> DayWeatherCollection
         {
-            get { return (Dictionary<DateTime, IDayWather>)GetValue(DayWatherCollectionProperty); }
+            get { return (Dictionary<DateTime, IDayWeather>)GetValue(DayWeatherCollectionProperty); }
             set
             {
-                SetValue(DayWatherCollectionProperty, value);
-                UpdateWather();
+                if (value == null)
+                    return;
+                SetValue(DayWeatherCollectionProperty, value);
+                UpdateWeather();
             }
         }
-        public void UpdateWather()
+        public void UpdateWeather()
         {
-            if ((DayWatherCollection == null)||(_TitleContentControl.Content == null))
+            if ((DayWeatherCollection == null)||(_TitleContentControl.Content == null))
                 return;
-            if(DayWatherCollection.ContainsKey(Date))
+            if(DayWeatherCollection.ContainsKey(Date))
             {
                 (_TitleContentControl.Content as FrameworkElement).Visibility = Visibility.Visible;
-                (_TitleContentControl.Content as FrameworkElement).DataContext = DayWatherCollection[Date];
+                (_TitleContentControl.Content as FrameworkElement).DataContext = DayWeatherCollection[Date];
             }
             else
                 (_TitleContentControl.Content as FrameworkElement).Visibility = Visibility.Hidden;
@@ -122,7 +124,7 @@ namespace MonthEvent
                 return;
 
             _Title.Content = (Date == new DateTime(Date.Year, Date.Month, 1)) ? Date.ToString("MM.dd") : Date.ToString("dd");
-            UpdateWather();
+            UpdateWeather();
         }
         public override void OnApplyTemplate()
         {
@@ -136,7 +138,7 @@ namespace MonthEvent
             _TitleGrid.PreviewMouseUp += OnAddEvent;
             WeatherTemplateUpdate();
             UpdateEvents();
-            UpdateWather();
+            UpdateWeather();
         }
         private void OnAddEvent(object sender, MouseButtonEventArgs e)
         {
