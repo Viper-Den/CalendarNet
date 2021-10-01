@@ -12,6 +12,15 @@ namespace Destiny.Core
         {
             return _IndexDays[dayOfWeek];
         }
+        public static DateTime GetWeekStartDate(DateTime date)
+        {
+            var dayOfWeek = (int)date.DayOfWeek;
+            if (dayOfWeek == 0)
+                dayOfWeek = 6;  // change to DateTimeFormat
+            else
+                dayOfWeek--;
+            return date.AddDays(-dayOfWeek);
+        }
         public static int GetIndexDay(DateTime date)
         {
             return _IndexDays[date.DayOfWeek];

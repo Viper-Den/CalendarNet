@@ -199,7 +199,6 @@ namespace MonthEvent
     [TemplatePart(Name = WeekEventControl.TP_BUTTON_HIDE_HOURS, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_SCROLLVIEWER, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = WeekEventControl.TP_ROW_EVENTS_VIEW, Type = typeof(FrameworkElement))]
-    [TemplatePart(Name = WeekEventControl.TP_TIME_GRID, Type = typeof(FrameworkElement))]
     [Localizability(LocalizationCategory.None, Readability = Readability.Unreadable)]
     public class WeekEventControl : BaseControl, ITimeCalculator
     {
@@ -225,23 +224,28 @@ namespace MonthEvent
         private const string TP_BUTTON_HIDE = "xHide";
         private const string TP_BUTTON_HIDE_HOURS = "xHideHours";
         private const string TP_ROW_EVENTS_VIEW = "xRowEventsView";
-        private const string TP_TIME_GRID = "xTimeGrid";
-        private Label _Title;
-        private Label _Previous;
-        private Label _Next;
+        private LabelTitleControl _Title;
+        private LabelTitleControl _Previous;
+        private LabelTitleControl _Next;
         private Grid _MainGrid;
-        private Grid _TimeGrid;
         private Button _Hide;
         private Button _HideHours;
         private ScrollViewer _scrollViewer;
         private List<EventDayCol> _Days;
-        private List<Label> _TitleDays;
+        private List<LabelTitleControl> _TitleDays;
         private RowDefinition _RowEventsView;
         private Dictionary<int, HourRow> _Rows;
         private bool _IsHoursHide;
         private bool _IsEventsHide;
         private double _heightDayMonth;
 
+        public WeekEventControl() : base()
+        {
+            _Rows = new Dictionary<int, HourRow>();
+            _Days = new List<EventDayCol>();
+            _TitleDays = new List<LabelTitleControl>();
+            Palette = new PaletteMounthEvent();
+        }
         ~WeekEventControl()
         {
             _Rows.Clear();
@@ -249,31 +253,21 @@ namespace MonthEvent
             _Next.MouseLeftButtonDown -= OnNext;
             _Title.MouseLeftButtonDown -= OnNow;
         }
-        public WeekEventControl() : base()
-        {
-            _Rows = new Dictionary<int, HourRow>();
-            _Days = new List<EventDayCol>();
-            _TitleDays = new List<Label>();
-            ColorDayFinish = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-            ColorDayOff = new SolidColorBrush(Color.FromRgb(230, 230, 230));
-            ColorDayOffFinish = new SolidColorBrush(Color.FromRgb(210, 210, 210));
-            ColorToDay = new SolidColorBrush(Color.FromRgb(17, 110, 190));
-        }
         static WeekEventControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WeekEventControl), new FrameworkPropertyMetadata(typeof(WeekEventControl)));
         }
-        public bool IsHoursHide { get => _IsHoursHide; 
-            set 
-            {
+        public bool IsHoursHide { 
+            get => _IsHoursHide; 
+            set {
                 _IsHoursHide = value;
                 UpdateRows();
                 UpdateEventDayCol();
             } 
         }
-        public bool IsEventsHide { get => _IsEventsHide;
-            set
-            {
+        public bool IsEventsHide { 
+            get => _IsEventsHide;
+            set {
                 _IsEventsHide = value;
                 UpdateEventsView();
             }
@@ -317,7 +311,6 @@ namespace MonthEvent
             }
             return h + m;
         }
-
         public int GetMin(double clickPos)
         {
             double p = 0;
@@ -355,7 +348,7 @@ namespace MonthEvent
         #endregion
         #region AddEvent
         public static readonly DependencyProperty AddEventProperty =
-            DependencyProperty.Register("AddEvent", typeof(ICommand), typeof(WeekEventControl), new PropertyMetadata(AddEventPropertyChanged));
+            DependencyProperty.Register(nameof(AddEvent), typeof(ICommand), typeof(WeekEventControl), new PropertyMetadata(AddEventPropertyChanged));
         public static void AddEventPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((WeekEventControl)d).AddEvent = (ICommand)e.NewValue;
@@ -366,27 +359,9 @@ namespace MonthEvent
             set { SetValue(AddEventProperty, value); }
         }
         #endregion
-        #region ColorDayOffFinish
-        public static readonly DependencyProperty ColorDayOffFinishProperty =
-            DependencyProperty.Register("ColorDayOffFinish", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorDayOffFinishPropertyChanged));
-
-        private static void ColorDayOffFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorDayOffFinish = (SolidColorBrush)e.NewValue;
-        }
-        public SolidColorBrush ColorDayOffFinish
-        {
-            get { return (SolidColorBrush)GetValue(ColorDayOffFinishProperty); }
-            set
-            {
-                SetValue(ColorDayOffFinishProperty, value);
-                UpdateElements();
-            }
-        }
-        #endregion
         #region Events
         public static readonly DependencyProperty EventsProperty =
-           DependencyProperty.Register("Events", typeof(ObservableCollection<Event>), typeof(WeekEventControl), new PropertyMetadata(OnEventsChanged));
+           DependencyProperty.Register(nameof(Events), typeof(ObservableCollection<Event>), typeof(WeekEventControl), new PropertyMetadata(OnEventsChanged));
 
         private static void OnEventsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -404,23 +379,6 @@ namespace MonthEvent
                 UpdateEvents();
                 if (Events != null)
                     Events.CollectionChanged += DoNotifyCollectionChangedEventHandler;
-            }
-        }
-        #endregion
-        #region ColorDayOff
-        public static readonly DependencyProperty ColorDayOffProperty =
-            DependencyProperty.Register("ColorDayOff", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorDayOffPropertyChanged));
-        public static void ColorDayOffPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorDayOff = (SolidColorBrush)e.NewValue;
-        }
-        public SolidColorBrush ColorDayOff
-        {
-            get { return (SolidColorBrush)GetValue(ColorDayOffProperty); }
-            set
-            {
-                SetValue(ColorDayOffProperty, value);
-                UpdateElements();
             }
         }
         #endregion
@@ -444,7 +402,7 @@ namespace MonthEvent
         #endregion
         #region Date
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(WeekEventControl), new PropertyMetadata(DatePropertyChanged));
+            DependencyProperty.Register(nameof(Date), typeof(DateTime), typeof(WeekEventControl), new PropertyMetadata(DatePropertyChanged));
 
         public static void DatePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -460,70 +418,23 @@ namespace MonthEvent
             }
         }
         #endregion
-        #region ColorDayFinish
-        public static readonly DependencyProperty ColorDayFinishProperty =
-            DependencyProperty.Register("ColorDayFinish", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorDayFinishPropertyChanged));
-
-        private static void ColorDayFinishPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorDayFinish = (SolidColorBrush)e.NewValue;
-        }
-        public SolidColorBrush ColorDayFinish
-        {
-            get { return (SolidColorBrush)GetValue(ColorDayFinishProperty); }
-            set
-            {
-                SetValue(ColorDayFinishProperty, value);
-                UpdateElements();
-            }
-        }
-        #endregion
-        #region ColorToDay
-        public static readonly DependencyProperty ColorToDayProperty =
-            DependencyProperty.Register("ColorToDay", typeof(SolidColorBrush), typeof(WeekEventControl), new PropertyMetadata(ColorToDayPropertyChanged));
-        private static void ColorToDayPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((WeekEventControl)d).ColorToDay = (SolidColorBrush)e.NewValue;
-        }
-        public SolidColorBrush ColorToDay
-        {
-            get { return (SolidColorBrush)GetValue(ColorToDayProperty); }
-            set
-            {
-                SetValue(ColorToDayProperty, value);
-                UpdateElements();
-            }
-        }
-        #endregion
         #region WeekEventTemplate
-        /// <summary>
-        ///     The DependencyProperty for the ItemTemplate property.
-        ///     Flags:              none
-        ///     Default Value:      null
-        /// </summary>
         public static readonly DependencyProperty WeekEventTemplateProperty =
                 DependencyProperty.Register(nameof(WeekEventTemplate), typeof(DataTemplate), typeof(WeekEventControl),
                         new FrameworkPropertyMetadata((DataTemplate)null, new PropertyChangedCallback(OnWeekEventTemplateChanged)));
-
-        /// <summary>
-        ///     ItemTemplate is the template used to display each item.
-        /// </summary>
         public DataTemplate WeekEventTemplate
         {
             get { return (DataTemplate)GetValue(WeekEventTemplateProperty); }
-            set
-            {
+            set {
                 SetValue(WeekEventTemplateProperty, value);
-                UpdateTemplate();
+                UpdateWeekEventTemplate();
             }
         }
 
-        private void UpdateTemplate()
+        private void UpdateWeekEventTemplate()
         {
             foreach (var d in _Days)
-            {
                 d.ItemTemplate = WeekEventTemplate;
-            }
         }
 
         /// <summary>
@@ -547,8 +458,7 @@ namespace MonthEvent
         public Dictionary<DateTime, IDayWather> DayWatherCollection
         {
             get { return (Dictionary<DateTime, IDayWather>)GetValue(DayWatherCollectionProperty); }
-            set
-            {
+            set {
                 SetValue(DayWatherCollectionProperty, value);
                 UpdateWather();
             }
@@ -558,9 +468,7 @@ namespace MonthEvent
             if (_Days == null)
                 return;
             foreach (var d in _Days)
-            {
                 d.Day.DayWatherCollection = DayWatherCollection;
-            }
         }
         #endregion
         #region WeatherTemplate
@@ -584,8 +492,23 @@ namespace MonthEvent
             if (_Days == null)
                 return;
             foreach (var d in _Days)
-            {
                 d.Day.WeatherTemplate = WeatherTemplate;
+        }
+        #endregion
+        #region Palette
+        public static readonly DependencyProperty PaletteProperty =
+            DependencyProperty.Register(nameof(Palette), typeof(Palette), typeof(WeekEventControl), new PropertyMetadata(PalettePropertyChanged));
+        private static void PalettePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).Palette = (Palette)e.NewValue;
+        }
+        public Palette Palette
+        {
+            get { return (Palette)GetValue(PaletteProperty); }
+            set
+            {
+                SetValue(PaletteProperty, value);
+                UpdateElements();
             }
         }
         #endregion
@@ -605,11 +528,7 @@ namespace MonthEvent
         {
             if ((_RowEventsView == null) ||(_Days.Count == 0))
                 return;
-
-            if (IsEventsHide)
-                _RowEventsView.Height = new GridLength(_Days[0].Day.TitleSize);
-            else
-                _RowEventsView.Height = new GridLength(_heightDayMonth); // 80 приблизительно
+            _RowEventsView.Height = IsEventsHide ? new GridLength(_Days[0].Day.TitleSize) : new GridLength(_heightDayMonth);
         }
         public void UpdateEvents()
         {
@@ -625,7 +544,6 @@ namespace MonthEvent
                 }
             }
         }
-
         private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
@@ -653,74 +571,38 @@ namespace MonthEvent
                     break;
             }
         }
+
         private void UpdateElements()
         {
-            if (_Title == null) { return; }
-            var dayOfWeek = (int)Date.DayOfWeek;
-            //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-            if (dayOfWeek == 0) { dayOfWeek = 6; } // change to DateTimeFormat
-            else { dayOfWeek--; }
+            if (_Title == null)
+                return;
+
+            Palette.PaintTitle(_Title, Date);
+            Palette.PaintTitle(_Next, Date);
+            Palette.PaintTitle(_Previous, Date);
 
 
-            _Title.Content = Date.ToString("yyyy MMMM");
+            if (_Previous.Visibility == Visibility.Hidden)
+                Grid.SetColumnSpan(_Title, 7);
+            else
+                Grid.SetColumnSpan(_Title, 5);
 
-            var startDay = Date.AddDays(-dayOfWeek);
-            foreach (var d in _TitleDays)
+            var startDay = DateHelper.GetWeekStartDate(Date);
+            foreach (var t in _TitleDays)
             {
-                d.Content = startDay.ToString("dddd");
-                switch (startDay.DayOfWeek)
-                {
-                    case DayOfWeek.Saturday:
-                        d.Background = ColorDayOff;
-                        break;
-                    case DayOfWeek.Sunday:
-                        d.Background = ColorDayOff;
-                        break;
-                    default:
-                        d.Background = Background;
-                        break;
-                }
+                if ((startDay.DayOfWeek == DayOfWeek.Saturday) || (startDay.DayOfWeek == DayOfWeek.Sunday))
+                    t.Type = TitleControlType.WeekTitleDayOff;
+                else
+                    t.Type = TitleControlType.WeekTitle;
+                Palette.PaintTitle(t, startDay);
                 startDay = startDay.AddDays(1);
             }
-            startDay = Date.AddDays(-dayOfWeek);
+
+            startDay = DateHelper.GetWeekStartDate(Date);
             foreach (var d in _Days)
             {
                 d.Date = startDay;
-
-                if (d.Date == DateTime.Today)
-                {
-                    d.Day.Background = ColorToDay;
-                }
-                else if (d.Date.Month < Date.Month)
-                {
-                    switch (d.Date.DayOfWeek)
-                    {
-                        case DayOfWeek.Saturday:
-                            d.Day.Background = ColorDayOffFinish;
-                            break;
-                        case DayOfWeek.Sunday:
-                            d.Day.Background = ColorDayOffFinish;
-                            break;
-                        default:
-                            d.Day.Background = ColorDayFinish;
-                            break;
-                    }
-                }
-                else
-                {
-                    switch (d.Date.DayOfWeek)
-                    {
-                        case DayOfWeek.Saturday:
-                            d.Day.Background = ColorDayOff;
-                            break;
-                        case DayOfWeek.Sunday:
-                            d.Day.Background = ColorDayOff;
-                            break;
-                        default:
-                            d.Day.Background = Background;
-                            break;
-                    }
-                }
+                Palette.PaintDay(d.Day, Date);
                 startDay = startDay.AddDays(1);
             }
             UpdateEvents();
@@ -739,15 +621,23 @@ namespace MonthEvent
         {
             Date = DateTime.Now;
         }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            _Title = (LabelTitleControl)GetTemplateChild(TP_TITLE_PART);
+            _Title.Type = TitleControlType.Title;
+            _Title.MouseLeftButtonDown += OnNow;
+
+            _Previous = (LabelTitleControl)GetTemplateChild(TP_PREVIOUS_PART);
+            _Previous.Type = TitleControlType.Button;
+            _Previous.MouseLeftButtonDown += OnPrevious;
+
+            _Next = (LabelTitleControl)GetTemplateChild(TP_NEXT_PART);
+            _Next.Type = TitleControlType.Button;
+            _Next.MouseLeftButtonDown += OnNext;
+
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
-            _TimeGrid = (Grid)GetTemplateChild(TP_TIME_GRID); 
-            _Title = (Label)GetTemplateChild(TP_TITLE_PART);
-            _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
-            _Next = (Label)GetTemplateChild(TP_NEXT_PART);
             _scrollViewer = (ScrollViewer)GetTemplateChild(TP_SCROLLVIEWER);
             _Hide = (Button)GetTemplateChild(TP_BUTTON_HIDE);
             _HideHours = (Button)GetTemplateChild(TP_BUTTON_HIDE_HOURS);  
@@ -769,40 +659,32 @@ namespace MonthEvent
                 d.OnAddEvent += DoAddEvent;
             }
             _MainGrid.SizeChanged += MainGridSizeChanged;
-            _Previous.Content = "<";
-            _Next.Content = ">";
             _heightDayMonth = _RowEventsView.Height.Value;
-            _Previous.MouseLeftButtonDown += OnPrevious;
-            _Next.MouseLeftButtonDown += OnNext;
-            _Title.MouseLeftButtonDown += OnNow;
             _Hide.Click += DoHideClick;
             _HideHours.Click += DoHideHoursClick;
-            UpdateElements();
-            UpdateTemplate();
-            UpdateRows();
-            UpdateEventsView();
-            UpdateRows();
+
+
             UpdateWeatherTemplate();
+            UpdateWeekEventTemplate();
+            UpdateEventsView();
+            UpdateElements();
+            UpdateRows();
+            UpdateRows();
             UpdateWather();
         }
         private void UpdateEventDayCol()
         {
             foreach (var d in _Days)
-            {
                 d.Update();
-            }
         }
-
         private void DoHideHoursClick(object sender, RoutedEventArgs e)
         {
             IsHoursHide = !IsHoursHide;
         }
-
         private void DoHideClick(object sender, RoutedEventArgs e)
         {
             IsEventsHide = !IsEventsHide;
         }
-
         public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateEventDayCol();

@@ -9,11 +9,11 @@ namespace DestinyNet
     public class YearViewModel : ViewModeDataBase
     {
         private string _titleTip;
-        private Palette _pallete;
+        private Palette _palette;
         public YearViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
             SelectedDates = new ObservableCollection<DateTime>();
-            Pallete = new PalleteYear();
+            Palette = new PaletteYear();
         }
         private void DoAddEvent(Object o)
         {
@@ -36,7 +36,7 @@ namespace DestinyNet
                 if (!IsMultipleSelection)
                 {
                     SelectedDates.Clear();
-                    Pallete.Selected = Pallete.SelectedDefault;
+                    Palette.Selected = Palette.SelectedDefault;
                 }
                 foreach (var d in l)
                 {
@@ -77,7 +77,7 @@ namespace DestinyNet
 
             if (ev == null)
                 return;
-            Pallete.Selected.Background = ev.Calendar.Color;
+            Palette.Selected.Background = ev.Calendar.Color;
             var sd = new DateTime(Date.Year, 1, 1);
             var fd = new DateTime(Date.AddYears(1).Year, 1, 1);
             while(sd.Date < fd.Date)
@@ -89,9 +89,9 @@ namespace DestinyNet
             }
             ViewSelectedDates();
         }
-        public Palette Pallete {
-            get => _pallete;
-            private set => SetField(ref _pallete, value); }
+        public Palette Palette {
+            get => _palette;
+            private set => SetField(ref _palette, value); }
         public bool IsMultipleSelection { get; set; }
         public ObservableCollection<Event> Event { get; set; }
         public ObservableCollection<DateTime> SelectedDates { get; protected set; }

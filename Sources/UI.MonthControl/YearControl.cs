@@ -35,7 +35,7 @@ namespace UIMonthControl
         public YearControl()
         {
             _Month = new List<MonthControl>();
-            Pallete = new PalleteYear();
+            Palette = new PaletteYear();
             MouseLeave += DoMouseLeave;
         }
         ~YearControl()
@@ -145,30 +145,30 @@ namespace UIMonthControl
             }
         }
         #endregion
-        #region Pallete
-        public static readonly DependencyProperty PalleteProperty =
-            DependencyProperty.Register(nameof(Pallete), typeof(Palette), typeof(YearControl), new PropertyMetadata(PalleteChanged));
-        private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        #region Palette
+        public static readonly DependencyProperty PaletteProperty =
+            DependencyProperty.Register(nameof(Palette), typeof(Palette), typeof(YearControl), new PropertyMetadata(PalettePropertyChanged));
+        private static void PalettePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((YearControl)d).Pallete = (Palette)e.NewValue;
+            ((YearControl)d).Palette = (Palette)e.NewValue;
         }
-        public Palette Pallete
+        public Palette Palette
         {
-            get { return (Palette)GetValue(PalleteProperty); }
+            get { return (Palette)GetValue(PaletteProperty); }
             set
             {
                 if (value == null)
                     return;
-                SetValue(PalleteProperty, value);
-                UpdatePallete();
+                SetValue(PaletteProperty, value);
+                UpdatePalette();
             }
         }
 
-        private void UpdatePallete()
+        private void UpdatePalette()
         {
             foreach (var m in _Month)
             {
-                m.Pallete = Pallete;
+                m.Palette = Palette;
             }
         }
         #endregion
@@ -273,7 +273,7 @@ namespace UIMonthControl
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         Margin = new Thickness(10, 10, 10, 10),
                         SelectedDates = SelectedDates,
-                        Pallete = Pallete
+                        Palette = Palette
                     };
                     Grid.SetColumn(m, x);
                     Grid.SetRow(m, y);
@@ -286,7 +286,7 @@ namespace UIMonthControl
             }
             UpdateElements();
             UpdateSelectedDates();
-            UpdatePallete();
+            UpdatePalette();
         }
     }
 }

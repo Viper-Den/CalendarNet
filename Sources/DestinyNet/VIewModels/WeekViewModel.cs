@@ -16,6 +16,7 @@ namespace DestinyNet
         {
             _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
             IgnoreHours = new ObservableCollection<int>();
+            Palette = new PaletteMounthEvent();
             for (var i = 0; i < 9; i++)  // скроем все часы до 9 утра
                 IgnoreHours.Add(i);
             HourHeight = 50;
@@ -42,6 +43,7 @@ namespace DestinyNet
         public Dictionary<DateTime, IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
         public ObservableCollection<int> IgnoreHours { get; set; }
         public ObservableCollection<Event> Events { get => _data.Events; }
+        public Palette Palette { get; }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }
     }

@@ -21,6 +21,7 @@
             IgnoreHours="{Binding Path=IgnoreHours}"
             HourHeight="{Binding Path=HourHeight}"
             AddEvent="{Binding Path=AddEventCommand}"
+            Palette="{Binding Path=Palette}"
             DayWatherCollection="{Binding Path=DayWatherCollection}">
             <weekevent:WeekEventControl.ItemTemplate>
                 <DataTemplate>

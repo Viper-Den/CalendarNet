@@ -43,7 +43,7 @@ namespace UIMonthControl
         public MonthControl()
         {
             Days = new List<DayControl>();
-            Pallete = new Palette();
+            Palette = new Palette();
             _TitleDays = new List<TitleControl>();
             _tempSelection = new List<DateTime>();
             _dictionaryDayControl = new Dictionary<DateTime, DayControl>();
@@ -103,8 +103,8 @@ namespace UIMonthControl
                         var dt = ((DateTime)d).Date;
                         if (_dictionaryDayControl.ContainsKey(dt))
                         {
-                            _dictionaryDayControl[dt].Background = Pallete.Selected.Background;
-                            _dictionaryDayControl[dt].Foreground = Pallete.Selected.Foreground;
+                            _dictionaryDayControl[dt].Background = Palette.Selected.Background;
+                            _dictionaryDayControl[dt].Foreground = Palette.Selected.Foreground;
                         }
                     }
                     break;
@@ -114,7 +114,7 @@ namespace UIMonthControl
                         var dt = ((DateTime)d).Date;
                         if (_dictionaryDayControl.ContainsKey(dt))
                         {
-                            Pallete.PaintDay(_dictionaryDayControl[dt], Date);
+                            Palette.PaintDay(_dictionaryDayControl[dt], Date);
                         }
                     }
                     break;
@@ -133,26 +133,26 @@ namespace UIMonthControl
             {
                 if (_dictionaryDayControl.ContainsKey(dt.Date))
                 {
-                    Pallete.PaintDay(_dictionaryDayControl[dt.Date], Date);
+                    Palette.PaintDay(_dictionaryDayControl[dt.Date], Date);
                 }
             }
         }
         #endregion
-        #region Pallete
-        public static readonly DependencyProperty PalleteProperty =
-            DependencyProperty.Register(nameof(Pallete), typeof(Palette), typeof(MonthControl), new PropertyMetadata(PalleteChanged));
-        private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        #region Palette
+        public static readonly DependencyProperty PaletteProperty =
+            DependencyProperty.Register(nameof(Palette), typeof(Palette), typeof(MonthControl), new PropertyMetadata(PalettePropertyChanged));
+        private static void PalettePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthControl)d).Pallete = (Palette)e.NewValue;
+            ((MonthControl)d).Palette = (Palette)e.NewValue;
         }
-        public Palette Pallete
+        public Palette Palette
         {
-            get { return (Palette)GetValue(PalleteProperty); }
+            get { return (Palette)GetValue(PaletteProperty); }
             set
             {
                 if (value == null)
                     return;
-                SetValue(PalleteProperty, value);
+                SetValue(PaletteProperty, value);
                 UpdateElements();
             }
         }
@@ -164,15 +164,15 @@ namespace UIMonthControl
             {
                 if ((!dates.Contains(oldDate.Date)) && (_dictionaryDayControl.ContainsKey(oldDate.Date)))
                 {
-                    Pallete.PaintDay(_dictionaryDayControl[oldDate.Date], Date);
+                    Palette.PaintDay(_dictionaryDayControl[oldDate.Date], Date);
                 }
             }
             foreach (var newDate in dates)
             {
                 if ((_dictionaryDayControl.ContainsKey(newDate.Date)))
                 {
-                    _dictionaryDayControl[newDate.Date].Background = Pallete.Selected.Background;
-                    _dictionaryDayControl[newDate.Date].Foreground = Pallete.Selected.Foreground;
+                    _dictionaryDayControl[newDate.Date].Background = Palette.Selected.Background;
+                    _dictionaryDayControl[newDate.Date].Foreground = Palette.Selected.Foreground;
                     _tempSelection.Add(newDate.Date);
                 }
             }
@@ -188,9 +188,9 @@ namespace UIMonthControl
             else 
                 dayOfWeek--;
 
-            Pallete.PaintTitle(_Title, Date);
-            Pallete.PaintTitle(_Next, Date);
-            Pallete.PaintTitle(_Previous, Date);
+            Palette.PaintTitle(_Title, Date);
+            Palette.PaintTitle(_Next, Date);
+            Palette.PaintTitle(_Previous, Date);
 
 
             if (_Previous.Visibility == Visibility.Hidden)
@@ -205,7 +205,7 @@ namespace UIMonthControl
                     t.Type = TitleControlType.WeekTitleDayOff;
                 else
                     t.Type = TitleControlType.WeekTitle;
-                Pallete.PaintTitle(t, startDay);
+                Palette.PaintTitle(t, startDay);
                 startDay = startDay.AddDays(1);
             }
 
@@ -214,7 +214,7 @@ namespace UIMonthControl
             foreach (var d in Days)
             {
                 d.Date = startDay;
-                Pallete.PaintDay(d, Date);
+                Palette.PaintDay(d, Date);
                 _dictionaryDayControl.Add(d.Date.Date, d);
                 startDay = startDay.AddDays(1);
             }

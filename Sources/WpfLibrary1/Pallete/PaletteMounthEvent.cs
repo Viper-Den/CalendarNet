@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace Destiny.Core
 {
-    public class PalleteMounthEvent : Palette
+    public class PaletteMounthEvent : Palette
     {
         public override void PaintTitle(ITitleControl control, DateTime date)
         {

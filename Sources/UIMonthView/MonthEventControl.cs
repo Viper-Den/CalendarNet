@@ -12,16 +12,6 @@ using System.Windows.Controls.Primitives;
 namespace MonthEvent
 {
 
-    public class LabelTitle: Label, ITitleControl
-    {
-        public TitleControlType Type { get; set; }
-        public string Text 
-        {
-            get => (String)Content;
-            set { Content = value; }
-        }
-    }
-
     //https://docs.microsoft.com/ru-ru/dotnet/api/system.windows.controls.itemscontrol?view=netcore-3.1
     [TemplatePart(Name = MonthEventControl.TP_MAIN_GRID_PART, Type = typeof(FrameworkElement))]
     [TemplatePart(Name = MonthEventControl.TP_TITLE_PART, Type = typeof(FrameworkElement))]
@@ -35,11 +25,11 @@ namespace MonthEvent
         private const string TP_PREVIOUS_PART = "xPrevious";
         private const string TP_NEXT_PART = "xNext";
         private Grid _MainGrid;
-        private LabelTitle _Title;
-        private LabelTitle _Previous;
-        private LabelTitle _Next;
+        private LabelTitleControl _Title;
+        private LabelTitleControl _Previous;
+        private LabelTitleControl _Next;
         private List<DayMonthEventControl> _Days;
-        private List<LabelTitle> _TitleDays;
+        private List<LabelTitleControl> _TitleDays;
         ~MonthEventControl()
         {
             _Previous.MouseLeftButtonDown -= OnPrevious;
@@ -49,8 +39,8 @@ namespace MonthEvent
         public MonthEventControl()
         {
             _Days = new List<DayMonthEventControl>();
-            _TitleDays = new List<LabelTitle>();
-            Pallete = new PalleteMounthEvent();
+            _TitleDays = new List<LabelTitleControl>();
+            Palette = new PaletteMounthEvent();
         }
         static MonthEventControl()
         {
@@ -70,19 +60,19 @@ namespace MonthEvent
             set { SetValue(AddEventProperty, value); }
         }
         #endregion
-        #region ItemTemplate
-        public static readonly DependencyProperty ItemTemplateProperty =
+        #region EventTemplate
+        public static readonly DependencyProperty EventTemplateProperty =
             DependencyProperty.Register(nameof(ItemTemplate), typeof(DataTemplate), typeof(MonthEventControl), new PropertyMetadata(ItemTemplateChanged));
         public static void ItemTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthEventControl)d).ItemTemplate = (DataTemplate)e.NewValue;
+            ((MonthEventControl)d).EventTemplate = (DataTemplate)e.NewValue;
         }
-        public DataTemplate ItemTemplate
+        public DataTemplate EventTemplate
         {
-            get { return (DataTemplate)GetValue(ItemTemplateProperty); }
+            get { return (DataTemplate)GetValue(EventTemplateProperty); }
             set
             {
-                SetValue(ItemTemplateProperty, value);
+                SetValue(EventTemplateProperty, value);
                 UpdateElements();
             }
         }
@@ -128,19 +118,19 @@ namespace MonthEvent
             }
         }
         #endregion
-        #region Pallete
-        public static readonly DependencyProperty PalleteProperty =
-            DependencyProperty.Register(nameof(Pallete), typeof(Palette), typeof(MonthEventControl), new PropertyMetadata(PalleteChanged));
-        private static void PalleteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        #region Palette
+        public static readonly DependencyProperty PaletteProperty =
+            DependencyProperty.Register(nameof(Palette), typeof(Palette), typeof(MonthEventControl), new PropertyMetadata(PaletteProperty));
+        private static void PalettePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((MonthEventControl)d).Pallete = (Palette)e.NewValue;
+            ((MonthEventControl)d).Palette = (Palette)e.NewValue;
         }
-        public Palette Pallete
+        public Palette Palette
         {
-            get { return (Palette)GetValue(PalleteProperty); }
+            get { return (Palette)GetValue(PaletteProperty); }
             set
             {
-                SetValue(PalleteProperty, value);
+                SetValue(PaletteProperty, value);
                 UpdateElements();
             }
         }
@@ -167,9 +157,7 @@ namespace MonthEvent
             if (_Days == null)
                 return;
             foreach (var d in _Days)
-            {
                 d.DayWatherCollection = DayWatherCollection;
-            }
         }
         #endregion
         #region WeatherTemplate
@@ -193,25 +181,17 @@ namespace MonthEvent
             if (_Days == null)
                 return;
             foreach (var d in _Days)
-            {
                 d.WeatherTemplate = WeatherTemplate;
-            }
         }
         #endregion
         private void UpdateElements()
         {
             if (_Title == null)
                 return;
-            var dayOfWeek = (int)Date.DayOfWeek;
-            //Thread.CurrentThread.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
-            if (dayOfWeek == 0)
-                dayOfWeek = 6;  // change to DateTimeFormat
-            else
-                dayOfWeek--;
 
-            Pallete.PaintTitle(_Title, Date);
-            Pallete.PaintTitle(_Next, Date);
-            Pallete.PaintTitle(_Previous, Date);
+            Palette.PaintTitle(_Title, Date);
+            Palette.PaintTitle(_Next, Date);
+            Palette.PaintTitle(_Previous, Date);
 
 
             if (_Previous.Visibility == Visibility.Hidden)
@@ -219,57 +199,57 @@ namespace MonthEvent
             else
                 Grid.SetColumnSpan(_Title, 5);
 
-            var startDay = Date.AddDays(-dayOfWeek);
+            var startDay = DateHelper.GetWeekStartDate(Date);
             foreach (var t in _TitleDays)
             {
                 if ((startDay.DayOfWeek == DayOfWeek.Saturday) || (startDay.DayOfWeek == DayOfWeek.Sunday))
                     t.Type = TitleControlType.WeekTitleDayOff;
                 else
                     t.Type = TitleControlType.WeekTitle;
-                Pallete.PaintTitle(t, startDay);
+                Palette.PaintTitle(t, startDay);
                 startDay = startDay.AddDays(1);
             }
 
-            startDay = Date.AddDays(-dayOfWeek);
+            startDay = DateHelper.GetWeekStartDate(Date);
             foreach (var d in _Days)
             {
                 d.Date = startDay;
-                Pallete.PaintDay(d, Date);
+                Palette.PaintDay(d, Date);
                 startDay = startDay.AddDays(1);
             }
             UpdateEvents();
         }
-
         public void UpdateEvents()
         {
-            if ((_Title != null) && (Events != null))
+            if ((_Title == null) || (Events == null))
+                return;
+            foreach (var d in _Days)
             {
-                foreach (var d in _Days)
+                foreach (var e in Events)
                 {
-                    foreach (var e in Events)
+                    if (e.Rule.IsDate(d.Date))
                     {
-                        if (e.Rule.IsDate(d.Date))
-                        {
-                            if (!d.Events.Contains(e))
-                                d.Events.Add(e);
-                        }
-                        else
-                        {
-                            if (d.Events.Contains(e))
-                                d.Events.Remove(e);
-                        }
+                        if (!d.Events.Contains(e))
+                            d.Events.Add(e);
+                    }
+                    else
+                    {
+                        if (d.Events.Contains(e))
+                            d.Events.Remove(e);
                     }
                 }
             }
         }
         private void OnPrevious(object sender, MouseButtonEventArgs e)
         {
-            if (Date == DateTime.MinValue) { return; }
+            if (Date == DateTime.MinValue) 
+                return;
             Date = Date.AddMonths(-1);
         }
         private void OnNext(object sender, MouseButtonEventArgs e)
         {
-            if (Date == DateTime.MaxValue) { return; }
+            if (Date == DateTime.MaxValue) 
+                return; 
             Date = Date.AddMonths(1);
         }
         private void OnNow(object sender, MouseButtonEventArgs e)
@@ -285,23 +265,21 @@ namespace MonthEvent
             base.OnApplyTemplate();
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
 
-            _Title = (LabelTitle)GetTemplateChild(TP_TITLE_PART);
+            _Title = (LabelTitleControl)GetTemplateChild(TP_TITLE_PART);
             _Title.Type = TitleControlType.Title;
             _Title.MouseLeftButtonDown += OnNow;
 
-            _Previous = (LabelTitle)GetTemplateChild(TP_PREVIOUS_PART);
+            _Previous = (LabelTitleControl)GetTemplateChild(TP_PREVIOUS_PART);
             _Previous.Type = TitleControlType.Button;
-            _Previous.Text = "<";
             _Previous.MouseLeftButtonDown += OnPrevious;
 
-            _Next = (LabelTitle)GetTemplateChild(TP_NEXT_PART);
+            _Next = (LabelTitleControl)GetTemplateChild(TP_NEXT_PART);
             _Next.Type = TitleControlType.Button;
-            _Next.Text = ">";
             _Next.MouseLeftButtonDown += OnNext;
 
             for (int x = 0; x < 7; x++) // Second - for -day title
             {
-                var d = new LabelTitle()
+                var d = new LabelTitleControl()
                 {
                     VerticalAlignment = VerticalAlignment.Stretch,
                     HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -332,8 +310,8 @@ namespace MonthEvent
                     d.AddAction += OnAddEvent;
                 }
             }
-            UpdateElements();
             UpdateWeatherTemplate();
+            UpdateElements();
             UpdateWather();
         }
         private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
