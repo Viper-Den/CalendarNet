@@ -22,6 +22,8 @@
             IgnoreHours="{Binding Path=IgnoreHours}"
             HourHeight="{Binding Path=HourHeight}"
             AddEvent="{Binding Path=AddEventCommand}"
+            HoursHided="{Binding Path=HoursHided, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            IsEventsViewHide="{Binding Path=IsEventsViewHide, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             DayWeatherCollection="{Binding Path=DayWeatherCollection}"
             Palette="{Binding Path=Palette, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
             <weekevent:WeekEventControl.ItemTemplate>

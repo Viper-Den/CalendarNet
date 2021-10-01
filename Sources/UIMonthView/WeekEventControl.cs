@@ -235,8 +235,6 @@ namespace MonthEvent
         private List<LabelTitleControl> _TitleDays;
         private RowDefinition _RowEventsView;
         private Dictionary<int, HourRow> _Rows;
-        private bool _IsHoursHide;
-        private bool _IsEventsHide;
         private double _heightDayMonth;
 
         public WeekEventControl() : base()
@@ -256,21 +254,6 @@ namespace MonthEvent
         static WeekEventControl()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(WeekEventControl), new FrameworkPropertyMetadata(typeof(WeekEventControl)));
-        }
-        public bool IsHoursHide { 
-            get => _IsHoursHide; 
-            set {
-                _IsHoursHide = value;
-                UpdateRows();
-                UpdateEventDayCol();
-            } 
-        }
-        public bool IsEventsHide { 
-            get => _IsEventsHide;
-            set {
-                _IsEventsHide = value;
-                UpdateEventsView();
-            }
         }
         public double GetPos(DateTime time)
         {
@@ -420,6 +403,43 @@ namespace MonthEvent
             }
         }
         #endregion
+        #region HoursHided
+        public static readonly DependencyProperty HoursHidedProperty =
+            DependencyProperty.Register(nameof(HoursHided), typeof(bool), typeof(WeekEventControl), new PropertyMetadata(HoursHidedPropertyChanged));
+
+        public static void HoursHidedPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).HoursHided = (bool)e.NewValue;
+        }
+        public bool HoursHided
+        {
+            get { return (bool)GetValue(HoursHidedProperty); }
+            set
+            {
+                SetValue(HoursHidedProperty, value);
+                UpdateRows();
+                UpdateEventDayCol();
+            }
+        }
+        #endregion
+        #region IsEventsViewHide
+        public static readonly DependencyProperty IsEventsViewHideProperty =
+            DependencyProperty.Register(nameof(IsEventsViewHide), typeof(bool), typeof(WeekEventControl), new PropertyMetadata(IsEventsViewHidePropertyChanged));
+
+        public static void IsEventsViewHidePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((WeekEventControl)d).IsEventsViewHide = (bool)e.NewValue;
+        }
+        public bool IsEventsViewHide
+        {
+            get { return (bool)GetValue(IsEventsViewHideProperty); }
+            set
+            {
+                SetValue(IsEventsViewHideProperty, value);
+                UpdateEventsView();
+            }
+        }
+        #endregion
         #region WeekEventTemplate
         public static readonly DependencyProperty WeekEventTemplateProperty =
                 DependencyProperty.Register(nameof(WeekEventTemplate), typeof(DataTemplate), typeof(WeekEventControl),
@@ -525,7 +545,7 @@ namespace MonthEvent
                 return;
             foreach (var i in _Rows.Keys)
             {
-                if ((IgnoreHours.Contains(i))&&(_IsHoursHide))
+                if ((IgnoreHours.Contains(i))&&(HoursHided))
                     _Rows[i].SetSize(0);
                 else
                     _Rows[i].SetSize(HourHeight);
@@ -535,7 +555,7 @@ namespace MonthEvent
         {
             if ((_RowEventsView == null) ||(_Days.Count == 0))
                 return;
-            _RowEventsView.Height = IsEventsHide ? new GridLength(_Days[0].Day.TitleSize) : new GridLength(_heightDayMonth);
+            _RowEventsView.Height = IsEventsViewHide ? new GridLength(_Days[0].Day.TitleSize) : new GridLength(_heightDayMonth);
         }
         public void UpdateEvents()
         {
@@ -686,11 +706,11 @@ namespace MonthEvent
         }
         private void DoHideHoursClick(object sender, RoutedEventArgs e)
         {
-            IsHoursHide = !IsHoursHide;
+            HoursHided = !HoursHided;
         }
         private void DoHideClick(object sender, RoutedEventArgs e)
         {
-            IsEventsHide = !IsEventsHide;
+            IsEventsViewHide = !IsEventsViewHide;
         }
         public void MainGridSizeChanged(object sender, SizeChangedEventArgs e)
         {

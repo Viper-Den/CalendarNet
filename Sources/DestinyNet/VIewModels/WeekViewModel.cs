@@ -10,12 +10,14 @@ namespace DestinyNet
 {
     public class WeekViewModel : ViewModeDataBase
     {
-        private int _hourHeight;
         private Palette _palette;
+        private WeekSettings _weekSettings;
 
         private WeatherViewModel _weatherViewModel;
-            public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager, WeatherViewModel weatherViewModel) : base(data, dialogViewsManager)
+        public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager, WeatherViewModel weatherViewModel, WeekSettings weekSettings) : base(data, dialogViewsManager)
         {
+
+            _weekSettings = weekSettings ?? throw new ArgumentNullException(nameof(weekSettings));
             _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
             IgnoreHours = new ObservableCollection<int>();
             Palette = new PaletteWeekEvent();
@@ -37,18 +39,37 @@ namespace DestinyNet
                 _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
             }
         }
-        public int HourHeight 
-        { 
-            get => _hourHeight;
-            set { SetField(ref _hourHeight, value); }
+        public int HourHeight
+        {
+            get => _weekSettings.HourHeight;
+            set
+            {
+                _weekSettings.HourHeight = value;
+                OnPropertyChanged(HourHeight);
+            }
         }
+        public bool HoursHided
+        {
+            get => _weekSettings.HoursHided;
+            set { 
+                _weekSettings.HoursHided = value;
+                OnPropertyChanged(HoursHided);
+            }
+        }
+        public bool IsEventsViewHide
+        {
+            get => _weekSettings.IsEventsViewHide;
+            set
+            {
+                _weekSettings.IsEventsViewHide = value;
+                OnPropertyChanged(IsEventsViewHide); 
+            }
+        }
+        
         public Dictionary<DateTime, IDayWeather> DayWeatherCollection { get => _weatherViewModel.DayWeatherCollection; }
         public ObservableCollection<int> IgnoreHours { get; set; }
         public ObservableCollection<Event> Events { get => _data.Events; }
-        public Palette Palette { 
-            get => _palette; 
-            private set => SetField(ref _palette, value); 
-        }
+        public Palette Palette { get => _palette; private set => SetField(ref _palette, value); }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }
     }

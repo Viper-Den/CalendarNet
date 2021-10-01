@@ -29,7 +29,9 @@
                         <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                               Content="{Binding Path=Calendar.Name}" Background="{Binding Path=Calendar.Color}"/>
+                               Content="{Binding Path=Calendar.Name}"
+                               Background="{Binding Path=Calendar.Background, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                               Foreground="{Binding Path=Calendar.Foreground, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Button Grid.Column="1" Grid.Row="0" Style="{StaticResource sButton}" Command="{Binding Path=OpenEventsViewCommand}"/>
                         <Grid Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Background="{Binding Path=BackgroundColor}" 
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

@@ -37,14 +37,14 @@ namespace DestinyNet
 
         public void Save(Data data)
         {
-            var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Configuration.json";
+            var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Data.json";
             var mapper = DestinyNetMapper.GetMapper();
             var s = JsonConvert.SerializeObject(mapper.Map<DataDTO>(data));
             File.WriteAllText(path, s);
         }
         public Data Load()
         {
-            var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Configuration.json";
+            var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Data.json";
             if (!File.Exists(path))
             {
                 var d = new Data();
