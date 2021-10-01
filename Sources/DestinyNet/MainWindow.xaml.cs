@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -12,38 +11,89 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//using gma.System.Windows;
+using System.ServiceModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
+using System.Windows.Interop;
+using System.Windows.Forms;
 
 namespace DestinyNet
 {
-    //UserActivityHook actHook;
-    //void MainFormLoad(object sender, System.EventArgs e)
+    
+    //public class HotkeysRegistrator
     //{
-    //    actHook = new UserActivityHook(); // crate an instance
+    //    [DllImport("User32.dll")]
+    //    public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+    //    [DllImport("User32.dll")]
+    //    public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+    //    [DllImport("kernel32.dll")]
+    //    public static extern Int16 GlobalAddAtom(string name);
+    //    [DllImport("kernel32.dll")]
+    //    public static extern Int16 GlobalDeleteAtom(Int16 nAtom);
 
-    //    // hang on events
+    //    private IntPtr _windowHandle;
+    //    private Dictionary<Int16, Action> _globalActions = new Dictionary<short, Action>();
 
-    //    actHook.OnMouseActivity += new MouseEventHandler(MouseMoved);
-    //    actHook.KeyDown += new KeyEventHandler(MyKeyDown);
-    //    actHook.KeyPress += new KeyPressEventHandler(MyKeyPress);
-    //    actHook.KeyUp += new KeyEventHandler(MyKeyUp);
+    //    public HotkeysRegistrator(Window window)
+    //    {
+    //        _windowHandle = new WindowInteropHelper(window).Handle;
+    //        HwndSource source = HwndSource.FromHwnd(_windowHandle);
+    //        source.AddHook(WndProc);
+    //    }
+
+    //    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wparam, IntPtr lparam, ref bool handled)
+    //    {
+    //        if (msg == 0x0312)
+    //        {
+    //            //Обработка горячей клавиши
+    //        }
+    //        return IntPtr.Zero;
+    //    }
+    //    public bool RegisterGlobalHotkey(Action action, Keys commonKey, params ModifierKeys[] keys)
+    //    {
+    //        uint mod = keys.Cast<uint>().Aggregate((current, modKey) => current | modKey);
+    //        short atom = GlobalAddAtom("OurAmazingApp" + (_globalActions.Count + 1));
+    //        bool status = RegisterHotKey(_windowHandle, atom, mod, (uint)commonKey);
+
+    //        if (status)
+    //        {
+    //            _globalActions.Add(atom, action);
+    //        }
+    //        return status;
+    //    }
     //}
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+
+        // https://www.codeproject.com/Articles/36468/WPF-NotifyIcon-2
+        private bool _cancelClosing = true; 
         public MainWindow()
         {
             InitializeComponent();
+            Closing += DoClosing;
         }
-        public void OnKeyDownHandler(object sender, KeyEventArgs e)
+        ~MainWindow()
         {
-            if (e.Key == Key.RightCtrl)
-            {
-            //    if (this.DataContext is YearViewModel)
-            //        ((YearViewModel)this.DataContext).IsMultipleSelection = e.IsDown;
-            }
+            Closing -= DoClosing;
+        }
+
+        private void DoClosing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = _cancelClosing;
+            Hide();
+        }
+
+        private void TaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Normal;
+            Show();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            _cancelClosing = false;
+            Close();
         }
     }
 }

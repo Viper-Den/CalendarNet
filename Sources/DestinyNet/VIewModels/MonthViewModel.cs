@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Destiny.Core;
+using System.Collections.Generic;
 
 namespace DestinyNet
 {
@@ -27,7 +28,7 @@ namespace DestinyNet
                 _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
             }
         }
-        public ObservableCollection<IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
+        public Dictionary<DateTime, IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
         public ObservableCollection<Event> Events {get => _data.Events; }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }
         public ICommand SelectedEvent { get => new ActionCommand(DoSelectedEvent); }

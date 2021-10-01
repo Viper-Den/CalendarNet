@@ -26,6 +26,7 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
     <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
@@ -38,6 +39,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Destiny_Icon.ico" />
     <Resource Include="Images\Weather\Cloudy.png" />
     <Resource Include="Images\Weather\Fog.png" />
     <Resource Include="Images\Weather\Intermittent Clouds.png" />

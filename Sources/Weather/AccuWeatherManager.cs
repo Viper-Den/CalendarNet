@@ -90,6 +90,7 @@ namespace AccuWeather
             try
             {
                 WebClient webClient = new WebClient();
+                //                 http://dataservice.accuweather.com/forecasts/v1/daily/10day
                 string request = $"http://dataservice.accuweather.com/forecasts/v1/daily/5day/{_settings.CityKey}?apikey={_settings.APIkey}&language=ru&metric=true";
                 string response = webClient.DownloadString(request);
                 var rootWeatherDTO = JsonConvert.DeserializeObject<RootWeatherDTO>(response);

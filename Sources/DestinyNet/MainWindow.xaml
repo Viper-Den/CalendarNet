@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         MinWidth="1460" MinHeight="800"
         Width="1460" Height="800"
@@ -11,8 +12,15 @@
     <Window.Resources>
         <converters:BoolToBlurUsageConverter x:Key="BoolToBlurUsageConverter"/>
     </Window.Resources>
-
     <Grid>
+        <tb:TaskbarIcon Visibility="Visible" ToolTipText="Desteny"  IconSource="pack://application:,,,/Images/Destiny_Icon.ico"
+                        TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Close" Click="MenuItem_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50.19"/>

@@ -62,13 +62,13 @@ namespace DestinyNet
         {
             _accuWeatherManager = accuWeatherManager ?? throw new ArgumentNullException(nameof(accuWeatherManager));
             
-            DayWatherCollection = new ObservableCollection<IDayWather>();
+            DayWatherCollection = new Dictionary<DateTime, IDayWather>();
             var list = _accuWeatherManager.GetFiveDaysWeather();
 
 
             foreach(var d in list)
-                DayWatherCollection.Add(new DayWatherViewModel(d));
+                DayWatherCollection.Add(d.Date.Date, new DayWatherViewModel(d));
         }
-        public ObservableCollection<IDayWather> DayWatherCollection { get; }
+        public Dictionary<DateTime, IDayWather> DayWatherCollection { get; }
     }
 }

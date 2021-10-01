@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
@@ -91,15 +92,15 @@ namespace MonthEvent
         #endregion
         #region Wather
         public static readonly DependencyProperty DayWatherCollectionProperty =
-            DependencyProperty.Register(nameof(DayWatherCollection), typeof(ObservableCollection<IDayWather>), typeof(DayMonthEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+            DependencyProperty.Register(nameof(DayWatherCollection), typeof(Dictionary<DateTime, IDayWather>), typeof(DayMonthEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
 
         public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((DayMonthEventControl)d).DayWatherCollection = (ObservableCollection<IDayWather>)e.NewValue;
+            ((DayMonthEventControl)d).DayWatherCollection = (Dictionary<DateTime, IDayWather>)e.NewValue;
         }
-        public ObservableCollection<IDayWather> DayWatherCollection
+        public Dictionary<DateTime, IDayWather> DayWatherCollection
         {
-            get { return (ObservableCollection<IDayWather>)GetValue(DayWatherCollectionProperty); }
+            get { return (Dictionary<DateTime, IDayWather>)GetValue(DayWatherCollectionProperty); }
             set
             {
                 SetValue(DayWatherCollectionProperty, value);
@@ -110,16 +111,13 @@ namespace MonthEvent
         {
             if ((DayWatherCollection == null)||(_TitleContentControl.Content == null))
                 return;
-            foreach (var w in DayWatherCollection)
+            if(DayWatherCollection.ContainsKey(Date))
             {
-                if (w.IsDate(Date))
-                {
-                    (_TitleContentControl.Content as FrameworkElement).Visibility = Visibility.Visible;
-                    (_TitleContentControl.Content as FrameworkElement).DataContext = w;
-                }
-                //else
-                //    (_TitleContentControl.Content as FrameworkElement).Visibility = Visibility.Hidden;
+                (_TitleContentControl.Content as FrameworkElement).Visibility = Visibility.Visible;
+                (_TitleContentControl.Content as FrameworkElement).DataContext = DayWatherCollection[Date];
             }
+            else
+                (_TitleContentControl.Content as FrameworkElement).Visibility = Visibility.Hidden;
         }
         #endregion
         public DayType Type { private set; get; }
@@ -133,6 +131,7 @@ namespace MonthEvent
                 else
                     _Title.Content = Date.ToString("dd");
             }
+            UpdateWather();
         }
         public double TitleSize { get => _Title.ActualHeight; }
         public override void OnApplyTemplate()

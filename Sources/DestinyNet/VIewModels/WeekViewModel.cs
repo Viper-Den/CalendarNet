@@ -39,7 +39,7 @@ namespace DestinyNet
             get => _hourHeight;
             set { SetField(ref _hourHeight, value); }
         }
-        public ObservableCollection<IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
+        public Dictionary<DateTime, IDayWather> DayWatherCollection { get => _weatherViewModel.DayWatherCollection; }
         public ObservableCollection<int> IgnoreHours { get; set; }
         public ObservableCollection<Event> Events { get => _data.Events; }
         public ICommand AddEventCommand { get => new ActionCommand(OnAddEvent); }

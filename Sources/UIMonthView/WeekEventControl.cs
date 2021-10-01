@@ -538,15 +538,15 @@ namespace MonthEvent
         #endregion
         #region Wather
         public static readonly DependencyProperty DayWatherCollectionProperty =
-            DependencyProperty.Register(nameof(DayWatherCollection), typeof(ObservableCollection<IDayWather>), typeof(WeekEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
+            DependencyProperty.Register(nameof(DayWatherCollection), typeof(Dictionary<DateTime, IDayWather>), typeof(WeekEventControl), new PropertyMetadata(DayWatherCollectionPropertyChanged));
 
         public static void DayWatherCollectionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ((WeekEventControl)d).DayWatherCollection = (ObservableCollection<IDayWather>)e.NewValue;
+            ((WeekEventControl)d).DayWatherCollection = (Dictionary<DateTime, IDayWather>)e.NewValue;
         }
-        public ObservableCollection<IDayWather> DayWatherCollection
+        public Dictionary<DateTime, IDayWather> DayWatherCollection
         {
-            get { return (ObservableCollection<IDayWather>)GetValue(DayWatherCollectionProperty); }
+            get { return (Dictionary<DateTime, IDayWather>)GetValue(DayWatherCollectionProperty); }
             set
             {
                 SetValue(DayWatherCollectionProperty, value);
