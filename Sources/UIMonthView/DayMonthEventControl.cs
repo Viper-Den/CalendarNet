@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using Converters;
 using Destiny.Core;
 
 namespace MonthEvent
@@ -84,10 +80,7 @@ namespace MonthEvent
             if (_TitleContentControl == null)
                 return;
 
-            if (WeatherTemplate == null)
-                _TitleContentControl.Content = null;
-            else
-                _TitleContentControl.Content = WeatherTemplate.LoadContent();
+            _TitleContentControl.Content = (WeatherTemplate == null) ? null : WeatherTemplate.LoadContent();
         }
         #endregion
         #region Wather
@@ -122,18 +115,15 @@ namespace MonthEvent
         #endregion
         public DayType Type { private set; get; }
         public Action<DateTime> AddAction { get; set; }
+        public double TitleSize { get => _Title.ActualHeight; }
         public void UpdateEvents()
         {
-            if (_Title != null) 
-            { 
-                if (Date == new DateTime(Date.Year, Date.Month, 1))
-                    _Title.Content = Date.ToString("MM.dd");
-                else
-                    _Title.Content = Date.ToString("dd");
-            }
+            if (_Title == null)
+                return;
+
+            _Title.Content = (Date == new DateTime(Date.Year, Date.Month, 1)) ? Date.ToString("MM.dd") : Date.ToString("dd");
             UpdateWather();
         }
-        public double TitleSize { get => _Title.ActualHeight; }
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -144,8 +134,8 @@ namespace MonthEvent
             _Content.ItemsSource = Events;
             _Content.ItemTemplate = ItemTemplate;
             _TitleGrid.PreviewMouseUp += OnAddEvent;
-            UpdateEvents();
             WeatherTemplateUpdate();
+            UpdateEvents();
             UpdateWather();
         }
         private void OnAddEvent(object sender, MouseButtonEventArgs e)
