@@ -18,7 +18,7 @@ namespace DestinyNet
         {
             _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
             IgnoreHours = new ObservableCollection<int>();
-            Palette = new PaletteMounthEvent();
+            Palette = new PaletteWeekEvent();
             for (var i = 0; i < 9; i++)  // скроем все часы до 9 утра
                 IgnoreHours.Add(i);
             HourHeight = 50;

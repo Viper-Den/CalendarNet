@@ -12,7 +12,7 @@ namespace DestinyNet
         }
         public SolidColorBrush BackgroundColor
         {
-            get => new SolidColorBrush(Color.FromArgb(200, _event.Calendar.Color.Color.R, _event.Calendar.Color.Color.G, _event.Calendar.Color.Color.B));
+            get => new SolidColorBrush(Color.FromArgb(200, _event.Calendar.Background.Color.R, _event.Calendar.Background.Color.G, _event.Calendar.Background.Color.B));
         }   
     }
 }

@@ -6,52 +6,26 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              Background="Transparent" 
-             Height="150" Width="400">
-    <Border
-        Background="WhiteSmoke" 
-        BorderBrush="Black"
-        BorderThickness="1"
-        CornerRadius="10">
-        <Grid 
-            VerticalAlignment="Stretch" 
-            HorizontalAlignment="Stretch">
+             Height="200" Width="400">
+    <Border Background="WhiteSmoke" BorderBrush="Black" BorderThickness="1" CornerRadius="10">
+        <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
-            <xctk:ColorPicker 
-                Grid.Row="1" 
-                SelectedColor="{Binding SelectedCalendar.Color.Color}"
-                Margin="10"/>
-            <Grid Grid.Row="2">
+            <xctk:ColorPicker Grid.Row="1" Margin="10" SelectedColor="{Binding Path=SelectedCalendar.Background.Color}" />
+            <xctk:ColorPicker Grid.Row="2" Margin="10" SelectedColor="{Binding Path=SelectedCalendar.Foreground.Color}" />
+            <Grid Grid.Row="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button 
-                    Grid.Column="0" 
-                    Content="Delete"                      
-                    Margin="10"
-                    Command="{Binding DeleteCalendarCommand}"/>
-                <Button 
-                    Grid.Column="1" 
-                    Content="Cancel" 
-                    Margin="10"
-                    Command="{Binding CloseWindowCommand}"/>
+                <Button Grid.Column="0" Content="Delete" Margin="10" Command="{Binding Path=DeleteCalendarCommand}"/>
+                <Button Grid.Column="1" Content="Cancel" Margin="10" Command="{Binding Path=CloseWindowCommand}"/>
             </Grid>
-            <TextBox 
-                Grid.Row="0" 
-                VerticalContentAlignment="Center"
-                Text="{Binding SelectedCalendar.Name}"                    
-                Margin="10"/>
-            <!--<TextBox 
-                SpellCheck.IsEnabled="True" 
-                Language="eng-eng" 
-                Grid.Row="0" 
-                VerticalContentAlignment="Center"
-                Text="{Binding SelectedCalendar.Name}"                    
-                Margin="10"/>-->
+            <TextBox Grid.Row="0" Margin="10" VerticalContentAlignment="Center" Text="{Binding Path=SelectedCalendar.Name}" />
         </Grid>
     </Border>
 </UserControl>

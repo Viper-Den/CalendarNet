@@ -19,7 +19,7 @@ namespace DestinyNet
         }
         private void AddCalendar(object o)
         {
-            var c = new Calendar() { Color = new SolidColorBrush(Colors.White), Enabled=true, Name = "New Calendar"};
+            var c = new Calendar() { Background = new SolidColorBrush(Colors.White), Enabled=true, Name = "New Calendar"};
             Calendars.Add(c);
             SelectedCalendar = c;
             EditCalendar(null);

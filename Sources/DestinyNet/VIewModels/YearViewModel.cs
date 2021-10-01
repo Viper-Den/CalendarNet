@@ -77,7 +77,7 @@ namespace DestinyNet
 
             if (ev == null)
                 return;
-            Palette.Selected.Background = ev.Calendar.Color;
+            Palette.Selected.Background = ev.Calendar.Background;
             var sd = new DateTime(Date.Year, 1, 1);
             var fd = new DateTime(Date.AddYears(1).Year, 1, 1);
             while(sd.Date < fd.Date)

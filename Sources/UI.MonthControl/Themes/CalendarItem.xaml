@@ -20,7 +20,7 @@
                                 Height="20"
                                 Width="20"
                                 BorderThickness="1"
-                                BorderBrush="{Binding Color}"
+                                BorderBrush="{Binding Path=Background}"
                                 CornerRadius="2">
                             <Image  x:Name="xImageIsChecked"  
                                     VerticalAlignment="Stretch"

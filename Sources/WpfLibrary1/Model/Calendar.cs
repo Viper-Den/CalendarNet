@@ -11,7 +11,8 @@ namespace Destiny.Core
             GUID = Guid.NewGuid().ToString();
         }
         public string Name { get; set; }
-        public SolidColorBrush Color { get; set; }
+        public SolidColorBrush Background { get; set; }
+        public SolidColorBrush Foreground { get; set; }
         public bool Enabled { get => _enabled; set { SetField(ref _enabled, value); } }
         public string GUID { get; set; }
     }

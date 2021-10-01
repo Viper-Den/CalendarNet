@@ -26,11 +26,12 @@ namespace Destiny.Core
             set 
             {
                 SetField(ref _Calendar, value);
-                OnPropertyChanged(nameof(Color));
+                OnPropertyChanged(nameof(Background));
             }
         }
         public bool IsAllDay { get; set; }
-        public SolidColorBrush Color { get => Calendar.Color; }
+        public SolidColorBrush Background { get => Calendar.Background; }
+        public SolidColorBrush Foreground { get => Calendar.Foreground; }
         public RuleRepeatTypes RuleType 
         { 
             get => _type; 

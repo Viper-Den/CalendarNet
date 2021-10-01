@@ -29,8 +29,9 @@
                     <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"  BorderBrush="Transparent" Background="Transparent"
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type weekevent:WeekEventControl}}, Path=DataContext.SelectedEvent}"
                             CommandParameter="{Binding}" Visibility="{Binding Path=Calendar.Enabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Label Height="30" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"        
-                            Background="{Binding Path=Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                        <Label Height="30" VerticalContentAlignment="Center" HorizontalAlignment="Stretch"       
+                            Background="{Binding Path=Background, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding Path=Foreground, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             Content="{Binding Path=Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Button>
                 </DataTemplate>
@@ -41,7 +42,8 @@
                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type weekevent:WeekEventControl}}, Path=DataContext.SelectedEvent}"
                             CommandParameter="{Binding}">
                         <Label Name="Label" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"        
-                            Background="{Binding Path=Color, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                            Background="{Binding Path=Background, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                            Foreground="{Binding Path=Foreground, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             Content="{Binding Path=Caption, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Button>
                 </DataTemplate>
