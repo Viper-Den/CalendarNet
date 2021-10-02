@@ -47,7 +47,7 @@ namespace UIMonthControl
 
         #region PeriodStart
         public static readonly DependencyProperty PeriodStartProperty =
-            DependencyProperty.Register("PeriodStart", typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodStartChanged));
+            DependencyProperty.Register(nameof(PeriodStart), typeof(ICommand), typeof(YearControl), new PropertyMetadata(PeriodStartChanged));
         public static void PeriodStartChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((YearControl)d).PeriodStart = (ICommand)e.NewValue;
@@ -226,9 +226,7 @@ namespace UIMonthControl
                 startDate = startDate.AddDays(1);
             }
             foreach (var m in _Month)
-            {
                 m.SelectDate(l);
-            }
         }
         private void OnPeriodFinish(DateTime date)
         {

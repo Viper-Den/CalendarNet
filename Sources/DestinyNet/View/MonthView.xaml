@@ -16,7 +16,6 @@
     <Grid>
         <MonthView:MonthEventControl 
             Margin="20,20,20,20" 
-            Background="White"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Date="{Binding Path=Date}" 

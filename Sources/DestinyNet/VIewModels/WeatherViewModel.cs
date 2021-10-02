@@ -47,10 +47,7 @@ namespace DestinyNet
             get { return $"{_dayWeather.TemperatureMaximum} C° / {_dayWeather.TemperatureMinimum} C°"; }
         }
         public ImageSource Image { 
-            get {
-                var i = new BitmapImage(new Uri("pack://application:,,,/;component/Images/Weather/" + _dayWeatherPathDictionary[_dayWeather.Type].Path, UriKind.Absolute));
-                return i;
-            }
+            get { return new BitmapImage(new Uri("pack://application:,,,/;component/Images/Weather/" + _dayWeatherPathDictionary[_dayWeather.Type].Path, UriKind.Absolute)); }
         }
         public string ToolTip { get => _dayWeatherPathDictionary[_dayWeather.Type].ToolTip; }
 

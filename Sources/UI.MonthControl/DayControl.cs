@@ -37,6 +37,13 @@ namespace UIMonthControl
         }
         #endregion
 
+        public void SetStyle(EvementStyle style)
+        {
+            if (style == null)
+                return;
+            Background = style.Background;
+            Foreground = style.Foreground;
+        }
         public DayType Type {private set; get;}
         public bool IsSelected { get; set; }
         private void UpdateElement()

@@ -31,11 +31,11 @@
                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <ContentControl  x:Name="xTitleContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         </Grid>
-                        <ListView Grid.Row="1" 
+                        <ListBox Grid.Row="1" 
                                  Background="Transparent"
                                  BorderThickness="0" 
                                  x:Name="xContent"
-                                 ItemContainerStyle="{StaticResource xListViewItem}" 
+                                 ItemContainerStyle="{StaticResource xListBoxItem}" 
                                  ItemsSource="{Binding Path=Events}"/>
                     </Grid>
                 </ControlTemplate>

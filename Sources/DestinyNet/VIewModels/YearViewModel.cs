@@ -28,6 +28,13 @@ namespace DestinyNet
                 _dialogViewsManager.ShowDialogView(EventEditorViewModel.EventEditorViewModelEdit(_dialogViewsManager.ClosePopUpViewCommand, _data, (Event)o), true);
             }
         }
+        private void OnStartDate(object obj)
+        {
+            if (!IsMultipleSelection)
+                SelectedDates.Clear();
+            Palette.Selected.SetEvementStyle(Palette.SelectedDefault);
+        }
+
         public void OnPeriodSelectedCommand(object o)
         {
             if (o is List<DateTime>)
@@ -36,7 +43,9 @@ namespace DestinyNet
                 if (!IsMultipleSelection)
                 {
                     SelectedDates.Clear();
-                    Palette.Selected = Palette.SelectedDefault;
+                    Palette.Selected.SetEvementStyle(Palette.SelectedDefault);
+                    Palette.Selected.Background = Palette.SelectedDefault.Background;
+                    Palette.Selected.Foreground = Palette.SelectedDefault.Foreground;
                 }
                 foreach (var d in l)
                 {
@@ -78,6 +87,7 @@ namespace DestinyNet
             if (ev == null)
                 return;
             Palette.Selected.Background = ev.Calendar.Background;
+            Palette.Selected.Foreground = ev.Calendar.Foreground;
             var sd = new DateTime(Date.Year, 1, 1);
             var fd = new DateTime(Date.AddYears(1).Year, 1, 1);
             while(sd.Date < fd.Date)
@@ -98,7 +108,7 @@ namespace DestinyNet
         public ObservableCollection<DateTime> SelectedDates { get; protected set; }
         public ICommand AddEventCommand { get => new ActionCommand(DoAddEvent); }
         public ICommand EditeEventCommand { get => new ActionCommand(DoEditeEvent); }
-        //public ICommand StartDateCommand { get => new ActionCommand(OnStartDate); }
+        public ICommand StartDateCommand { get => new ActionCommand(OnStartDate); }
         //public ICommand FinishDateCommand { get => new ActionCommand(OnFinishDate); }
         public ICommand PeriodSelectedCommand { get => new ActionCommand(OnPeriodSelectedCommand); }
     }

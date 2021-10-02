@@ -14,7 +14,7 @@ namespace MonthEvent
     public class DayMonthEventControl : BaseControl, IDayControl
     {
         private Label _Title;
-        private ListView _Content;
+        private ListBox _Content;
         private Grid _TitleGrid;
         private ContentControl _TitleContentControl;
         private const string TP_TITLE_PART = "xTitle";
@@ -130,7 +130,7 @@ namespace MonthEvent
         {
             base.OnApplyTemplate();
             _Title = (Label)GetTemplateChild(TP_TITLE_PART);
-            _Content = (ListView)GetTemplateChild(TP_CONTENT);
+            _Content = (ListBox)GetTemplateChild(TP_CONTENT);
             _TitleGrid = (Grid)GetTemplateChild(TP_CONTENT_GRID);
             _TitleContentControl = (ContentControl)GetTemplateChild(TP_CONTENT_CONTENTCONTROL);
             _Content.ItemsSource = Events;

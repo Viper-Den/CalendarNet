@@ -25,19 +25,19 @@
                        FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                         Command="{Binding Path=AddCalendarCommand}"/>
         </Grid>
-        <ListView 
+        <ListBox 
             ItemsSource="{Binding Path=Calendars}"  
-            ItemContainerStyle="{StaticResource xListViewItem}" 
+            ItemContainerStyle="{StaticResource xListBoxItem}" 
             Grid.Row="2">
-            <ListView.ItemTemplate>
+            <ListBox.ItemTemplate>
                 <DataTemplate DataType="local:Cases" >
                     <MonthView:CalendarItem 
                             Height="40" 
                             SettingsCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.EditCalendarCommand}" 
                             IsChecked="{Binding Path=Enabled, Mode=TwoWay}"/>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50" Date="{Binding Path=Date}" />
     </Grid>
 </UserControl>

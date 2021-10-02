@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Down.png" />
+    <None Remove="Images\Up.png" />
     <None Remove="Images\Weather\Cloudy.png" />
     <None Remove="Images\Weather\Fog.png" />
     <None Remove="Images\Weather\Intermittent Clouds.png" />

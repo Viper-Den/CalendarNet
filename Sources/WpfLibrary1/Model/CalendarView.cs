@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Destiny.Core
 {
@@ -15,7 +16,6 @@ namespace Destiny.Core
         {
             _sourceEvents = source;
             Calendar = calendar;
-            IsOpened = false;
             Events = new ObservableCollection<Event>();
             foreach (var ev in _sourceEvents)
             {
@@ -23,6 +23,7 @@ namespace Destiny.Core
                     Events.Add(ev);
             }
             _sourceEvents.CollectionChanged += DoCollectionChangedEvents;
+            IsOpened = false;
         }
         ~CalendarView()
         {
@@ -34,13 +35,16 @@ namespace Destiny.Core
         public bool IsOpened
         {
             get => _isOpened;
-            set 
-            { 
+            set { 
                 SetField(ref _isOpened, value);
-                if(_isOpened)
-                    OnMenuOpened?.Invoke(this);
+                OnPropertyChanged(IsOpeneble);
             }
         }
+        public bool IsOpeneble
+        {
+            get => (Events.Count != 0);
+        }
+
         public ObservableCollection<Event> Events { get; private set; }
         public ICommand SelectedEventCommand { get => new ActionCommand(SelectedEvent); }
         public void SelectedEvent(object o)

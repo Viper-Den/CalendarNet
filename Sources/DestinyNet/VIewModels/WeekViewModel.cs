@@ -16,7 +16,6 @@ namespace DestinyNet
         private WeatherViewModel _weatherViewModel;
         public WeekViewModel(Data data, IDialogViewsManager dialogViewsManager, WeatherViewModel weatherViewModel, WeekSettings weekSettings) : base(data, dialogViewsManager)
         {
-
             _weekSettings = weekSettings ?? throw new ArgumentNullException(nameof(weekSettings));
             _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
             IgnoreHours = new ObservableCollection<int>();

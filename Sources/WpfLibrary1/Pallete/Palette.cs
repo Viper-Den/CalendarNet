@@ -15,12 +15,12 @@ namespace Destiny.Core
                _evementStyleDictionary = new Dictionary<EvementStyleType, EvementStyle>();
             _evementStyleDictionary[EvementStyleType.DayNoMonth] = new EvementStyle(Brushes.Transparent, Brushes.Gainsboro);
             _evementStyleDictionary[EvementStyleType.Day] = new EvementStyle(Brushes.Transparent, Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.DayFinish] = new EvementStyle(new SolidColorBrush(Color.FromRgb(230, 230, 230)), Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.DayOff] = new EvementStyle(new SolidColorBrush(Color.FromRgb(230, 230, 230)), Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.DayOffFinish] = new EvementStyle(new SolidColorBrush(Color.FromRgb(210, 210, 210)), Brushes.Black);
+            _evementStyleDictionary[EvementStyleType.DayFinish] = new EvementStyle(new SolidColorBrush(Color.FromArgb(150, 200, 200, 200)), Brushes.Black);
+            _evementStyleDictionary[EvementStyleType.DayOff] = new EvementStyle(new SolidColorBrush(Color.FromArgb(180, 200, 200, 200)), Brushes.Black);
+            _evementStyleDictionary[EvementStyleType.DayOffFinish] = new EvementStyle(new SolidColorBrush(Color.FromArgb(240, 200, 200, 200)), Brushes.Black);
             _evementStyleDictionary[EvementStyleType.ToDay] = new EvementStyle(new SolidColorBrush(Color.FromRgb(17, 110, 190)), Brushes.White);
             _evementStyleDictionary[EvementStyleType.SelectedDefault] = new EvementStyle(Brushes.Gray, Brushes.White);
-            Selected = SelectedDefault;
+            Selected = new EvementStyle(Brushes.Gray, Brushes.White);
 
             EvementStyleCollection = new ObservableCollection<EvementStyle>(_evementStyleDictionary.Values);
             ViewBorderingMonths = Visibility.Hidden;

@@ -87,6 +87,7 @@ namespace AccuWeather
             if (_settings.CityKey == "")
                 _settings.CityKey = GetCityKey(_settings.CityName);
             var res = new List<DayWeather>();
+            return res;
             try
             {
                 WebClient webClient = new WebClient();

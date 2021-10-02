@@ -9,6 +9,12 @@ namespace Destiny.Core
             Background = background;
             Foreground = foreground;
         }
+
+        public void SetEvementStyle(EvementStyle evementStyle)
+        {
+            Background = evementStyle.Background;
+            Foreground = evementStyle.Foreground;
+        }
         public Brush Background { get; set; }
         public Brush Foreground { get; set; }
     }
