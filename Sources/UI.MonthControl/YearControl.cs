@@ -99,6 +99,7 @@ namespace UIMonthControl
                 SetValue(DateProperty, new DateTime(value.Year, 1, 1));
                 if (_Title != null)
                     UpdateElements();
+                UpdateSelectedDates();
             }
         }
         #endregion   
@@ -140,9 +141,7 @@ namespace UIMonthControl
         private void UpdateSelectedDates()
         {
             foreach (var m in _Month)
-            {
                 m.SelectedDates = SelectedDates;
-            }
         }
         #endregion
         #region Palette

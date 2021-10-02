@@ -10,7 +10,18 @@
              d:DesignHeight="700" d:DesignWidth="1000" 
              Loaded="UserControl_Loaded">
     <Grid Background="White">
-        <MonthView:YearControl x:Name="xYearControl"
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="17*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <MonthView:YearControl x:Name="xYearControl" 
+            Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="2"
             Background="Transparent" 
             Margin="20,20,20,20" 
             Date="{Binding Path=Date}" 
@@ -20,12 +31,11 @@
             SelectedDates="{Binding Path=SelectedDates}"
             PeriodSelected="{Binding Path=PeriodSelectedCommand}"
             Palette="{Binding Path=Palette, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Background="Transparent" BorderBrush="Transparent"
-                VerticalAlignment="Top" HorizontalAlignment="Right" Margin="120,17"
+        <Button Grid.Column="1" Grid.Row="0" Margin="5,25,5,5"
+                VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                Background="Transparent" BorderBrush="Transparent"
                 Command="{Binding Path=AddEventCommand}">
-            <Label FontSize="30" Content="+" 
-                   VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                   VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Image Source="/Images/add.png" Stretch="None"/>
         </Button>
     </Grid>
 </UserControl>

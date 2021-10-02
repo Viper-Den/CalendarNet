@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\add.png" />
     <None Remove="Images\Down.png" />
     <None Remove="Images\Up.png" />
     <None Remove="Images\Weather\Cloudy.png" />
@@ -41,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\add.png" />
     <Resource Include="Images\Destiny_Icon.ico" />
     <Resource Include="Images\Weather\Cloudy.png" />
     <Resource Include="Images\Weather\Fog.png" />
