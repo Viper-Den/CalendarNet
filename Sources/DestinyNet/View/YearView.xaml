@@ -35,7 +35,7 @@
                 VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
                 Background="Transparent" BorderBrush="Transparent"
                 Command="{Binding Path=AddEventCommand}">
-            <Image Source="/Images/add.png" Stretch="None"/>
+            <Image Source="/Images/Add.png" Stretch="None"/>
         </Button>
     </Grid>
 </UserControl>

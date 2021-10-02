@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="Images\add.png" />
     <None Remove="Images\Down.png" />
+    <None Remove="Images\Settings.png" />
     <None Remove="Images\Up.png" />
     <None Remove="Images\Weather\Cloudy.png" />
     <None Remove="Images\Weather\Fog.png" />
@@ -42,8 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\add.png" />
+    <Resource Include="Images\Add.png" />
     <Resource Include="Images\Destiny_Icon.ico" />
+    <Resource Include="Images\Settings.png" />
     <Resource Include="Images\Weather\Cloudy.png" />
     <Resource Include="Images\Weather\Fog.png" />
     <Resource Include="Images\Weather\Intermittent Clouds.png" />

@@ -18,7 +18,7 @@ namespace DestinyNet
             public bool FreezeBackground
             {
                 get => _freezeBackGround;
-                set => SetField(ref _freezeBackGround, value);
+                set{ SetField(ref _freezeBackGround, value); }
             }
 
             public void ShowDialogView(BaseViewModel dialogView, bool freezeBackground = false)

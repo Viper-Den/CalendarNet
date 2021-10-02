@@ -11,6 +11,7 @@
         Title="MainWindow">
     <Window.Resources>
         <converters:BoolToBlurUsageConverter x:Key="BoolToBlurUsageConverter"/>
+        <converters:BoolToInvertedValueConverter x:Key="BoolToInvertedValueConverter"/> 
     </Window.Resources>
     <Grid>
         <tb:TaskbarIcon Visibility="Visible" ToolTipText="Desteny"  IconSource="pack://application:,,,/Images/Destiny_Icon.ico"
@@ -21,22 +22,24 @@
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
-        <Grid>
+        <Grid IsEnabled="{Binding DialogViewsManager.FreezeBackground, Converter={StaticResource BoolToInvertedValueConverter}}" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50.19"/>
-                <ColumnDefinition Width="249.81"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="250"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="300"/>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
 
-            <Label Grid.Row="0" 
-                   Grid.Column="0" 
-                   Background="Silver" Grid.ColumnSpan="2"/>
-            <Grid Grid.Row="0" Grid.Column="2" Background="#FFCCCCCC ">
+            <Label Grid.Row="0"  Grid.ColumnSpan="2" Grid.Column="0" 
+                  Background="Silver"/>
+            <Grid Grid.Row="0" Grid.Column="2" 
+                  Background="#FFCCCCCC ">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -55,42 +58,37 @@
                 <Button x:Name="xButtonYear" Grid.Column="6" Content="Year" Margin="10,5" Command="{Binding YearViewCommand}"/>
             </Grid>
 
-            <Button Grid.Column="0" Grid.Row="0" Content="Settings" Command="{Binding SettingsCommand}"/>
 
-            <Border Grid.Column="0" 
-                    Grid.Row="1" 
-                    Grid.RowSpan="2" 
-                    Background="WhiteSmoke" Grid.ColumnSpan="2"/>
+            <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Grid.ColumnSpan="2"
+                    Background="WhiteSmoke"/>
 
 
-            <ContentControl Grid.Column="2" 
-                            Grid.Row="1" 
-                            Grid.RowSpan="2" 
+            <ContentControl Grid.Column="2" Grid.Row="1" Grid.RowSpan="3" 
                             Content="{Binding Path=SelectedViewModel}"/>
 
 
-            <ContentControl Grid.Column="0" 
-                            Grid.Row="1" 
-                            Grid.RowSpan="2"  
-                            Content="{Binding Path=ToolPanel}" Grid.ColumnSpan="2"/>
-
+            <ContentControl Grid.Column="0" Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2"  
+                            Content="{Binding Path=ToolPanel}"/>
+            <Grid Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                    VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Background="Transparent" BorderBrush="Transparent" Command="{Binding SettingsCommand}">
+                        <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/Images/Settings.png" Stretch="Fill"/>
+                </Button>
+            </Grid>
 
             <Grid.Effect>
                 <BlurEffect KernelType="Gaussian" Radius="{Binding DialogViewsManager.FreezeBackground, Converter={StaticResource BoolToBlurUsageConverter}}" />
             </Grid.Effect>
         </Grid>
-        <!--  Container with additional pop up views  -->
-        <Grid
-            x:Name="DialogContent"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Grid.Column="0" 
-            Grid.Row="0" 
-            Grid.ColumnSpan="2" 
-            Grid.RowSpan="3" >
-            <ContentControl 
-                VerticalAlignment="Stretch" 
-                HorizontalAlignment="Stretch" 
+        <Grid x:Name="DialogContent"
+              Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="3"
+              HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ContentControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                 Content="{Binding DialogViewsManager.CurrentDialogView}" />
         </Grid>
     </Grid>
