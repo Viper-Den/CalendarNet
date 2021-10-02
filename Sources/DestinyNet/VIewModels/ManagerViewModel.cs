@@ -13,13 +13,15 @@ namespace DestinyNet
         private BaseViewModel _toolPanel;
         private PaletteManager _paletteManager;
         private WeatherViewModel _weatherViewModel;
+        private Settings _settings;
         private Dictionary<ViewModelEnum, BaseViewModel> _viewModelsDictionary;
 
         public ManagerViewModel(Data data, Settings settings, WeatherViewModel weatherViewModel)
         {
             _data = data ?? throw new ArgumentNullException(nameof(data));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _weatherViewModel = weatherViewModel ?? throw new ArgumentNullException(nameof(weatherViewModel));
-            _paletteManager = new PaletteManager(settings.Palettes);
+            _paletteManager = new PaletteManager(_settings.Palettes);
             DialogViewsManager = new DialogViewsManager();
             ToolPanel = new ToolPanelViewModel(_data, DialogViewsManager);
             _viewModelsDictionary = new Dictionary<ViewModelEnum, BaseViewModel>();
@@ -68,7 +70,7 @@ namespace DestinyNet
         public ICommand SettingsCommand { get => new ActionCommand(DoSettingsCommand); }
         private void DoSettingsCommand(object o)
         {
-            DialogViewsManager.ShowDialogView(new SettingsViewModel(DialogViewsManager.ClosePopUpViewCommand, _paletteManager), true);
+            DialogViewsManager.ShowDialogView(new SettingsViewModel(DialogViewsManager.ClosePopUpViewCommand, _paletteManager, _settings), true);
         }
         private void ViewMonth(object o)
         {

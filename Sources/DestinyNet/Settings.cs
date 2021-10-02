@@ -51,12 +51,12 @@ namespace DestinyNet
         {
             WindowSettings = new WindowSettings();
             Palettes = new PaletteSettings();
-            AccuWeather = new AccuWeatherManagerSettings();
+            WeatherSettings = new AccuWeatherManagerSettings();
             WeekSettings = new WeekSettings();
         }
         public WindowSettings WindowSettings { get; set; }
         public PaletteSettings Palettes { get; set; }
-        public AccuWeatherManagerSettings AccuWeather { get; set; }
+        public AccuWeatherManagerSettings WeatherSettings { get; set; }
         public WeekSettings WeekSettings { get; set; }
     }
 }

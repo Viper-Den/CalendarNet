@@ -4,5 +4,7 @@
         <ResourceDictionary Source="/Destiny.Core;component/Styles/ListBox.xaml" />
         <ResourceDictionary Source="/Destiny.Core;component/Styles/Button.xaml" />
         <ResourceDictionary Source="/Destiny.Core;component/Styles/Label.xaml" />
+        <ResourceDictionary Source="/Destiny.Core;component/Styles/ToggleButton.xaml" />
+        <ResourceDictionary Source="/Destiny.Core;component/Styles/SwitchableToggleButton.xaml" /> 
     </ResourceDictionary.MergedDictionaries> 
 </ResourceDictionary> 

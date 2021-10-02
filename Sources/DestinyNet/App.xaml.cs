@@ -23,7 +23,7 @@ namespace DestinyNet
         {
             base.OnStartup(e);
             _settings = LoadSettings();
-            var weatherViewModel = new WeatherViewModel(new AccuWeatherManager(_settings.AccuWeather));
+            var weatherViewModel = new WeatherViewModel(new AccuWeatherManager(_settings.WeatherSettings));
             _data = Load();
             MainWindow app = new MainWindow() { DataContext = new ManagerViewModel(_data, _settings, weatherViewModel) };
             app.Show();

@@ -68,6 +68,8 @@ namespace AccuWeather
         public string GetCityKey(string cityName)
         {
             var res = "";
+            if (!_settings.Enabled)
+                return res;
             try
             {
                 string request = $"http://dataservice.accuweather.com/locations/v1/cities/search?apikey={_settings.APIkey}&q={cityName}";
@@ -84,10 +86,11 @@ namespace AccuWeather
 
         public List<DayWeather> GetFiveDaysWeather()
         {
+            var res = new List<DayWeather>();
+            if (!_settings.Enabled)
+                return res;
             if (_settings.CityKey == "")
                 _settings.CityKey = GetCityKey(_settings.CityName);
-            var res = new List<DayWeather>();
-            return res;
             try
             {
                 WebClient webClient = new WebClient();

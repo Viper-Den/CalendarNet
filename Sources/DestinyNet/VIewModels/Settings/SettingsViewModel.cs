@@ -22,14 +22,16 @@ namespace DestinyNet
     public class SettingsViewModel: BaseViewModel
     {
         private Node _selectedNode;
-        public SettingsViewModel(ICommand closeWindowCommand, PaletteManager paletteManager)
+        private Settings _settings;
+        public SettingsViewModel(ICommand closeWindowCommand, PaletteManager paletteManager, Settings settings)
         {
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             CloseCommand = closeWindowCommand ?? throw new NullReferenceException(nameof(CloseCommand));
             Nodes = new ObservableCollection<Node>()
             {
                 new Node( "General", null),
                 new Node( "Presets palette", null),
-                new Node( "Weather", null)
+                new Node( "Weather", new WeatherSettingsViewModel(_settings.WeatherSettings))
             };
             paletteManager.PaletteCollection.Add(new Palette() { Name = "White" });
             paletteManager.PaletteCollection.Add(new Palette() { Name = "Black" });
