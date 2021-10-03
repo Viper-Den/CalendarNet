@@ -76,6 +76,10 @@ namespace MonthEvent
                 }
             }
         }
+        public bool ContainsKey(Event e)
+        {
+            return _events.ContainsKey(e) || Day.Events.Contains(e);
+        }
         public void AddEvent(Event e)
         {
             if (!e.Rule.IsDate(Date))
@@ -301,14 +305,14 @@ namespace MonthEvent
             foreach(var r in _Rows.Values)
             {
                 p += r.GetSizeHour();
+                i++;
                 if (clickPos < p)
                 {
                     p -= r.GetSizeHour();
                     break;
                 }
-                i++;
             }
-            var d = (i * DateHelper.MIN_IN_HOUR) + ((clickPos - p) / _Rows[i].GetSizeMin());
+            var d = ((i-1) * DateHelper.MIN_IN_HOUR) + ((clickPos - p) / _Rows[i].GetSizeMin());
             return Convert.ToInt32(d);
         }
 
@@ -572,30 +576,30 @@ namespace MonthEvent
             }
         }
         private void DoNotifyCollectionChangedEventHandler(object sender, NotifyCollectionChangedEventArgs e)
-        {
+      {
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (var d in _Days)
+                    foreach (var o in e.NewItems)
                     {
-                        foreach (var ev in e.NewItems)
-                        {
-                          d.AddEvent((Event)ev);
-                        }
+                        var ev = o as Event;
+                        foreach (var d in _Days)
+                            if (ev.Rule.IsDate(d.Date))
+                                d.AddEvent( ev);
                     }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    foreach (var d in _Days)
-                    {
-                        foreach (var ev in e.OldItems)
+                        foreach (var o in e.OldItems)
                         {
-                            d.Remove((Event)ev);
+                            var ev = o as Event;
+                            foreach (var d in _Days)
+                                if (d.ContainsKey(ev))
+                                    d.Remove( ev);
                         }
-                    }
-                    break;
+                break;
                 case NotifyCollectionChangedAction.Replace:
                     UpdateEvents();
-                    break;
+                break;
             }
         }
 
