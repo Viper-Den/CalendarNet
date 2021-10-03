@@ -323,10 +323,22 @@ namespace MonthEvent
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    UpdateEvents();
+                    foreach (var o in e.NewItems)
+                    {
+                        var ev = o as Event;
+                        foreach (var d in _Days)
+                            if (ev.Rule.IsDate(d.Date))
+                                d.Events.Add(ev);
+                    }
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    UpdateEvents();
+                        foreach (var o in e.OldItems)
+                        {
+                            var ev = o as Event;
+                            foreach (var d in _Days)
+                                if (d.Events.Contains(ev))
+                                    d.Events.Remove(ev);
+                    }
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     UpdateEvents();
