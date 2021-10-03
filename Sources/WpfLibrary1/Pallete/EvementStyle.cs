@@ -4,8 +4,10 @@ namespace Destiny.Core
 {
     public class EvementStyle: BaseViewModel
     {
-        public EvementStyle(Brush background, Brush foreground)
+        private EvementStyleType _type;
+        public EvementStyle(SolidColorBrush background, SolidColorBrush foreground, EvementStyleType type)
         {
+            _type = type;
             Background = background;
             Foreground = foreground;
         }
@@ -15,7 +17,8 @@ namespace Destiny.Core
             Background = evementStyle.Background;
             Foreground = evementStyle.Foreground;
         }
-        public Brush Background { get; set; }
-        public Brush Foreground { get; set; }
+        public string Name { get => _type.ToString(); }
+        public SolidColorBrush Background { get; set; }
+        public SolidColorBrush Foreground { get; set; }
     }
 }

@@ -8,33 +8,29 @@ namespace Destiny.Core
 {
     public class Palette: IPalette
     {
-        private Dictionary<EvementStyleType, EvementStyle> _evementStyleDictionary;
         public Palette()
         {
-            EvementStyleCollection = new ObservableCollection<EvementStyle>();
-               _evementStyleDictionary = new Dictionary<EvementStyleType, EvementStyle>();
-            _evementStyleDictionary[EvementStyleType.DayNoMonth] = new EvementStyle(Brushes.Transparent, Brushes.Gainsboro);
-            _evementStyleDictionary[EvementStyleType.Day] = new EvementStyle(Brushes.Transparent, Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.DayFinish] = new EvementStyle(new SolidColorBrush(Color.FromArgb(150, 200, 200, 200)), Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.DayOff] = new EvementStyle(new SolidColorBrush(Color.FromArgb(180, 200, 200, 200)), Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.DayOffFinish] = new EvementStyle(new SolidColorBrush(Color.FromArgb(240, 200, 200, 200)), Brushes.Black);
-            _evementStyleDictionary[EvementStyleType.ToDay] = new EvementStyle(new SolidColorBrush(Color.FromRgb(17, 110, 190)), Brushes.White);
-            _evementStyleDictionary[EvementStyleType.SelectedDefault] = new EvementStyle(Brushes.Gray, Brushes.White);
-            Selected = new EvementStyle(Brushes.Gray, Brushes.White);
-
-            EvementStyleCollection = new ObservableCollection<EvementStyle>(_evementStyleDictionary.Values);
+            DayNoMonth = new EvementStyle(Brushes.Transparent, Brushes.Gainsboro, EvementStyleType.DayNoMonth);
+            Day = new EvementStyle(Brushes.Transparent, Brushes.Black, EvementStyleType.Day);
+            DayFinish = new EvementStyle(new SolidColorBrush(Color.FromArgb(150, 200, 200, 200)), Brushes.Black, EvementStyleType.DayFinish);
+            DayOff = new EvementStyle(new SolidColorBrush(Color.FromArgb(180, 200, 200, 200)), Brushes.Black, EvementStyleType.DayOff);
+            DayOffFinish = new EvementStyle(new SolidColorBrush(Color.FromArgb(240, 200, 200, 200)), Brushes.Black, EvementStyleType.DayOffFinish);
+            ToDay = new EvementStyle(new SolidColorBrush(Color.FromRgb(17, 110, 190)), Brushes.White, EvementStyleType.ToDay);
+            SelectedDefault = new EvementStyle(Brushes.Gray, Brushes.White, EvementStyleType.SelectedDefault);
+            Selected = new EvementStyle(Brushes.Gray, Brushes.White, EvementStyleType.SelectedDefault);
             ViewBorderingMonths = Visibility.Hidden;
+            GUID = Guid.NewGuid().ToString();
         }
         public string Name { get; set; }
-        public ObservableCollection<EvementStyle> EvementStyleCollection { get; }
-        public EvementStyle DayNoMonth { get => _evementStyleDictionary[EvementStyleType.DayNoMonth]; }
-        public EvementStyle DayOff { get => _evementStyleDictionary[EvementStyleType.DayOff]; }
-        public EvementStyle DayFinish { get => _evementStyleDictionary[EvementStyleType.DayFinish]; }
-        public EvementStyle DayOffFinish { get => _evementStyleDictionary[EvementStyleType.DayOffFinish]; }
+        public string GUID { get; set; }
+        public EvementStyle DayNoMonth { get; set; }
+        public EvementStyle DayOff { get; set; }
+        public EvementStyle DayFinish { get; set; }
+        public EvementStyle DayOffFinish { get; set; }
         public EvementStyle Selected { get; set; }
-        public EvementStyle SelectedDefault { get => _evementStyleDictionary[EvementStyleType.SelectedDefault]; }
-        public EvementStyle ToDay { get => _evementStyleDictionary[EvementStyleType.ToDay]; }
-        public EvementStyle Day { get => _evementStyleDictionary[EvementStyleType.Day]; }
+        public EvementStyle SelectedDefault { get; set; }
+        public EvementStyle ToDay { get; set; }
+        public EvementStyle Day { get; set; }
         public Visibility ViewBorderingMonths { get; set; }
         public virtual void PaintTitle(ITitleControl control, DateTime date)
         {

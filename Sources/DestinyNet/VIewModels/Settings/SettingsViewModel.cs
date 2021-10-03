@@ -29,12 +29,10 @@ namespace DestinyNet
             CloseCommand = closeWindowCommand ?? throw new NullReferenceException(nameof(CloseCommand));
             Nodes = new ObservableCollection<Node>()
             {
-                new Node( "General", null),
+                new Node( "General", new GeneralSettingsViewModel(_settings.WindowSettings)),
                 new Node( "Presets palette", null),
                 new Node( "Weather", new WeatherSettingsViewModel(_settings.WeatherSettings))
             };
-            paletteManager.PaletteCollection.Add(new Palette() { Name = "White" });
-            paletteManager.PaletteCollection.Add(new Palette() { Name = "Black" });
             foreach (var p in paletteManager.PaletteCollection)
                 Nodes[1].Nodes.Add(new Node(p.Name, new PaletteViewModel(p)));
         }

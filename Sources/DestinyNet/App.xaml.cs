@@ -18,19 +18,19 @@ namespace DestinyNet
     public partial class App : Application
     {
         private Data _data;
-        private Settings _settings;
+        public Settings Settings { get; set; }
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            _settings = LoadSettings();
-            var weatherViewModel = new WeatherViewModel(new AccuWeatherManager(_settings.WeatherSettings));
+            Settings = LoadSettings();
+            var weatherViewModel = new WeatherViewModel(new AccuWeatherManager(Settings.WeatherSettings));
             _data = Load();
-            MainWindow app = new MainWindow() { DataContext = new ManagerViewModel(_data, _settings, weatherViewModel) };
+            MainWindow app = new MainWindow() { DataContext = new ManagerViewModel(_data, Settings, weatherViewModel) };
             app.Show();
         }
         protected override void OnExit(ExitEventArgs e)
         {
-            SaveSettings(_settings);
+            SaveSettings(Settings);
             Save(_data);
             base.OnExit(e);
         }

@@ -8,6 +8,7 @@ namespace DestinyNet
     {
         private int _left;
         private int _top;
+        public string GUIDStyle { get; set; }
         public int Left { 
             get => _left; 
             set {

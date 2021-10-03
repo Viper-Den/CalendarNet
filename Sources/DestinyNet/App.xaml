@@ -17,6 +17,9 @@
             <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
                 <settings:SettingsView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:GeneralSettingsViewModel}">
+                <settings:GaneralSettingsView/>
+            </DataTemplate> 
             <DataTemplate DataType="{x:Type viewModels:WeatherSettingsViewModel}">
                 <settings:WeatherSettingsView/>
             </DataTemplate> 
