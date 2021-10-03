@@ -7,11 +7,13 @@ namespace DestinyNet
         public List<CalendarDTO> Calendars { get; set; }
         public CalendarDTO CalendarsDefault { get; set; }
         public List<EventDTO> Events { get; set; }
+        public List<TaskDTO> Tasks { get; set; }
 
         public DataDTO()
         {
             Calendars = new List<CalendarDTO>();
             Events = new List<EventDTO>();
+            Tasks = new List<TaskDTO>();
         }
     }
 }

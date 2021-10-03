@@ -10,6 +10,7 @@
         <ResourceDictionary Source="/MonthControl;component/Themes/TimeBox.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/DateBox.xaml" />
         <ResourceDictionary Source="/MonthControl;component/Themes/YearControl.xaml" />
-        <ResourceDictionary Source="/MonthControl;component/Themes/IntBox.xaml" /> 
+        <ResourceDictionary Source="/MonthControl;component/Themes/IntBox.xaml" />
+        <ResourceDictionary Source="/MonthControl;component/Themes/TreeViewMod.xaml" /> 
     </ResourceDictionary.MergedDictionaries> 
 </ResourceDictionary> 

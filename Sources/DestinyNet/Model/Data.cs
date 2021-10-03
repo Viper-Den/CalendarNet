@@ -11,11 +11,13 @@ namespace DestinyNet
     {
         public ObservableCollection<Calendar> Calendars { get; set; }
         public ObservableCollectionWithItemNotify<Event> Events { get; set; }
+        public ObservableCollection<DTask> Tasks { get; set; }
 
         public Data()
         {
             Calendars = new ObservableCollection<Calendar>();
             Events = new ObservableCollectionWithItemNotify<Event>();
+            Tasks = new ObservableCollection<DTask>();
         }
     }
 }

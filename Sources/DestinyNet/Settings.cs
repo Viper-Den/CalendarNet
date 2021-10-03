@@ -23,9 +23,9 @@ namespace DestinyNet
             set
             {
                 if (value < 0)
-                    _left = 0;
+                    _top = 0;
                 else
-                    _left = value;
+                    _top = value;
             }
         }
         public WindowState WindowState { get; set; }

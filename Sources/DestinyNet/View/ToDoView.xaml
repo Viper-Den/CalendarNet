@@ -4,29 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DestinyNetViews"
+             xmlns:controls="clr-namespace:UIMonthControl;assembly=MonthControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TreeView>
-            <TextBox>Элемент TreeView</TextBox>
-            <TreeViewItem Header="Базы данных">
-                <TreeViewItem Header="MS SQL Server" />
-                <TreeViewItem Header="MySQL" />
-                <TreeViewItem Header="MongoDB" />
-                <TreeViewItem Header="Postgres" />
-            </TreeViewItem>
-            <TreeViewItem Header="Языки программирования">
-                <TreeViewItem Header="C-языки">
-                    <TreeViewItem Header="C#" />
-                    <TreeViewItem Header="C/C++" />
-                    <TreeViewItem Header="Java" />
-                </TreeViewItem>
-                <TreeViewItem Header="Basic">
-                    <TreeViewItem Header="Visual Basic" />
-                    <TreeViewItem Header="VB.Net" />
-                    <TreeViewItem Header="PureBasic" />
-                </TreeViewItem>
-            </TreeViewItem>
-        </TreeView>
+        <controls:TreeViewMod Grid.Row="0" Grid.Column="0" Background="Transparent" 
+                  ItemsSource="{Binding Path=Tasks}" SelectedItemCommand="{Binding Path=SelectedTaskCommand}">
+            <controls:TreeViewMod.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Path=SubTasks}">
+                    <Grid  Height="30" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" VerticalContentAlignment="Center" 
+                               Content="{Binding Path=Name}"/>
+                        <Label Grid.Column="1" VerticalContentAlignment="Center"
+                               Content="{Binding Path=Start, StringFormat=d}"/>
+                        <Label Grid.Column="2" VerticalContentAlignment="Center"
+                               Content="{Binding Path=Finish, StringFormat=d}"/>
+                        <ComboBox Grid.Column="2" 
+                                  Grid.ColumnSpan="2"
+                                  VerticalContentAlignment="Center"
+                                  SelectedItem="{Binding Path=Calendar}"
+                                  Margin="10">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Rectangle  Width="20" 
+                                                Margin="5"
+                                                Fill="{Binding Path=Color}"/>
+                                        <Label  Content="{Binding Path=Name}"
+                                            VerticalContentAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </Grid>
+                </HierarchicalDataTemplate>
+            </controls:TreeViewMod.ItemTemplate>
+            <controls:TreeViewMod.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add Task" Command="{Binding Path=AddTaskCommand}"/>
+                    <MenuItem Header="Delete Task" Command="{Binding Path=DeleteTaskCommand}"/>
+                </ContextMenu>
+            </controls:TreeViewMod.ContextMenu>
+        </controls:TreeViewMod>
     </Grid>
 </UserControl>

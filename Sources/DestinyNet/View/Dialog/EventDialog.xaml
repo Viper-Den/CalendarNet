@@ -48,7 +48,7 @@
                    Margin="5"/>
             <ComboBox Grid.Row="1"
                       Grid.Column="1"
-                      Grid.ColumnSpan="2"
+                      Grid.ColumnSpan="2" 
                       VerticalContentAlignment="Center"
                       ItemsSource="{Binding Path=Calendars}"
                       SelectedItem="{Binding Path=SelectedCalendar}"
@@ -58,7 +58,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Rectangle  Width="20" 
                                         Margin="5"
-                                        Fill="{Binding Path=Color}"/>
+                                        Fill="{Binding Path=Background}"/>
                             <Label  Content="{Binding Path=Name}"
                                     VerticalContentAlignment="Center"/>
                         </StackPanel>

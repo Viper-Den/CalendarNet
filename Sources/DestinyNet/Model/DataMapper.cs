@@ -16,18 +16,42 @@ namespace DestinyNet
                 cfg.CreateMap<CalendarDTO, Calendar>().ReverseMap();
                 cfg.CreateMap<Calendar, CalendarDTO>().ReverseMap();
 
-                cfg.CreateMap<EventDTO, Event>().ConvertUsing(x => MappingEventDTO(x));
-                cfg.CreateMap<Event, EventDTO>().ConvertUsing(x => MappingEvent(x));
+                cfg.CreateMap<EventDTO, Event>().ConvertUsing(x => MappingEventDTOToEvent(x));
+                cfg.CreateMap<Event, EventDTO>().ConvertUsing(x => MappingEventToEventDTO(x));
 
-                cfg.CreateMap<DataDTO, Data>().ConvertUsing((x, y, z) => MappingDataDTO(x, y, z));
-                cfg.CreateMap<Data, DataDTO>().ConvertUsing((x, y, z) => MappingData(x, y, z));
+                cfg.CreateMap<TaskDTO, DTask>().ConvertUsing(x => MappingTaskDTOToDTask(x));
+                cfg.CreateMap<DTask, TaskDTO>().ConvertUsing(x => MappingDTaskToTaskDTO(x));
+
+                cfg.CreateMap<DataDTO, Data>().ConvertUsing((x, y, z) => MappingDataDTOToData(x, y, z));
+                cfg.CreateMap<Data, DataDTO>().ConvertUsing((x, y, z) => MappingDataToDataDTO(x, y, z));
             }
             );
             mapperConfiguration.AssertConfigurationIsValid();
             mapper = mapperConfiguration.CreateMapper();
             return mapper;
         }
-        private static Event MappingEventDTO(EventDTO source)
+
+        private static TaskDTO MappingDTaskToTaskDTO(DTask x)
+        {
+            var t = new TaskDTO();
+            t.Name = x.Name;
+            t.GUID = x.GUID;
+            t.Start = x.Start;
+            t.Finish = x.Finish;
+            t.CalendarGUID = (x.Calendar == null) ? x.Calendar.GUID : "";
+            return t;
+        }
+        private static DTask MappingTaskDTOToDTask(TaskDTO x)
+        {
+            var t = new DTask();
+            t.Name = x.Name;
+            t.GUID = x.GUID;
+            t.Start = x.Start;
+            t.Finish = x.Finish;
+            t.Calendar = null;
+            return t;
+        }
+        private static Event MappingEventDTOToEvent(EventDTO source)
         {
             var d = new Event();
             d.Caption = source.Caption;
@@ -57,7 +81,7 @@ namespace DestinyNet
 
             return d;
         }
-        private static EventDTO MappingEvent(Event source)
+        private static EventDTO MappingEventToEventDTO(Event source)
         {
             var d = new EventDTO();
             d.Start = source.Rule.Start;
@@ -92,16 +116,46 @@ namespace DestinyNet
                 d.CalendarGUID = source.Calendar.GUID;
             return d;
         }
-        private static Data MappingDataDTO(DataDTO source, Data destination, ResolutionContext resolutionContext)
+        private static Data MappingDataDTOToData(DataDTO source, Data destination, ResolutionContext resolutionContext)
         {
             var d = new Data();
             var calendarsDictionary = new Dictionary<string, Calendar>();
+            var TasksDictionary = new Dictionary<string, DTask>();
+
             foreach (var calendarDTO in source.Calendars)
             {
                 var c = resolutionContext.Mapper.Map<Calendar>(calendarDTO);
                 calendarsDictionary.Add(calendarDTO.GUID, c);
                 d.Calendars.Add(c);
             }
+
+
+            // sourceconvert Tasks 
+            foreach (var t in source.Tasks)
+            {
+                var dTask = resolutionContext.Mapper.Map<DTask>(t);
+                if (calendarsDictionary.ContainsKey(t.CalendarGUID))
+                    dTask.Calendar = calendarsDictionary[t.CalendarGUID];
+                else
+                    continue;
+                TasksDictionary.Add(dTask.GUID, dTask);
+            }
+            foreach (var k in TasksDictionary.Keys)
+            {
+                var guid = TasksDictionary[k].GUID;
+                if (TasksDictionary.ContainsKey(guid))
+                {
+                    TasksDictionary[guid].SubTasks.Add(TasksDictionary[k]);
+                    TasksDictionary.Remove(guid);
+                }
+                else
+                    continue;
+            }
+            foreach (var t in TasksDictionary.Values)
+                d.Tasks.Add(t);
+            // sourceconvert Tasks 
+
+
             foreach (var eventDTO in source.Events)
             {
                 var e = resolutionContext.Mapper.Map<Event>(eventDTO);
@@ -111,20 +165,28 @@ namespace DestinyNet
                     continue;
                 d.Events.Add(e);
             }
+
             return d;
         }
-        private static DataDTO MappingData(Data source, DataDTO destination, ResolutionContext resolutionContext)
+        private static DataDTO MappingDataToDataDTO(Data source, DataDTO destination, ResolutionContext resolutionContext)
         {
             var d = new DataDTO();
+
             foreach (var calendar in source.Calendars)
-            {
                 d.Calendars.Add(resolutionContext.Mapper.Map<CalendarDTO>(calendar));
-            }
             foreach (var eventDTO in source.Events)
-            {
                 d.Events.Add(resolutionContext.Mapper.Map<EventDTO>(eventDTO));
-            }
+            ConvertTasks(source.Tasks, d.Tasks, resolutionContext);
+
             return d;
+        }
+        public static void ConvertTasks(ObservableCollection<DTask> tasks, List<TaskDTO> list, ResolutionContext resolutionContext)
+        {
+            foreach (var t in tasks)
+            {
+                DestinyNetMapper.ConvertTasks(t.SubTasks, list, resolutionContext);
+                list.Add(resolutionContext.Mapper.Map<TaskDTO>(t));
+            }
         }
     }
 }
