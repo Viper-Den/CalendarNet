@@ -7,16 +7,15 @@
              xmlns:local="clr-namespace:DestinyNet.Menu"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
         <converters:DateToStrConverter x:Key="DateToStrConverter"/>
     </UserControl.Resources>
-    --><!--,Converter={StaticResource DateToStrConverter}-->
     <Grid>
         <ListBox Grid.Row="1"
                  ItemsSource="{Binding SpecialDays}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding StringFormat={}{0:dd.MM.yyyy}}"/>
+                    <Label Content="{Binding Converter={StaticResource DateToStrConverter}}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

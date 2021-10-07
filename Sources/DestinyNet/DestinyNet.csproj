@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Destiny.UI\Destiny.UI.csproj" />
     <ProjectReference Include="..\UI.MonthControl\MonthControl.csproj" />
     <ProjectReference Include="..\UIMonthView\MonthEventControl.csproj" />
     <ProjectReference Include="..\Weather\AccuWeather.csproj" />

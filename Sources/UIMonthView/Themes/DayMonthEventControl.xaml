@@ -2,7 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:MonthEvent">
-
     <Style TargetType="{x:Type local:DayMonthEventControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -14,7 +13,12 @@
                         Background="{TemplateBinding Background}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch">
-                        <Grid.RowDefinitions>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                                <Grid.RowDefinitions>
                             <RowDefinition Height="25"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>

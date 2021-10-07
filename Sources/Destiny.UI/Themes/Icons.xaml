@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+
+        <!--  Common  -->
+        <ResourceDictionary Source="/Destiny.UI;component/Themes/Colors.xaml" />
+
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/AddIcon.xaml" />
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/DeleteIcon.xaml" />
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/EditingIcon.xaml" />
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/SaveIcon.xaml" />
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/TransferIcon.xaml" />
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/SettingsIcon.xaml" /> 
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

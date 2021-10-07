@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+             xmlns:controlsUI="clr-namespace:Destiny.UI.Controls;assembly=Destiny.UI"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="400">
     <UserControl.Resources>
@@ -74,16 +75,26 @@
                                                 </Grid.ColumnDefinitions>
                                                 <Label Grid.Column="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"
                                                                 Background="Transparent" Content="-"/>
-                                                
+
                                                 <Label Grid.Column="1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                                                                 Background="Transparent" Content="{Binding Path=Caption}"/>
 
-                                                    <Button Grid.Column="2" Background="Transparent"
+                                                <Button Grid.Column="2" x:Name="xEditingButton" Background="Transparent"
                                                             Style="{StaticResource sButton}" 
                                                             Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=2, AncestorType={x:Type ListBox}}, Path=DataContext.EditEventCommand}"
-                                                            CommandParameter="{Binding}"/>
+                                                            CommandParameter="{Binding}">
+                                                    <controlsUI:IconsPack IconKind="EditingIcon" Margin="5"/>
+                                                </Button>
                                             </Grid>
                                         </Button>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsMouseOver}" Value="True">
+                                                <Setter TargetName="xEditingButton" Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListBoxItem}},Path=IsMouseOver}" Value="False">
+                                                <Setter TargetName="xEditingButton" Property="Visibility" Value="Hidden"/> 
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>

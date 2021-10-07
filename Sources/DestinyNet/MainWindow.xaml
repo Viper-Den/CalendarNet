@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+        xmlns:controlsUI="clr-namespace:Destiny.UI.Controls;assembly=Destiny.UI"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         mc:Ignorable="d"
         MinWidth="1460" MinHeight="800"
@@ -77,7 +78,8 @@
                 <Button Grid.Column="0"
                     VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
                     Background="Transparent" BorderBrush="Transparent" Command="{Binding SettingsCommand}">
-                        <Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/Images/Settings.png" Stretch="Fill"/>
+                        <controlsUI:IconsPack Grid.Column="1" IconKind="SettingsIcon" Margin="5"/>
+                    <!--<Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/Images/Settings.png" Stretch="Fill"/>-->
                 </Button>
             </Grid>
 

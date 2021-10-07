@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using AutoMapper;
 using AccuWeather;
+using System.Threading;
 
 namespace DestinyNet
 {
@@ -18,9 +19,17 @@ namespace DestinyNet
     public partial class App : Application
     {
         private Data _data;
+        private static Mutex _appmutex;
+        private static string _appName = "DestinyNet";
         public Settings Settings { get; set; }
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (Mutex.TryOpenExisting(_appName, out _appmutex))
+            {
+                Shutdown();
+            }
+            _appmutex = new Mutex(false, _appName);
+
             base.OnStartup(e);
             Settings = LoadSettings();
             var weatherViewModel = new WeatherViewModel(new AccuWeatherManager(Settings.WeatherSettings));
