@@ -38,7 +38,7 @@ namespace DestinyNet
             t.GUID = x.GUID;
             t.Start = x.Start;
             t.Finish = x.Finish;
-            t.CalendarGUID = (x.Calendar == null) ? x.Calendar.GUID : "";
+            t.CalendarGUID = (x.Calendar == null) ? "" : x.Calendar.GUID;
             return t;
         }
         private static DTask MappingTaskDTOToDTask(TaskDTO x)
@@ -120,7 +120,6 @@ namespace DestinyNet
         {
             var d = new Data();
             var calendarsDictionary = new Dictionary<string, Calendar>();
-            var TasksDictionary = new Dictionary<string, DTask>();
 
             foreach (var calendarDTO in source.Calendars)
             {
@@ -130,30 +129,7 @@ namespace DestinyNet
             }
 
 
-            // sourceconvert Tasks 
-            foreach (var t in source.Tasks)
-            {
-                var dTask = resolutionContext.Mapper.Map<DTask>(t);
-                if (calendarsDictionary.ContainsKey(t.CalendarGUID))
-                    dTask.Calendar = calendarsDictionary[t.CalendarGUID];
-                else
-                    continue;
-                TasksDictionary.Add(dTask.GUID, dTask);
-            }
-            foreach (var k in TasksDictionary.Keys)
-            {
-                var guid = TasksDictionary[k].GUID;
-                if (TasksDictionary.ContainsKey(guid))
-                {
-                    TasksDictionary[guid].SubTasks.Add(TasksDictionary[k]);
-                    TasksDictionary.Remove(guid);
-                }
-                else
-                    continue;
-            }
-            foreach (var t in TasksDictionary.Values)
-                d.Tasks.Add(t);
-            // sourceconvert Tasks 
+            DestinyNetMapper.ConvertToDTask(d.Tasks, source.Tasks, resolutionContext);
 
 
             foreach (var eventDTO in source.Events)
@@ -176,16 +152,26 @@ namespace DestinyNet
                 d.Calendars.Add(resolutionContext.Mapper.Map<CalendarDTO>(calendar));
             foreach (var eventDTO in source.Events)
                 d.Events.Add(resolutionContext.Mapper.Map<EventDTO>(eventDTO));
-            ConvertTasks(source.Tasks, d.Tasks, resolutionContext);
+            DestinyNetMapper.ConvertToTaskDTO(source.Tasks, d.Tasks, resolutionContext);
 
             return d;
         }
-        public static void ConvertTasks(ObservableCollection<DTask> tasks, List<TaskDTO> list, ResolutionContext resolutionContext)
+        public static void ConvertToTaskDTO(ObservableCollection<DTask> tasks, List<TaskDTO> list, ResolutionContext resolutionContext)
         {
             foreach (var t in tasks)
             {
-                DestinyNetMapper.ConvertTasks(t.SubTasks, list, resolutionContext);
-                list.Add(resolutionContext.Mapper.Map<TaskDTO>(t));
+                var ts = resolutionContext.Mapper.Map<TaskDTO>(t);
+                list.Add(ts);
+                DestinyNetMapper.ConvertToTaskDTO(t.SubTasks, list, resolutionContext);
+            }
+        }
+        public static void ConvertToDTask(ObservableCollection<DTask> tasks, List<TaskDTO> list, ResolutionContext resolutionContext)
+        {
+            foreach (var t in list)
+            {
+                var ts = resolutionContext.Mapper.Map<DTask>(t);
+                tasks.Add(ts);
+                DestinyNetMapper.ConvertToDTask(ts.SubTasks, t.Tasks, resolutionContext);
             }
         }
     }

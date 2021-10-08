@@ -31,8 +31,7 @@
             Grid.Row="2">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="local:Cases" >
-                    <MonthView:CalendarItem 
-                            Height="40" 
+                    <MonthView:CalendarItem Height="40" 
                             SettingsCommand="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=1}, Path=DataContext.EditCalendarCommand}" 
                             IsChecked="{Binding Path=Enabled, Mode=TwoWay}"/>
                 </DataTemplate>
