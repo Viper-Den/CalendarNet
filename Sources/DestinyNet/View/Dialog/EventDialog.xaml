@@ -71,14 +71,10 @@
                    Content="Start" 
                    VerticalContentAlignment="Center" 
                    Margin="5"/>
-            <MonthView:TimePicker Grid.Row="2" 
-                                  Grid.Column="1" 
-                                  Margin="10"
+            <MonthView:TimePicker Grid.Row="2" Grid.Column="1" Margin="10"
                                   Time="{Binding Path=StartTime, Mode=TwoWay}" 
                                   Visibility="{Binding ElementName=xAllDay, Path=IsChecked, Converter={StaticResource BoolToVisibilityUsageConverter}}"/>
-            <MonthView:DatePicker Grid.Row="2" 
-                                  Grid.Column="2" 
-                                  Margin="10"
+            <MonthView:DatePicker Grid.Row="2" Grid.Column="2" Margin="10"
                                   Date="{Binding Path=Start, Mode=TwoWay}" />
             <Popup
                     Name="xStartDatePopup"

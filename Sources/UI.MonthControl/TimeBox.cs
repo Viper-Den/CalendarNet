@@ -13,18 +13,18 @@ namespace UIMonthControl
 {
     public class TimeBox : TextBox
     {
+        private int[] _pos = { 0, 1, 3, 3, 4 };
+        private int[] _posNew = { 1, 3, 3, 4, 0 }; // 11:11
         public TimeBox() : base()
         {
             ContextMenu = null;
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Cut, null, SuppressCommand));
-            //CommandBindings.Add(new CommandBinding(ApplicationCommands.Copy, null, SuppressCommand));
             CommandBindings.Add(new CommandBinding(ApplicationCommands.Paste, null, SuppressCommand));
         }
-        //new private string Text { get; set; }
 
         #region Time
         public static readonly DependencyProperty TimeProperty =
-            DependencyProperty.Register("Time", typeof(DateTime), typeof(TimeBox), new PropertyMetadata(TimePropertyChanged));
+            DependencyProperty.Register(nameof(Time), typeof(DateTime), typeof(TimeBox), new PropertyMetadata(TimePropertyChanged));
 
         public static void TimePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -33,14 +33,15 @@ namespace UIMonthControl
         public DateTime Time
         {
             get { return (DateTime)GetValue(TimeProperty); }
-            set 
-            { 
+            set
+            {
                 SetValue(TimeProperty, value);
                 Text = value.ToString("HH:mm");
+                OnTimeChanged?.Invoke(this);
             }
         }
         #endregion
-
+        public Action<TimeBox> OnTimeChanged { get; set; }
         private void SuppressCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.Handled = true;
@@ -50,35 +51,31 @@ namespace UIMonthControl
             e.Handled = ((e.Key == Key.Back) || (e.Key == Key.Delete));
             base.OnPreviewKeyDown(e);
         }
-        protected override void OnTextChanged(TextChangedEventArgs e) 
+        protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
         }
         protected override void OnTextInput(TextCompositionEventArgs e)
         {
-            e.Handled = !TimeCheck(e.Text);
+            e.Handled = true;
+            DateCheck(e.Text);
             base.OnTextInput(e);
         }
-        private bool TimeCheck(string text)
+        private bool DateCheck(string text)
         {
-            if (SelectionLength == Text.Length)
-                SelectionLength = 0;
-            if (SelectionLength == 0)
-            {
-                if (SelectionStart == Text.Length)
-                    SelectionStart = Text.Length - 1;
-                if (SelectionStart == 2)
-                    SelectionStart = 3;
-                SelectionLength = 1;
-            }
-            
+            SelectionStart = _pos[SelectionStart];
+            SelectionLength = 1;
             var s = Text.Remove(SelectionStart, SelectionLength);
+            var selectionStart = SelectionStart;
             s = s.Insert(SelectionStart, text);
             var isTime = DateTime.TryParseExact(s, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None, out var d);
             if (isTime)
+            {
+                Text = s;
                 SetValue(TimeProperty, DateTime.ParseExact(s, "HH:mm", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None));
+                SelectionStart = _posNew[selectionStart];
+            }
             return isTime;
         }
-
     }
 }

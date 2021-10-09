@@ -8,6 +8,8 @@ namespace UIMonthControl
 {
     public class DateBox : TextBox
     {
+        private int[] _pos = { 0, 1, 3, 3, 4, 6, 6, 7, 8, 9, 9 };
+        private int[] _posNew = { 1, 3, 3, 4, 6, 6, 7, 8, 9, 9 }; // 11.11.1111
         public DateBox() : base()
         {
             ContextMenu = null;
@@ -18,7 +20,7 @@ namespace UIMonthControl
 
         #region Date
         public static readonly DependencyProperty DateProperty =
-            DependencyProperty.Register("Date", typeof(DateTime), typeof(DateBox), new PropertyMetadata(TimePropertyChanged));
+            DependencyProperty.Register(nameof(Date), typeof(DateTime), typeof(DateBox), new PropertyMetadata(TimePropertyChanged));
 
         public static void TimePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -31,10 +33,12 @@ namespace UIMonthControl
             {
                 SetValue(DateProperty, value);
                 Text = value.ToString("dd.MM.yyyy");
+                OnDateChanged?.Invoke(this);
             }
         }
         #endregion
 
+        public Action<DateBox> OnDateChanged { get; set; }
         private void SuppressCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.Handled = true;
@@ -47,34 +51,30 @@ namespace UIMonthControl
         }
         protected override void OnTextInput(TextCompositionEventArgs e)
         {
-            e.Handled = !DateCheck(e.Text);
+            e.Handled = true;
+            DateCheck(e.Text);
             base.OnTextInput(e);
         }
         private bool DateCheck(string text)
         {
-            if (SelectionLength == Text.Length)
-                SelectionLength = 0;
-            if (SelectionLength == 0)
-            {
-                if (SelectionStart == Text.Length)
-                    SelectionStart = Text.Length - 1;
-                if (SelectionStart == 2)
-                    SelectionStart = 3;
-                if (SelectionStart == 5)
-                    SelectionStart = 6;
-                SelectionLength = 1;
-            }
+            SelectionStart = _pos[SelectionStart];
+            SelectionLength = 1;
             var s = Text.Remove(SelectionStart, SelectionLength);
+            var selectionStart = SelectionStart;
             s = s.Insert(SelectionStart, text);
+
             var isDate = DateTime.TryParseExact(s, "dd.MM.yyyy", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None, out var d);
             if (isDate)
+            {
+                Text = s;
                 SetValue(DateProperty, DateTime.ParseExact(s, "dd.MM.yyyy", System.Globalization.CultureInfo.CurrentCulture, DateTimeStyles.None));
+                SelectionStart = _posNew[selectionStart];
+            }
             return isDate;
         }
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
         }
-
     }
 }

@@ -8,11 +8,16 @@ namespace Destiny.Core
     public class DTask: BaseViewModel
     {
         private bool _isEditable;
+        private string _Name;
+        private string _GUID;
+        private DateTime _Start;
+        private DateTime _Finish;
         public DTask()
         {
             GUID = Guid.NewGuid().ToString();
             SubTasks = new ObservableCollection<DTask>();
             SubTasks.CollectionChanged += OnCollectionChanged;
+            Subscribe();
         }
         ~DTask()
         {
@@ -20,10 +25,22 @@ namespace Destiny.Core
             UnSubscribe();
         }
 
-        public string Name { get; set; }
-        public string GUID { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime Finish { get; set; }
+        public string Name { 
+            get => _Name; 
+            set => SetField(ref _Name, value); 
+        }
+        public string GUID { 
+            get => _GUID; 
+            set => SetField(ref _GUID, value); 
+        }
+        public DateTime Start { 
+            get => _Start; 
+            set => SetField(ref _Start, value); 
+        }
+        public DateTime Finish { 
+            get => _Finish; 
+            set => SetField(ref _Finish, value); 
+        }
         public Calendar Calendar { get; set; }
         public Action<DTask> OnRemoveFromParent { get; set; }
         public ObservableCollection<DTask> SubTasks { get; }

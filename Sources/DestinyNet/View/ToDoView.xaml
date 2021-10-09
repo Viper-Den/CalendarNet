@@ -6,21 +6,23 @@
              xmlns:local="clr-namespace:DestinyNetViews"
              xmlns:controls="clr-namespace:UIMonthControl;assembly=MonthControl"
              xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" 
+             Loaded="UserControl_Loaded" Focusable="True">
     <UserControl.Resources>
         
         <converters:DateToStrConverter x:Key="DateToStrConverter"/>
 
-        <ControlTemplate x:Key="TreeViewItem">
-            <Grid Background="AntiqueWhite" Height="40" Width="800">
+        <ControlTemplate x:Key="TreeViewItem" >
+            <Grid Height="40" Width="1000" Focusable="True">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 <Label Grid.Column="1" VerticalContentAlignment="Center" 
                                Content="{Binding Path=Name}"/>
                 <Label Grid.Column="2" VerticalContentAlignment="Center"
@@ -29,43 +31,50 @@
                                Content="{Binding Path=Finish, Converter={StaticResource DateToStrConverter}}"/>
                 <Grid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Add Task" Command="{Binding Path=AddTaskCommand}"/>
-                        <MenuItem Header="Delete Task" Command="{Binding Path=DeleteTaskCommand}"/>
-                        <MenuItem Header="Edit Task" Command="{Binding Path=EditTaskCommand}"/>
+                        <MenuItem Header="Add Task" Command="{Binding Path=AddTaskCommand}" InputGestureText="Ctrl+N"/>
+                        <MenuItem Header="Delete Task" Command="{Binding Path=DeleteTaskCommand}" InputGestureText="Ctrl+D"/>
+                        <MenuItem Header="Edit Task" Command="{Binding Path=EditTaskCommand}" InputGestureText="F2"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
+                <Grid.InputBindings>
+                    <KeyBinding Key="F2" Command="{Binding EditTaskCommand}"/>
+                </Grid.InputBindings>
             </Grid>
         </ControlTemplate>
 
         <ControlTemplate x:Key="EditeTreeViewItem">
-            <Grid Background="AntiqueWhite" Height="40" Width="800">
+            <Grid Height="40" Width="1000" Focusable="True">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="20"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="1*"/>
                 </Grid.ColumnDefinitions>
-                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <CheckBox Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
                 <TextBox Grid.Column="1" VerticalContentAlignment="Center" 
-                               Text="{Binding Path=Name}"/>
-                <Label Grid.Column="2" VerticalContentAlignment="Center"
-                               Content="{Binding Path=Start, Converter={StaticResource DateToStrConverter}}"/>
-                <Label Grid.Column="3" VerticalContentAlignment="Center"
-                               Content="{Binding Path=Finish, Converter={StaticResource DateToStrConverter}}"/>
+                               Text="{Binding Path=Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <MonthView:DatePicker Grid.Column="2"
+                                  Date="{Binding Path=Start, Mode=TwoWay}" />
+                <MonthView:DatePicker Grid.Column="3"
+                                  Date="{Binding Path=Finish, Mode=TwoWay}" />
                 <Grid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Save Task" Command="{Binding Path=SaveTaskCommand}"/>
+                        <MenuItem Header="Save Task" Command="{Binding Path=SaveTaskCommand}" InputGestureText="Esc"/>
                     </ContextMenu>
                 </Grid.ContextMenu>
+                <Grid.InputBindings>
+                    <KeyBinding Key="Esc" Command="{Binding SaveTaskCommand}"/>
+                    <KeyBinding Key="End" Command="{Binding SaveTaskCommand}"/>
+                </Grid.InputBindings>
             </Grid>
         </ControlTemplate>
     </UserControl.Resources>
-    <Grid>
-        <controls:TreeViewMod Grid.Row="0" Grid.Column="0" Background="Transparent" 
-                  ItemsSource="{Binding Path=Tasks}" SelectedItemCommand="{Binding Path=SelectedTaskCommand}">
+    <Grid Focusable="True">
+        <controls:TreeViewMod Grid.Row="0" Grid.Column="0" Background="Transparent" Focusable="True"
+                  ItemsSource="{Binding Path=Tasks}">
             <controls:TreeViewMod.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=SubTasks}">
-                    <ContentControl>
+                    <ContentControl  Focusable="True">
                         <ContentControl.Style>
                             <Style TargetType="ContentControl">
                                 <Setter Property="Template" Value="{StaticResource TreeViewItem}"/>

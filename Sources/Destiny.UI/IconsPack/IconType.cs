@@ -1,6 +1,4 @@
-﻿using System;
-using System.Windows;
-
+﻿
 namespace Destiny.UI.Controls
 { 
     public enum IconType
@@ -10,7 +8,8 @@ namespace Destiny.UI.Controls
         TransferIcon,
         EditingIcon,
         DeleteIcon,
-        SaveIcon
+        SaveIcon,
+        CalendarIcon,
+        TimerIcon
     }
-
 }

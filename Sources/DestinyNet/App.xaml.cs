@@ -20,7 +20,7 @@ namespace DestinyNet
     {
         private Data _data;
         private static Mutex _appmutex;
-        private static string _appName = "DestinyNet";
+        private static string _appName = "{8F6F0AC4-B9A1-45fd-A8CF-72F04E6BDE8F}";
         public Settings Settings { get; set; }
         protected override void OnStartup(StartupEventArgs e)
         {

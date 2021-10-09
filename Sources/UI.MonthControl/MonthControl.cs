@@ -129,7 +129,7 @@ namespace UIMonthControl
             foreach(var dt in SelectedDates)
             {
                 if (_dictionaryDayControl.ContainsKey(dt.Date))
-                    Palette.PaintDay(_dictionaryDayControl[dt.Date], Date);
+                    _dictionaryDayControl[dt.Date].SetStyle(Palette.Selected);
             }
         }
         #endregion

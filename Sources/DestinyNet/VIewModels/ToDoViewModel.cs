@@ -10,24 +10,36 @@ namespace DestinyNet
     {
         //private DTask _selectedTask;
         public ToDoViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager) {
+            Subscribe();
         }
         
         public ObservableCollection<Calendar> Calendars { get => _data.Calendars; }
         public ObservableCollection<DTask> Tasks { get => _data.Tasks; }
         public ICommand AddTaskCommand { get => new ActionCommand(DoAddTaskCommand); }
-        //public ICommand SelectedTaskCommand { get => new ActionCommand(DoSelectedTaskCommand); }
-        
+
+        private void UnSubscribe()
+        {
+            foreach (var t in Tasks)
+                t.OnRemoveFromParent -= DoRemoveFromParent;
+        }
+        private void Subscribe()
+        {
+            foreach (var t in Tasks)
+                t.OnRemoveFromParent += DoRemoveFromParent;
+        }
+
+        private void DoRemoveFromParent(DTask obj)
+        {
+            Tasks.Remove(obj);
+        }
+
         private void DoAddTaskCommand(object obj)
         {
             var t = new DTask();
             t.Name = "Test";
+            t.OnRemoveFromParent += DoRemoveFromParent;
             _data.Tasks.Add(t);
         }
-        //private void DoSelectedTaskCommand(object obj)
-        //{
-        //    _selectedTask = obj as DTask;
-        //}
-        //public DTask SelectedTask { get => _selectedTask; }
         public static void SubscribeToTasks(ObservableCollection<DTask> tasks, Dictionary<string, DTask> tasksDictionary)
         {
             foreach (var t in tasks)

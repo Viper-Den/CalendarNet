@@ -10,6 +10,7 @@
         <ResourceDictionary Source="/Destiny.UI;component/Icons/EditingIcon.xaml" />
         <ResourceDictionary Source="/Destiny.UI;component/Icons/SaveIcon.xaml" />
         <ResourceDictionary Source="/Destiny.UI;component/Icons/TransferIcon.xaml" />
-        <ResourceDictionary Source="/Destiny.UI;component/Icons/SettingsIcon.xaml" /> 
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/TimerIcon.xaml" />
+        <ResourceDictionary Source="/Destiny.UI;component/Icons/CalendarIcon.xaml" /> 
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

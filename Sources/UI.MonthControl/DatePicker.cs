@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Destiny.UI.Controls;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -17,8 +19,10 @@ namespace UIMonthControl
     {
         private DateBox _DateBox;
         private Popup _Popup;
-        private Button _Button;
-        private MonthControl _MonthControl; 
+        private Border _Button;
+        
+        private MonthControl _MonthControl;
+        private ObservableCollection<DateTime> _selectedDates;
         private const string TP_DATE_PICKER = "xDatePicker";
         private const string TP_POPUP = "xPopup";
         private const string TP_BUTTON = "xButton";
@@ -27,12 +31,22 @@ namespace UIMonthControl
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DatePicker), new FrameworkPropertyMetadata(typeof(DatePicker)));
         }
+        public DatePicker()
+        {
+            _selectedDates = new ObservableCollection<DateTime>();
+        }
+
+        private void DatePicker_FocusableChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            _Popup.IsOpen = false;
+        }
+
         ~DatePicker()
         {
             if (_Button != null)
-                _Button.Click -= DoClick;
-            if (_Popup != null)
-                _Popup.LostFocus -= DoLostFocus;
+                _Button.PreviewMouseDown -= DoClick;
+            //if (_Popup != null)
+            //    _Popup.LostFocus -= DoLostFocus;
             if (_MonthControl != null)
                 _MonthControl.PeriodStart -= DoPeriodStart;
         }
@@ -52,31 +66,56 @@ namespace UIMonthControl
             {
                 SetValue(DateProperty, value);
                 if (_DateBox != null)
+                {
+                    _DateBox.OnDateChanged -= DoDateChanged;
                     _DateBox.Date = value;
-                if (_MonthControl != null)
-                    _MonthControl.Date = value; 
+                    SetDateView(Date);
+                    _DateBox.OnDateChanged += DoDateChanged;
+                }
             }
+        }
+
+        private void SetDateView(DateTime time)
+        {
+            if (_MonthControl == null)
+                return;
+            _MonthControl.Date = Date;
+            _selectedDates.Clear();
+            _selectedDates.Add(Date);
+        }
+        private void DoDateChanged(DateBox obj)
+        {
+            SetValue(DateProperty, obj.Date);
+            SetDateView(Date);
         }
         #endregion
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
             _DateBox = (DateBox)GetTemplateChild(TP_DATE_PICKER);
+
             _Popup = (Popup)GetTemplateChild(TP_POPUP);
-            _Button = (Button)GetTemplateChild(TP_BUTTON);
+
             _MonthControl = (MonthControl)GetTemplateChild(TP_MONTH_CONTROL);
+            _MonthControl.SelectedDates = _selectedDates;
             _MonthControl.PeriodStart += DoPeriodStart;
-            _Button.Click += DoClick;
+
+            _Button = (Border)GetTemplateChild(TP_BUTTON);
+            _Button.PreviewMouseDown += DoClick;
+            _Button.Focusable = true;
+            _Button.FocusableChanged += DatePicker_FocusableChanged;
+            SetDateView(Date);
         }
         private void DoClick(object sender, RoutedEventArgs e)
         {
             _Popup.IsOpen = !_Popup.IsOpen;
         }
-        private void DoLostFocus(object sender, RoutedEventArgs e)
-        {
-            _Popup.IsOpen = false;
-        }
+        //private void DoLostFocus(object sender, RoutedEventArgs e)
+        //{
+        //    _Popup.IsOpen = false;
+        //}
         private void DoPeriodStart(DateTime date)
         {
             Date = date;

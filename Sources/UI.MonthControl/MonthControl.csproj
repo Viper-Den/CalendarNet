@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+    <Page Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Images\1.png" />
     <None Remove="Images\2.png" />
     <None Remove="Images\3.png" />
@@ -14,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Destiny.UI\Destiny.UI.csproj" />
     <ProjectReference Include="..\WpfLibrary1\Destiny.Core.csproj" />
   </ItemGroup>
 
