@@ -152,7 +152,19 @@ namespace UIMonthControl
             }
         }
         #endregion
-
+        #region SelectedDateCommand
+        public static readonly DependencyProperty SelectedDateCommandProperty =
+            DependencyProperty.Register(nameof(SelectedDateCommand), typeof(ICommand), typeof(MonthControl), new PropertyMetadata(SelectedDateCommandChanged));
+        public static void SelectedDateCommandChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MonthControl)d).SelectedDateCommand = (ICommand)e.NewValue;
+        }
+        public ICommand SelectedDateCommand
+        {
+            get { return (ICommand)GetValue(SelectedDateCommandProperty); }
+            set { SetValue(SelectedDateCommandProperty, value); }
+        }
+        #endregion
         public void SelectDate(List<DateTime> dates)
         {
             foreach (var oldDate in _tempSelection)
@@ -246,7 +258,10 @@ namespace UIMonthControl
             var d = sender as DayControl;
             _tempSelection.Clear();
             if (d != null)
+            {
                 PeriodFinish?.Invoke(d.Date);
+                SelectedDateCommand?.Execute(d.Date);
+            }
         }
         public Action<DateTime> DayEnter { get; set; }
         public Action<DateTime> PeriodStart { get; set; }

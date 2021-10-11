@@ -37,6 +37,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50" Date="{Binding Path=Date}" />
+        <MonthView:MonthControl  Grid.Row="0" Margin="20,50,20,50" Date="{Binding Path=Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
     </Grid>
 </UserControl>

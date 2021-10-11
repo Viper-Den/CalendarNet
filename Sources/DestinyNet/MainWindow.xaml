@@ -15,7 +15,7 @@
         <converters:BoolToInvertedValueConverter x:Key="BoolToInvertedValueConverter"/> 
     </Window.Resources>
     <Grid>
-        <tb:TaskbarIcon Visibility="Visible" ToolTipText="Desteny"  IconSource="pack://application:,,,/Images/Destiny_Icon.ico"
+        <tb:TaskbarIcon Visibility="Visible" ToolTipText="Destiny"  IconSource="pack://application:,,,/Images/Destiny_Icon.ico"
                         TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>

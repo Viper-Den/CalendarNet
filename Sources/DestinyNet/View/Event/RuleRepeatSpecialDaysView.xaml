@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+             xmlns:controlsUI="clr-namespace:UIMonthControl;assembly=MonthControl"
+             xmlns:controlsDestinyUI="clr-namespace:Destiny.UI.Controls;assembly=Destiny.UI"
              xmlns:local="clr-namespace:DestinyNet.Menu"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -11,13 +13,49 @@
         <converters:DateToStrConverter x:Key="DateToStrConverter"/>
     </UserControl.Resources>
     <Grid>
-        <ListBox Grid.Row="1"
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Row="0"
                  ItemsSource="{Binding SpecialDays}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Label Content="{Binding Converter={StaticResource DateToStrConverter}}"/>
+                    <Grid Height="30" Width="370"><!--{Binding Path=ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type ListBox}}}-->
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="40"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Converter={StaticResource DateToStrConverter}}"/>
+                        <Button Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Command="{Binding Path=DataContext.DeleteItemCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}">
+                            <controlsDestinyUI:IconsPack IconKind="DeleteIcon" Margin="5"/>
+                        </Button>
+                    </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Grid.Row="1" Content="Add" Command="{Binding Path=OpenPopupCommand}"/>
+        <Popup  x:Name="xPopup"
+                Placement="Bottom"
+                MinWidth="220"
+                IsOpen="{Binding Path=IsPopupOpen}"
+				PlacementTarget="{Binding ElementName=xDatePicker}"
+                AllowsTransparency="True"
+                VerticalOffset="0">
+            <Border Background="Transparent"
+                                    BorderBrush="Gainsboro"
+                                    BorderThickness="2">
+                <StackPanel Background="White">
+                    <controlsUI:MonthControl x:Name="xMonthControl"
+                                                        Grid.Row="0" 
+                                                        Margin="5" 
+                                                        Width="200" 
+                                                        Height="200" 
+                                                        SelectedDateCommand="{Binding Path=AddItemCommand}"
+                                                        Date="{Binding Path=Date, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+            </Border>
+        </Popup>
     </Grid>
 </UserControl>

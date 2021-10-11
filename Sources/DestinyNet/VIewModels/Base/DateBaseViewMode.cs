@@ -19,12 +19,8 @@ namespace DestinyNet
 
         public DateTime Date
         {
-            get { return _date; }
-            set
-            {
-                _date = value;
-                OnPropertyChanged(nameof(Date));
-            }
+            get => _date;
+            set => SetField(ref _date, value);
         }
     }
 }

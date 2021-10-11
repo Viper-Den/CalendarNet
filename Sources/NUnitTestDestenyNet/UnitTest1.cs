@@ -2,7 +2,7 @@ using NUnit.Framework;
 using Destiny.Core;
 using System;
 
-namespace NUnitTestDestenyNet
+namespace NUnitTestDestinyNet
 {
     [TestFixture]
     public class Tests

@@ -271,11 +271,31 @@ namespace DestinyNet
     { }
     public class SpecialDaysEditorViewModel : EditorViewModel
     {
+        private bool _isPopupOpen;
         public SpecialDaysEditorViewModel()
         {
             SpecialDays = new ObservableCollection<DateTime>();
         }
         public ObservableCollection<DateTime> SpecialDays { get; set; }
+        public ICommand DeleteItemCommand { get => new ActionCommand(DoDeleteItemCommand); }
+        public ICommand OpenPopupCommand { get => new ActionCommand(DoOpenPopupCommand); }
+        public ICommand AddItemCommand { get => new ActionCommand(DoAddItemCommand); }
+        public bool IsPopupOpen { get => _isPopupOpen; set => SetField(ref _isPopupOpen, value); }
+        private void DoDeleteItemCommand(object obj)
+        {
+            if (obj is DateTime)
+                SpecialDays.Remove((DateTime)obj);
+        }
+        private void DoOpenPopupCommand(object obj)
+        {
+            IsPopupOpen = !IsPopupOpen;
+        }
+        private void DoAddItemCommand(object obj)
+        {
+            IsPopupOpen = false;
+            if (obj is DateTime)
+                SpecialDays.Add((DateTime)obj);
+        }
     }
 
 }

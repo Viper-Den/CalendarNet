@@ -7,6 +7,7 @@
              xmlns:controls="clr-namespace:UIMonthControl;assembly=MonthControl"
              xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
+             xmlns:input="clr-namespace:Destiny.Input" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
              Loaded="UserControl_Loaded" Focusable="True">
@@ -37,7 +38,7 @@
                     </ContextMenu>
                 </Grid.ContextMenu>
                 <Grid.InputBindings>
-                    <KeyBinding Key="F2" Command="{Binding EditTaskCommand}"/>
+                    <KeyBinding Key="F2" Command="{input:CommandBinding  EditTaskCommand}"/>
                 </Grid.InputBindings>
             </Grid>
         </ControlTemplate>
@@ -63,8 +64,8 @@
                     </ContextMenu>
                 </Grid.ContextMenu>
                 <Grid.InputBindings>
-                    <KeyBinding Key="Esc" Command="{Binding SaveTaskCommand}"/>
-                    <KeyBinding Key="End" Command="{Binding SaveTaskCommand}"/>
+                    <KeyBinding Key="Esc" Command="{input:CommandBinding  SaveTaskCommand}"/>
+                    <KeyBinding Key="End" Command="{input:CommandBinding  SaveTaskCommand}"/>
                 </Grid.InputBindings>
             </Grid>
         </ControlTemplate>

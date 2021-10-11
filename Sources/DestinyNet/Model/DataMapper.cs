@@ -162,7 +162,7 @@ namespace DestinyNet
             {
                 var ts = resolutionContext.Mapper.Map<TaskDTO>(t);
                 list.Add(ts);
-                DestinyNetMapper.ConvertToTaskDTO(t.SubTasks, list, resolutionContext);
+                DestinyNetMapper.ConvertToTaskDTO(t.SubTasks, ts.Tasks, resolutionContext);
             }
         }
         public static void ConvertToDTask(ObservableCollection<DTask> tasks, List<TaskDTO> list, ResolutionContext resolutionContext)
