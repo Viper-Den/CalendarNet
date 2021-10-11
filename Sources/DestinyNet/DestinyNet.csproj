@@ -14,15 +14,15 @@
     <None Remove="Images\Up.png" />
     <None Remove="Images\Weather\Cloudy.png" />
     <None Remove="Images\Weather\Fog.png" />
-    <None Remove="Images\Weather\Intermittent Clouds.png" />
+    <None Remove="Images\Weather\IntermittentClouds.png" />
     <None Remove="Images\Weather\None.png" />
     <None Remove="Images\Weather\Overcast.png" />
-    <None Remove="Images\Weather\Partially_Cloudy.png" />
+    <None Remove="Images\Weather\PartiallyCloudy.png" />
     <None Remove="Images\Weather\Rain.png" />
-    <None Remove="Images\Weather\Rain_Snow.png" />
+    <None Remove="Images\Weather\RainAndSnow.png" />
     <None Remove="Images\Weather\Sleet.png" />
     <None Remove="Images\Weather\Snow.png" />
-    <None Remove="Images\Weather\Sunny_Clear.png" />
+    <None Remove="Images\Weather\SunnyClear.png" />
     <None Remove="Images\Weather\ThunderStorm.png" />
   </ItemGroup>
 
@@ -49,15 +49,15 @@
     <Resource Include="Images\Settings.png" />
     <Resource Include="Images\Weather\Cloudy.png" />
     <Resource Include="Images\Weather\Fog.png" />
-    <Resource Include="Images\Weather\Intermittent Clouds.png" />
+    <Resource Include="Images\Weather\IntermittentClouds.png" />
     <Resource Include="Images\Weather\None.png" />
     <Resource Include="Images\Weather\Overcast.png" />
-    <Resource Include="Images\Weather\Partially_Cloudy.png" />
+    <Resource Include="Images\Weather\PartiallyCloudy.png" />
     <Resource Include="Images\Weather\Rain.png" />
-    <Resource Include="Images\Weather\Rain_Snow.png" />
+    <Resource Include="Images\Weather\RainAndSnow.png" />
     <Resource Include="Images\Weather\Sleet.png" />
     <Resource Include="Images\Weather\Snow.png" />
-    <Resource Include="Images\Weather\Sunny_Clear.png" />
+    <Resource Include="Images\Weather\SunnyClear.png" />
     <Resource Include="Images\Weather\ThunderStorm.png" />
   </ItemGroup>
 

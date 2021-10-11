@@ -22,9 +22,9 @@ namespace DestinyNet
         {
             _dayWeatherPathDictionary = new Dictionary<DayWeatherType, ImageInfo>();
             _dayWeatherPathDictionary.Add(DayWeatherType.None, new ImageInfo() { Path = "None.png", ToolTip= "None" });
-            _dayWeatherPathDictionary.Add(DayWeatherType.Sunny_Clear, new ImageInfo() { Path = "Sunny_Clear.png", ToolTip = "Sunny" });
-            _dayWeatherPathDictionary.Add(DayWeatherType.Intermittent_clouds, new ImageInfo() { Path = "Intermittent Clouds.png", ToolTip = "Intermittent Clouds" });
-            _dayWeatherPathDictionary.Add(DayWeatherType.Partially_cloudy, new ImageInfo() { Path = "Partially cloudy.png", ToolTip = "Partially cloudy"});
+            _dayWeatherPathDictionary.Add(DayWeatherType.Sunny_Clear, new ImageInfo() { Path = "SunnyClear.png", ToolTip = "Sunny" });
+            _dayWeatherPathDictionary.Add(DayWeatherType.Intermittent_clouds, new ImageInfo() { Path = "IntermittentClouds.png", ToolTip = "IntermittentClouds" });
+            _dayWeatherPathDictionary.Add(DayWeatherType.Partially_cloudy, new ImageInfo() { Path = "PartiallyCloudy.png", ToolTip = "Partially cloudy"});
             _dayWeatherPathDictionary.Add(DayWeatherType.Cloudy, new ImageInfo() { Path = "Cloudy.png", ToolTip = "Cloudy" });
             _dayWeatherPathDictionary.Add(DayWeatherType.Overcast, new ImageInfo() { Path = "Overcast.png", ToolTip = "Overcast" });
             _dayWeatherPathDictionary.Add(DayWeatherType.Fog, new ImageInfo() { Path = "Fog.png", ToolTip = "Fog" });
@@ -32,7 +32,7 @@ namespace DestinyNet
             _dayWeatherPathDictionary.Add(DayWeatherType.ThunderStorm, new ImageInfo() { Path = "ThunderStorm.png", ToolTip = "Thunder Storm" });
             _dayWeatherPathDictionary.Add(DayWeatherType.Snow, new ImageInfo() { Path = "Snow.png", ToolTip = "Snow" });
             _dayWeatherPathDictionary.Add(DayWeatherType.Sleet, new ImageInfo() { Path = "Sleet.png", ToolTip = "Sleet" });
-            _dayWeatherPathDictionary.Add(DayWeatherType.Rain_Snow, new ImageInfo() { Path = "Rain_Snow.png", ToolTip = "Rain and snow" });
+            _dayWeatherPathDictionary.Add(DayWeatherType.Rain_Snow, new ImageInfo() { Path = "RainAndSnow.png", ToolTip = "Rain and snow" });
         }
         public DayWeatherCollection(DayWeather dayWeather)
         {
