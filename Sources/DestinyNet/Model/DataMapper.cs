@@ -13,6 +13,9 @@ namespace DestinyNet
             IMapper mapper = null;
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
+                cfg.CreateMap<PersonDTO, Person>().ReverseMap();
+                cfg.CreateMap<Person, PersonDTO>().ReverseMap();
+
                 cfg.CreateMap<CalendarDTO, Calendar>().ReverseMap();
                 cfg.CreateMap<Calendar, CalendarDTO>().ReverseMap();
 
@@ -142,6 +145,9 @@ namespace DestinyNet
                 d.Events.Add(e);
             }
 
+            foreach (var p in source.People)
+                d.People.Add(resolutionContext.Mapper.Map<Person>(p));
+
             return d;
         }
         private static DataDTO MappingDataToDataDTO(Data source, DataDTO destination, ResolutionContext resolutionContext)
@@ -150,9 +156,14 @@ namespace DestinyNet
 
             foreach (var calendar in source.Calendars)
                 d.Calendars.Add(resolutionContext.Mapper.Map<CalendarDTO>(calendar));
+
             foreach (var eventDTO in source.Events)
                 d.Events.Add(resolutionContext.Mapper.Map<EventDTO>(eventDTO));
+
             DestinyNetMapper.ConvertToTaskDTO(source.Tasks, d.Tasks, resolutionContext);
+
+            foreach (var p in source.People)
+                d.People.Add(resolutionContext.Mapper.Map<PersonDTO>(p));
 
             return d;
         }
