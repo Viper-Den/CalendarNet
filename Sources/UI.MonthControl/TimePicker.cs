@@ -202,7 +202,7 @@ namespace UIMonthControl
             _TimePickerPopup = (Popup)GetTemplateChild(TP_POPUP);
 
             _TimePickerButton = (Border)GetTemplateChild(TP_BUTTON);
-            _TimePickerButton.PreviewMouseDown += DoClick;
+            _TimePickerButton.PreviewMouseUp += DoClick;
 
             _buttonDone = (Button)GetTemplateChild(TP_BUTTON_DONE);
             _buttonDone.Click += DoDoneClick;
@@ -298,6 +298,8 @@ namespace UIMonthControl
         private void DoClick(object sender, RoutedEventArgs e)
         {
             _TimePickerPopup.IsOpen = !_TimePickerPopup.IsOpen;
+            if(_TimePickerPopup.IsOpen)
+                _TimePickerPopup.Focus();
         }
         private void DoLostFocus(object sender, RoutedEventArgs e)
         {

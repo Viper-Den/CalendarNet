@@ -25,7 +25,7 @@
                         <Popup  x:Name="xPopup"
                                 Placement="Bottom" Width="210" Height="230"
 								PlacementTarget="{Binding ElementName=xTimePicker}"
-                                AllowsTransparency="True"
+                                AllowsTransparency="True" StaysOpen="False"
                                 VerticalOffset="0">
                             <Border Background="Transparent"
                                     BorderBrush="Gainsboro"

@@ -103,7 +103,7 @@ namespace UIMonthControl
             _MonthControl.PeriodStart += DoPeriodStart;
 
             _Button = (Border)GetTemplateChild(TP_BUTTON);
-            _Button.PreviewMouseDown += DoClick;
+            _Button.PreviewMouseUp += DoClick;
             _Button.Focusable = true;
             _Button.FocusableChanged += DatePicker_FocusableChanged;
             SetDateView(Date);
@@ -111,6 +111,8 @@ namespace UIMonthControl
         private void DoClick(object sender, RoutedEventArgs e)
         {
             _Popup.IsOpen = !_Popup.IsOpen;
+            if (_Popup.IsOpen)
+                _Popup.Focus();
         }
         //private void DoLostFocus(object sender, RoutedEventArgs e)
         //{

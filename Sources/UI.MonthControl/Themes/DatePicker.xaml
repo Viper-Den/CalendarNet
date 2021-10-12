@@ -22,7 +22,7 @@
                         <Border Grid.Column="1" Background="Gainsboro" BorderBrush="Gray" BorderThickness="1" x:Name="xButton">
                             <controlsUI:IconsPack IconKind="CalendarIcon" Margin="5"/>
                         </Border>
-                        <Popup  x:Name="xPopup"
+                        <Popup  x:Name="xPopup" StaysOpen="False"
                                 Placement="Bottom"
                                 MinWidth="220"
                                 Width="{TemplateBinding ActualWidth}"
