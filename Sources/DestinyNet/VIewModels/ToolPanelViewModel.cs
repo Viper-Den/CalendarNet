@@ -4,7 +4,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class ToolPanelViewModel : ViewModeDataBase, ICalendarsEditor
     {

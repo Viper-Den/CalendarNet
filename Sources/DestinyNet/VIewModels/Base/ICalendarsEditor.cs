@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public interface ICalendarsEditor
     {

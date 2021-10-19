@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Destiny.Core;
 using System.Collections.Specialized;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public enum EventEditorMode
     {

@@ -6,7 +6,7 @@ using System.Text;
 using Destiny.Core;
 using System.Windows.Input;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class WeekViewModel : ViewModeDataBase
     {

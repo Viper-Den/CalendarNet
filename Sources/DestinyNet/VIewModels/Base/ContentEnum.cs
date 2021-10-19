@@ -1,4 +1,4 @@
-﻿namespace DestinyNet
+﻿namespace DestinyNet.ViewModels
 {
     public enum ViewModelEnum
     {
@@ -6,6 +6,7 @@
         Week,
         Year,
         ToDo,
+        People,
         Nodes
     }
 }

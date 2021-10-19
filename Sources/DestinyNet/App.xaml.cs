@@ -11,7 +11,7 @@ using AutoMapper;
 using AccuWeather;
 using System.Threading;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     /// <summary>
     /// Interaction logic for App.xaml

@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class GeneralSettingsViewModel : BaseViewModel
     {

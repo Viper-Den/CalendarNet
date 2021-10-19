@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class PaletteViewModel : BaseViewModel
     {

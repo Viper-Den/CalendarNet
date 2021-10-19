@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public interface IDialogViewsManager
     {

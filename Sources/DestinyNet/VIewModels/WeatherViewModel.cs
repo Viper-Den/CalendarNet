@@ -6,7 +6,7 @@ using System.Windows.Media.Imaging;
 using AccuWeather;
 using MonthEvent;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class ImageInfo
     {

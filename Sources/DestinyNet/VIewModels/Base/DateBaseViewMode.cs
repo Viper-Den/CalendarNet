@@ -1,7 +1,7 @@
 ﻿using System;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class ViewModeDataBase : BaseViewModel
     {

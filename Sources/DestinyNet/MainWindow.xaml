@@ -51,12 +51,12 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="1" Content="Meal" Margin="10,5" Visibility="Hidden"/>
-                <Button x:Name="xButtonToDo" Grid.Column="2" Content="To-Do" Margin="10,5" Command="{Binding ToDoViewCommand}"/>
-                <Button Grid.Column="3" Content="People" Margin="10,5" Visibility="Hidden"/>
-                <Button x:Name="xButtonWeek" Grid.Column="4" Content="Week" Margin="10,5" Command="{Binding WeekViewCommand}"/>
-                <Button x:Name="xButtonMonth" Grid.Column="5" Content="Month" Margin="10,5" Command="{Binding MonthViewCommand}"/>
-                <Button x:Name="xButtonYear" Grid.Column="6" Content="Year" Margin="10,5" Command="{Binding YearViewCommand}"/>
+                <Button Grid.Column="1" Margin="10,5" Content="Meal"/>
+                <Button Grid.Column="2" Margin="10,5" Content="To-Do"  Command="{Binding ToDoViewCommand}"/>
+                <Button Grid.Column="3" Margin="10,5" Content="People" Command="{Binding PeopleViewCommand}"/>
+                <Button Grid.Column="4" Margin="10,5" Content="Week"   Command="{Binding WeekViewCommand}"/>
+                <Button Grid.Column="5" Margin="10,5" Content="Month"  Command="{Binding MonthViewCommand}"/>
+                <Button Grid.Column="6" Margin="10,5" Content="Year"   Command="{Binding YearViewCommand}"/>
             </Grid>
 
 

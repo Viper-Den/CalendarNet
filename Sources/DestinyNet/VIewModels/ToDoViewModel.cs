@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class ToDoViewModel : ViewModeDataBase
     {

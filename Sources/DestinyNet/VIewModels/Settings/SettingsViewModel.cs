@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class Node
     {

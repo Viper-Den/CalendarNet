@@ -1,7 +1,7 @@
 ﻿using Destiny.Core;
 using System.Windows.Media;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class EventYearViewModel: BaseViewModel
     {

@@ -2,7 +2,7 @@
 using Destiny.Core;
 using System;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class WeatherSettingsViewModel : BaseViewModel
     {

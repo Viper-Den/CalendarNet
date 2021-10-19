@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using Destiny.Core;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class ToolYearPanelViewModel : ViewModeDataBase
     {

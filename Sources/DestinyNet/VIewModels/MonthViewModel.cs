@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Destiny.Core;
 using System.Collections.Generic;
 
-namespace DestinyNet
+namespace DestinyNet.ViewModels
 {
     public class MonthViewModel : ViewModeDataBase
     {
