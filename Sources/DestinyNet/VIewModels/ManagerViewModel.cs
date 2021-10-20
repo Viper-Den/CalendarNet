@@ -28,6 +28,7 @@ namespace DestinyNet.ViewModels
             _viewModelsDictionary.Add(ViewModelEnum.Month, new MonthViewModel(_data, DialogViewsManager, _weatherViewModel));
             _viewModelsDictionary.Add(ViewModelEnum.Week, new WeekViewModel(_data, DialogViewsManager, _weatherViewModel, settings.WeekSettings));
             _viewModelsDictionary.Add(ViewModelEnum.Year, new YearViewModel(_data, DialogViewsManager));
+            _viewModelsDictionary.Add(ViewModelEnum.ToDo, new ToDoViewModel(_data, DialogViewsManager));
             _viewModelsDictionary.Add(ViewModelEnum.People, new PeopleViewModel(_data, DialogViewsManager));
             _selectedViewModelEnum = ViewModelEnum.Month;
 
@@ -71,6 +72,8 @@ namespace DestinyNet.ViewModels
 
         private void DoPeopleViewCommand(object obj)
         {
+            SelectiewModelEnum = ViewModelEnum.People;
+            ToolPanel = null;
         }
 
         public ICommand SettingsCommand { get => new ActionCommand(DoSettingsCommand); }

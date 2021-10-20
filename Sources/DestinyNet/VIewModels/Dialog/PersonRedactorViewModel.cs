@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DestinyNet.VIewModels
+namespace DestinyNet.ViewModels.Dialog
 {
-    public class GaneralSettingsViewModel
+    class PersonRedactorViewModel
     {
     }
 }

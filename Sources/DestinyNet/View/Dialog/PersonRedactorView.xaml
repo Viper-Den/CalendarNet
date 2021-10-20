@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="DestinyNet.View.Dialog.PersonRedactorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DestinyNet.View.Dialog"
+             xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
+             mc:Ignorable="d" 
+             Background="White"
+             d:DesignHeight="450" Width="554">
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Image Grid.Column="0" Grid.Row="0" Grid.RowSpan="8"  Margin="10"/>
+
+        <Label Grid.Column="1" Grid.Row="0" Margin="5,0" VerticalAlignment="Bottom" 
+               Content="First Name"/>
+        <TextBox Grid.Column="1" Grid.Row="1" Margin="10" VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Text="First Name"/>
+
+        <Label Grid.Column="1" Grid.Row="2" Margin="5,0" VerticalAlignment="Bottom" VerticalContentAlignment="Center" 
+               Content="Second Name"/>
+        <TextBox Grid.Column="1" Grid.Row="3" Margin="10" VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                 Text="Second Name"/>
+
+        <Label Grid.Column="1" Grid.Row="4" Margin="5,0" VerticalAlignment="Bottom" VerticalContentAlignment="Center" 
+               Content="Third Name"/>
+        <TextBox Grid.Column="1" Grid.Row="5" Margin="10" VerticalAlignment="Center" VerticalContentAlignment="Center"
+                 Text="Third Name"/>
+        
+        <Label Grid.Column="1" Grid.Row="6" Margin="5,0" VerticalAlignment="Bottom" 
+               Content="Date of birthday"/>
+        <MonthView:DatePicker Grid.Column="1" Grid.Row="7" Margin="10"
+               Date="{Binding Path=DateBirthday, Mode=TwoWay}" />
+        
+        <RichTextBox Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="2" Grid.RowSpan="5" Margin="10"/>
+    </Grid>
+</UserControl>

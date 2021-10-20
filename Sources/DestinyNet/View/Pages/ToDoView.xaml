@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:DestinyNetViews"
-             xmlns:controls="clr-namespace:UIMonthControl;assembly=MonthControl"
-             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              xmlns:MonthView="clr-namespace:UIMonthControl;assembly=MonthControl"
+             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              xmlns:input="clr-namespace:Destiny.Input" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" 
@@ -71,9 +69,9 @@
         </ControlTemplate>
     </UserControl.Resources>
     <Grid Focusable="True">
-        <controls:TreeViewMod Grid.Row="0" Grid.Column="0" Background="Transparent" Focusable="True"
+        <MonthView:TreeViewMod Grid.Row="0" Grid.Column="0" Background="Transparent" Focusable="True"
                   ItemsSource="{Binding Path=Tasks}">
-            <controls:TreeViewMod.ItemTemplate>
+            <MonthView:TreeViewMod.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Path=SubTasks}">
                     <ContentControl  Focusable="True">
                         <ContentControl.Style>
@@ -91,12 +89,12 @@
                         </ContentControl.Style>
                     </ContentControl>
                 </HierarchicalDataTemplate>
-            </controls:TreeViewMod.ItemTemplate>
-            <controls:TreeViewMod.ContextMenu>
+            </MonthView:TreeViewMod.ItemTemplate>
+            <MonthView:TreeViewMod.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Add Task" Command="{Binding Path=AddTaskCommand}"/>
                 </ContextMenu>
-            </controls:TreeViewMod.ContextMenu>
-        </controls:TreeViewMod>
+            </MonthView:TreeViewMod.ContextMenu>
+        </MonthView:TreeViewMod>
     </Grid>
 </UserControl>

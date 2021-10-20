@@ -41,14 +41,14 @@
             <DataTemplate DataType="{x:Type viewModels:ToolYearPanelViewModel}">
                 <views:ToolYearPanelView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:PeopleViewModel}">
+                <views:PeopleView/>
+            </DataTemplate> 
             <DataTemplate DataType="{x:Type viewModels:CalendarViewModel}">
                 <dialogs:CalendarDialog/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:EventEditorViewModel}">
                 <dialogs:EventDialog/>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:EventYearViewModel}">
-                <dialogs:EventYearView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:DaysEditorViewModel}">
                 <menu:RepeatDayView/>

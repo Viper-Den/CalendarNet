@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNet.View.Dialog
+namespace DestinyNetViews
 {
     /// <summary>
-    /// Interaction logic for EventYearView.xaml
+    /// Interaction logic for PeopleView.xaml
     /// </summary>
-    public partial class EventYearView : UserControl
+    public partial class PeopleView : UserControl
     {
-        public EventYearView()
+        public PeopleView()
         {
             InitializeComponent();
         }
