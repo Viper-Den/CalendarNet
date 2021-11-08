@@ -8,7 +8,6 @@
              xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
              xmlns:weekevent="clr-namespace:MonthEvent;assembly=MonthEventControl"
              mc:Ignorable="d" 
-             d:DataContext="{d:DesignInstance Type=DestinyNet:WeekViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Destiny.Core;
+using DestinyNet.ViewModels;
 
 namespace DestinyNet
 {
@@ -9,14 +10,14 @@ namespace DestinyNet
         public ObservableCollection<Calendar> Calendars { get; private set; }
         public ObservableCollectionWithItemNotify<Event> Events { get; private set; }
         public ObservableCollection<DTask> Tasks { get; private set; }
-        public ObservableCollection<Person> People { get; private set; }
+        public ObservableCollection<PersonViewModel> People { get; private set; }
 
         public Data()
         {
             Calendars = new ObservableCollection<Calendar>();
             Events = new ObservableCollectionWithItemNotify<Event>();
             Tasks = new ObservableCollection<DTask>();
-            People = new ObservableCollection<Person>();
+            People = new ObservableCollection<PersonViewModel>();
         }
     }
 }

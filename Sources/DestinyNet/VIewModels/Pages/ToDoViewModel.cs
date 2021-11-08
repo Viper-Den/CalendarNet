@@ -1,12 +1,14 @@
 ﻿using Destiny.Core;
+using GongSolutions.Wpf.DragDrop;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DestinyNet.ViewModels
 {
-    public class ToDoViewModel : ViewModeDataBase
+    public class ToDoViewModel : ViewModeDataBase, IDragSource
     {
         //private DTask _selectedTask;
         public ToDoViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager) {
@@ -47,6 +49,36 @@ namespace DestinyNet.ViewModels
                 ToDoViewModel.SubscribeToTasks(t.SubTasks, tasksDictionary);
                 tasksDictionary.Add(t.GUID, t);
             }
+        }
+
+        public void StartDrag(IDragInfo dragInfo)
+        {
+            
+        }
+
+        public bool CanStartDrag(IDragInfo dragInfo)
+        {
+            return true;
+        }
+
+        public void Dropped(IDropInfo dropInfo)
+        {
+            
+        }
+
+        public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)
+        {
+
+        }
+
+        public void DragCancelled()
+        {
+
+        }
+
+        public bool TryCatchOccurredException(Exception exception)
+        {
+            return true;
         }
     }
 }

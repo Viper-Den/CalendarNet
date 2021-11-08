@@ -78,8 +78,7 @@
                 <Button Grid.Column="0"
                     VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
                     Background="Transparent" BorderBrush="Transparent" Command="{Binding SettingsCommand}">
-                        <controlsUI:IconsPack Grid.Column="1" IconKind="SettingsIcon" Margin="5"/>
-                    <!--<Image VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="/Images/Settings.png" Stretch="Fill"/>-->
+                    <controlsUI:IconsPack Grid.Column="1" IconKind="SettingsIcon" Margin="5"/>
                 </Button>
             </Grid>
 

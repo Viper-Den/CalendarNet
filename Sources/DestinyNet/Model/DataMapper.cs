@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using AutoMapper;
 using Destiny.Core;
+using DestinyNet.ViewModels;
 
 namespace DestinyNet
 {
@@ -13,8 +14,8 @@ namespace DestinyNet
             IMapper mapper = null;
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PersonDTO, Person>().ReverseMap();
-                cfg.CreateMap<Person, PersonDTO>().ReverseMap();
+                cfg.CreateMap<PersonDTO, PersonViewModel>().ReverseMap();
+                cfg.CreateMap<PersonViewModel, PersonDTO>().ReverseMap();
 
                 cfg.CreateMap<CalendarDTO, Calendar>().ReverseMap();
                 cfg.CreateMap<Calendar, CalendarDTO>().ReverseMap();
@@ -146,7 +147,7 @@ namespace DestinyNet
             }
 
             foreach (var p in source.People)
-                d.People.Add(resolutionContext.Mapper.Map<Person>(p));
+                d.People.Add(resolutionContext.Mapper.Map<PersonViewModel>(p));
 
             return d;
         }

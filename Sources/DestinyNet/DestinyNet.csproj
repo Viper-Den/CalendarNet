@@ -10,6 +10,7 @@
   <ItemGroup>
     <None Remove="Images\add.png" />
     <None Remove="Images\Down.png" />
+    <None Remove="Images\Person.png" />
     <None Remove="Images\Settings.png" />
     <None Remove="Images\Up.png" />
     <None Remove="Images\Weather\Cloudy.png" />
@@ -31,6 +32,7 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
     <PackageReference Include="gong-wpf-dragdrop" Version="2.3.2" />
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Windows.Interactivity.WPF" Version="2.0.20525" />
   </ItemGroup>
@@ -46,6 +48,7 @@
   <ItemGroup>
     <Resource Include="Images\Add.png" />
     <Resource Include="Images\Destiny_Icon.ico" />
+    <Resource Include="Images\Person.png" />
     <Resource Include="Images\Settings.png" />
     <Resource Include="Images\Weather\Cloudy.png" />
     <Resource Include="Images\Weather\Fog.png" />

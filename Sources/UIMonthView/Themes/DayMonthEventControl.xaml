@@ -2,6 +2,20 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:MonthEvent">
+
+    <Style x:Key="sListBox" TargetType="{x:Type ListBox}">
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="True">
+                <Setter Property="Foreground"  Value="#Transparent"/>
+                <Setter Property="BorderBrush" Value="#Transparent"/>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground"  Value="#Transparent"/>
+                <Setter Property="BorderBrush" Value="#Transparent"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    
     <Style TargetType="{x:Type local:DayMonthEventControl}">
         <Setter Property="Template">
             <Setter.Value>
@@ -35,10 +49,10 @@
                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <ContentControl  x:Name="xTitleContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         </Grid>
-                        <ListBox Grid.Row="1" 
+                        <ListBox x:Name="xContent" 
+                                 Grid.Row="1" 
                                  Background="Transparent"
                                  BorderThickness="0" 
-                                 x:Name="xContent"
                                  ItemContainerStyle="{StaticResource xListBoxItem}" 
                                  ItemsSource="{Binding Path=Events}"/>
                     </Grid>
