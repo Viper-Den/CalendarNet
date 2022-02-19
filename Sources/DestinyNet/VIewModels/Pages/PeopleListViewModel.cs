@@ -8,9 +8,9 @@ using System.Windows.Input;
 
 namespace DestinyNet.ViewModels
 {
-    public class PeopleViewModel: ViewModeDataBase
+    public class PeopleListViewModel: ViewModeDataBase
     {
-        public PeopleViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
+        public PeopleListViewModel(Data data, IDialogViewsManager dialogViewsManager) : base(data, dialogViewsManager)
         {
         }
         public ObservableCollection<PersonViewModel> People { get => _data.People; }

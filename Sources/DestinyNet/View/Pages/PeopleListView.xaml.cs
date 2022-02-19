@@ -11,14 +11,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace DestinyNet.View.Dialog
+namespace DestinyNetViews
 {
     /// <summary>
-    /// Interaction logic for CalendarDialog.xaml
+    /// Interaction logic for PeopleView.xaml
     /// </summary>
-    public partial class CalendarDialog : UserControl
+    public partial class PeopleListView : UserControl
     {
-        public CalendarDialog()
+        public PeopleListView()
         {
             InitializeComponent();
         }
