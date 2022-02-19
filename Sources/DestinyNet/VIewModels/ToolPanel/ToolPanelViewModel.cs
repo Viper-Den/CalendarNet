@@ -31,7 +31,7 @@ namespace DestinyNet.ViewModels
                 return;
 
             SelectedCalendar = c;
-            _dialogViewsManager.ShowDialogView(new CalendarViewModel(this, _dialogViewsManager.ClosePopUpViewCommand), true);
+            _dialogViewsManager.ShowDialogView(new CalendarEditorDialogViewModel(this, _dialogViewsManager.ClosePopUpViewCommand), true);
         }
         public Calendar SelectedCalendar
         { 

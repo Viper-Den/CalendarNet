@@ -48,7 +48,7 @@ namespace DestinyNet.ViewModels
         {
             var path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "//Data.json";
             var mapper = DestinyNetMapper.GetMapper();
-            var s = JsonConvert.SerializeObject(mapper.Map<DataDTO>(data));
+            var s = JsonConvert.SerializeObject(mapper.Map<DataDTO>(data), Formatting.Indented);
             File.WriteAllText(path, s);
         }
         public Data Load()

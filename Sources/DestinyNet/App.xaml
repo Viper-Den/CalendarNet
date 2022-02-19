@@ -44,15 +44,15 @@
             <DataTemplate DataType="{x:Type viewModels:ToolYearPanelViewModel}">
                 <views:ToolYearPanelView/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:PeopleViewModel}">
-                <views:PeopleView/>
+            <DataTemplate DataType="{x:Type viewModels:PeopleListViewModel}">
+                <views:PeopleListView/>
             </DataTemplate>
             <!--viewDialogs-->
             <DataTemplate DataType="{x:Type viewModelsDialog:PersonRedactorViewModel}">
                 <viewDialogs:PersonRedactorView/>
-            </DataTemplate> 
-            <DataTemplate DataType="{x:Type viewModels:CalendarViewModel}">
-                <viewDialogs:CalendarDialog/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:CalendarEditorDialogViewModel}">
+                <viewDialogs:CalendarEditorDialogView/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:EventEditorViewModel}">
                 <viewDialogs:EventDialog/>
