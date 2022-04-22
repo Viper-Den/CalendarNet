@@ -29,7 +29,7 @@ namespace DestinyNet
         public MainWindow()
         {
             InitializeComponent();
-            Closing += DoClosing;
+            //Closing += DoClosing;
         }
         ~MainWindow()
         {

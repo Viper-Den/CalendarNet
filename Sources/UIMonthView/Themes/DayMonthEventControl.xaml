@@ -15,12 +15,49 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <Style TargetType="ListBox" x:Key="sTransparentListBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Name="Border" BorderThickness="1" CornerRadius="2">
+                        <Border.Background>
+                            <SolidColorBrush Color="Transparent" />
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="Transparent" />
+                        </Border.BorderBrush>
+                        <ScrollViewer Margin="0" Focusable="false">
+                            <StackPanel Margin="2" IsItemsHost="True" />
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="Transparent" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="Border" Property="BorderBrush">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="Transparent" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type local:DayMonthEventControl}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DayMonthEventControl}">
-                    <Grid
+                    <Grid Style="{x:Null}"
                         x:Name="MainGrid"
                         Height="{TemplateBinding Height}"
                         Width="{TemplateBinding Width}"
@@ -49,7 +86,7 @@
                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                             <ContentControl  x:Name="xTitleContentControl" Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                         </Grid>
-                        <ListBox x:Name="xContent" 
+                        <ListBox x:Name="xContent" Style="{StaticResource sTransparentListBox}"
                                  Grid.Row="1" 
                                  Background="Transparent"
                                  BorderThickness="0" 

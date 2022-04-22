@@ -9,7 +9,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MonthEventControl}">
-                    <Grid
+                    <Grid 
                         x:Name="MainGrid"
                         Width="{TemplateBinding Width}"
                         Height="{TemplateBinding Height}"

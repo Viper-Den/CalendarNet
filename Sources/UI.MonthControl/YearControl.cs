@@ -22,9 +22,9 @@ namespace UIMonthControl
         private const string TP_PREVIOUS_PART = "xPrevious";
         private const string TP_NEXT_PART = "xNext";
         private Grid _MainGrid;
-        private Label _Title;
-        private Label _Previous;
-        private Label _Next;
+        private TitleControl _Title;
+        private TitleControl _Previous;
+        private TitleControl _Next;
         private List<MonthControl> _Month;
         private DateTime _startDate;
         private bool _selectMode;
@@ -118,7 +118,7 @@ namespace UIMonthControl
                 if (value == null)
                     return;
                 SetValue(TitleTipProperty, value);
-                _Title.Content = Date.ToString("yyyy") + "  " + TitleTip;
+                _Title.Text = Date.ToString("yyyy") + "  " + TitleTip;
             }
         }
         #endregion
@@ -173,7 +173,7 @@ namespace UIMonthControl
         #endregion
         private void UpdateElements()
         {
-            _Title.Content = Date.ToString("yyyy");
+            _Title.Text = Date.ToString("yyyy");
             var startDay = Date;
             foreach (var m in _Month)
             {
@@ -250,12 +250,12 @@ namespace UIMonthControl
         {
             base.OnApplyTemplate();
             _MainGrid = (Grid)GetTemplateChild(TP_MAIN_GRID_PART);
-            _Title = (Label)GetTemplateChild(TP_TITLE_PART);
-            _Previous = (Label)GetTemplateChild(TP_PREVIOUS_PART);
-            _Next = (Label)GetTemplateChild(TP_NEXT_PART);
+            _Title = (TitleControl)GetTemplateChild(TP_TITLE_PART);
+            _Previous = (TitleControl)GetTemplateChild(TP_PREVIOUS_PART);
+            _Next = (TitleControl)GetTemplateChild(TP_NEXT_PART);
 
-            _Previous.Content = "<";
-            _Next.Content = ">";
+            _Previous.Text = "<";
+            _Next.Text = ">";
             _Previous.MouseLeftButtonDown += OnPrevious;
             _Next.MouseLeftButtonDown += OnNext;
             _Title.MouseLeftButtonDown += OnNow;
