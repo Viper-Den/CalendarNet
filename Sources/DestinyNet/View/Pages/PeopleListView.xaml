@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:converters="clr-namespace:Converters;assembly=Destiny.Core"
+             xmlns:Converters="clr-namespace:Converters;assembly=Destiny.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <converters:DateToStrConverter x:Key="DateToStrConverter"/>
+        <Converters:DateToStrConverter x:Key="DateToStrConverter"/>
     </UserControl.Resources>
     <Grid>
         <ListBox Grid.Row="0" Grid.Column="0" 
@@ -17,7 +17,7 @@
                 ItemContainerStyle="{StaticResource xListBoxItem}" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Background="AliceBlue" Height="40">
+                    <Grid Background="WhiteSmoke" Height="40">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
                             <ColumnDefinition/>
@@ -28,13 +28,13 @@
                         <Image Grid.Column="0" Margin="5"  Source="{Binding Path=Image}"  Stretch="Fill"/>
                         <Label Grid.Column="1" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                               Content="{Binding FirstName}" Background="Aqua"/>
+                               Content="{Binding FirstName}"/>
                         <Label Grid.Column="2" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                               Content="{Binding SecondName}" Background="Bisque"/>
+                               Content="{Binding SecondName}"/>
                         <Label Grid.Column="3" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                               Content="{Binding ThirdName}" Background="Black"/>
+                               Content="{Binding ThirdName}"/>
                         <Label Grid.Column="4" Margin="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                                Content="{Binding Path=DateBirthday, Converter={StaticResource DateToStrConverter}}"/>
