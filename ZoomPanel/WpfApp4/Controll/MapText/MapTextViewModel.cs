@@ -16,7 +16,9 @@ namespace MapControls.MapText
         private double _minWidth = 300;
         private double _minHeight = 40;
         private double _Width;
-        private double _Height; 
+        private double _Height;
+        private bool _isOpenBoxVisible;
+
         public Action<object> OnDeleteElement { get; set; }
         public ICommand EditElementCommand { get; private set; }
         public ICommand DeleteElementCommand { get; private set; }
@@ -44,10 +46,8 @@ namespace MapControls.MapText
         {
             OnDeleteElement?.Invoke(this);
         }
-        public string Text { 
-            get => _text; 
-            set { SetField(ref _text, value, nameof(Text)); }
-        }
+        public string Text { get => _text;  set { SetField(ref _text, value, nameof(Text)); } }
+        public bool IsOpenBoxVisible { get => _isOpenBoxVisible; set { SetField(ref _isOpenBoxVisible, value, nameof(IsOpenBoxVisible)); } }
         public MapStyleStatus Status
         {
             get => _status;

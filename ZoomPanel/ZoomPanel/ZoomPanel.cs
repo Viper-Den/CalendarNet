@@ -74,7 +74,7 @@ namespace ZoomPanel
         public double OffsetXMax { get { return ViewerActualWidthHalf; } } 
         public double OffsetYMax { get { return ViewerActualHeightHalf; } }
 
-
+        
         #region ServiceLocator
         public static readonly DependencyProperty ServiceLocatorProperty =
             DependencyProperty.Register(nameof(ServiceLocator), typeof(IServiceLocator), typeof(ZoomPanelControl), new PropertyMetadata(ServiceLocatorPropertyChanged));
@@ -134,7 +134,7 @@ namespace ZoomPanel
             set { SetValue(ViewOffsetXProperty, value); }
         }
         #endregion
-        
+
         #region Scale
         public static readonly DependencyProperty ScaleProperty =
             DependencyProperty.Register(nameof(Scale), typeof(ScaleParams), typeof(ZoomPanelControl), new PropertyMetadata(ScalePropertyChanged));
@@ -147,7 +147,7 @@ namespace ZoomPanel
             get { return (ScaleParams)GetValue(ScaleProperty); }
             set
             {
-                if ((value == null)||(Scale == value))
+                if ((value == null) || (Scale == value))
                     return;
 
                 SetValue(ScaleProperty, value);
@@ -158,6 +158,29 @@ namespace ZoomPanel
         }
         #endregion
 
+        #region PositionValidator
+        public static readonly DependencyProperty PositionValidatorProperty =
+            DependencyProperty.Register(nameof(PositionValidator), typeof(IPositionValidator), typeof(ZoomPanelControl), new PropertyMetadata(PositionValidatorPropertyChanged));
+        public static void PositionValidatorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((ZoomPanelControl)d).PositionValidator = (IPositionValidator)e.NewValue;
+        }
+        public IPositionValidator PositionValidator
+        {
+            get { return (IPositionValidator)GetValue(PositionValidatorProperty); }
+            set
+            {
+                if ((value == null) || (PositionValidator == value))
+                    return;
+
+                SetValue(PositionValidatorProperty, value);
+
+                if (IsLoaded)
+                    UpdateTransform();
+            }
+        }
+        #endregion
+        
         #region ViewWidth
         public static readonly DependencyProperty ViewWidthProperty =
             DependencyProperty.Register(nameof(ViewWidth), typeof(double), typeof(ZoomPanelControl), new PropertyMetadata(ViewWidthPropertyChanged));
@@ -432,11 +455,14 @@ namespace ZoomPanel
               return;
 
             var p = e.GetPosition(this);
-            var x = (((_translateTransform.X - p.X) / Scale.Value) * scaleNew) + p.X;
-            var y = (((_translateTransform.Y - p.Y) / Scale.Value) * scaleNew) + p.Y;
+            p.X = (((_translateTransform.X - p.X) / Scale.Value) * scaleNew) + p.X;
+            p.Y = (((_translateTransform.Y - p.Y) / Scale.Value) * scaleNew) + p.Y;
+
+            if(PositionValidator != null)
+                p = PositionValidator.TryValidateAndGetPosition(p);
 
             Scale.Value = scaleNew;
-            DoTransform(x, y);
+            DoTransform(p.X, p.Y);
         }
 
         private void DoMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

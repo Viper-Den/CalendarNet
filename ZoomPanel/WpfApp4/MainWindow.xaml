@@ -6,7 +6,7 @@
         xmlns:c="clr-namespace:ZoomPanel;assembly=ZoomPanel"
         mc:Ignorable="d"
         Focusable="True"
-        Title="MainWindow" Height="800" Width="1200">
+        Title="MainWindow" Height="800" Width="1200" Background="GhostWhite">
     <Window.InputBindings>
         <KeyBinding Key="F2" Command="{Binding EditElementCommand}"/>
         <KeyBinding Key="Tab" Modifiers="Ctrl" Command="{Binding AddControllTextCommand}"/>
@@ -21,16 +21,12 @@
             <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Orientation="Horizontal">
-            <Button Content="Load" Width="100" Margin="5" Command="{Binding LoadCommand}"/>
-            <Button Content="Save" Width="100" Margin="5" Command="{Binding SaveCommand}"/>
-        </StackPanel>
-        
 
-        <c:ZoomPanelControl  Grid.Row="2" Grid.Column="0"
-                            VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke"
+        <Grid Grid.Row="2" Grid.Column="0">
+            <c:ZoomPanelControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="WhiteSmoke"
                             ServiceLocator="{Binding Path=ServiceLocator, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                             Scale="{Binding Path=Scale, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            PositionValidator ="{Binding Path=PositionValidator, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
                             ViewOffsetX="{Binding Path=ViewOffsetX, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             ViewOffsetY="{Binding Path=ViewOffsetY, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Controls="{Binding Path=Controls, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -39,8 +35,15 @@
                             ContentWidth="{Binding Path=ContentWidth, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             ContentHeight="{Binding Path=ContentHeight, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                             SelectedMapElement="{Binding Path=SelectedMapElement, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
 
-        <StackPanel  Grid.Column="1" Background="Aqua">
+        <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Background="Gray">
+            <Button Content="Load" Width="100" Margin="5" Command="{Binding LoadCommand}"/>
+            <Button Content="Save" Width="100" Margin="5" Command="{Binding SaveCommand}"/>
+        </StackPanel>
+
+
+        <StackPanel  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Background="Gray">
             <Button Command="{Binding Path=AddControllTextCommand}" CommandParameter="{Binding}" Content="Add Text"/>
             <TextBlock Text="{Binding Path=Scale.Value, Mode=OneWay}"/>
             <TextBlock Text="{Binding Path=ViewOffsetX, Mode=OneWay}"/>

@@ -57,9 +57,10 @@
     </ApplicationDefinition>
     <Compile Include="Base\ActionCommand.cs" />
     <Compile Include="Base\BaseViewModel.cs" />
-    <Compile Include="Controll\PositionValidator\IPositionValidator.cs" />
+    <Compile Include="Base\BoolToVisibilityConverter.cs" />
     <Compile Include="Controll\Point\MapPoint.cs" />
     <Compile Include="Controll\Point\IMapPoint.cs" />
+    <Compile Include="Controll\PositionValidator\PositionValidator.cs" />
     <Compile Include="Controll\Style\MapStyleStatus.cs" />
     <Compile Include="Controll\Line\MapLinesViewModel.cs" />
     <Compile Include="MainWindowB2ViewModel.cs" />
@@ -122,6 +123,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Destiny.UI\Destiny.UI.csproj">
+      <Project>{54be6d1e-2d22-4bf1-aefd-019087f543df}</Project>
+      <Name>Destiny.UI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZoomPanel\ZoomPanel.csproj">
       <Project>{eddd5f1c-fde2-42c1-a16d-b224de3b10d7}</Project>
       <Name>ZoomPanel</Name>

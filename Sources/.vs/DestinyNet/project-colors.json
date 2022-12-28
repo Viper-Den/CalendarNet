@@ -5,7 +5,32 @@
       "ProjectGuid": "18872d78-4d3e-44d4-b1fe-6a92d7821427",
       "DisplayName": "DestinyNet",
       "ColorIndex": 0
+    },
+    "2ba4de78-5485-42df-8a52-bd85ed20b7ab": {
+      "ProjectGuid": "2ba4de78-5485-42df-8a52-bd85ed20b7ab",
+      "DisplayName": "Destiny.Core",
+      "ColorIndex": 1
+    },
+    "cbc3c7db-3029-4f83-ade2-a68955b75ede": {
+      "ProjectGuid": "cbc3c7db-3029-4f83-ade2-a68955b75ede",
+      "DisplayName": "Destiny.UI",
+      "ColorIndex": 2
+    },
+    "ad6f39fc-c565-4fde-bc40-0de775a948d7": {
+      "ProjectGuid": "ad6f39fc-c565-4fde-bc40-0de775a948d7",
+      "DisplayName": "MonthControl",
+      "ColorIndex": 3
+    },
+    "525c1f9a-0e97-471a-9767-eb0f73c8c3f0": {
+      "ProjectGuid": "525c1f9a-0e97-471a-9767-eb0f73c8c3f0",
+      "DisplayName": "NUnitTestDestenyNet",
+      "ColorIndex": 4
+    },
+    "1411c05b-505e-4d9c-a8a8-37b6aed94c7c": {
+      "ProjectGuid": "1411c05b-505e-4d9c-a8a8-37b6aed94c7c",
+      "DisplayName": "MonthEventControl",
+      "ColorIndex": 5
     }
   },
-  "NextColorIndex": 1
+  "NextColorIndex": 6
 }

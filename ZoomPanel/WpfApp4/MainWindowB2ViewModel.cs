@@ -10,22 +10,16 @@ using MapControls.MapPositionValidator;
 using MapControls.MapLine;
 using MapControls.MapText;
 using Microsoft.Win32;
-using System.Collections.Generic;
 
 namespace WpfApp4
 {
-    public class MainWindowB2ViewModel : BaseViewModel, IPositionValidator
+    public class MainWindowB2ViewModel : BaseViewModel
     {
         private double _viewOffsetX;
         private double _viewOffsetY;
         private double _viewWidth;
         private double _viewHeight;
         private ScaleParams _scale = new ScaleParams();
-        public Point TryValidateAndGetPosition(Point p) 
-        {
-            return new Point(0, 0);
-        }
-
         public double ViewOffsetX { get => _viewOffsetX; set { SetField(ref _viewOffsetX, value); } }
         public double ViewOffsetY { get => _viewOffsetY; set { SetField(ref _viewOffsetY, value); } }
         public ScaleParams Scale  { get => _scale; set { SetField(ref _scale, value); } }
@@ -38,6 +32,7 @@ namespace WpfApp4
         public ICommand LoadCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public IServiceLocator ServiceLocator { get; private set; }
+        public IPositionValidator PositionValidator { get;private set; } = new PositionValidator();
         public ObservableCollection<Object> Controls { get; } = new ObservableCollection<Object>();
 
         public MainWindowB2ViewModel()
@@ -53,7 +48,7 @@ namespace WpfApp4
             SaveCommand = new ActionCommand(DoSaveCommand);
 
 
-            AddElement();
+            AddElement(false);
         }
 
         private void DoLoadCommand(object o)
@@ -137,19 +132,23 @@ namespace WpfApp4
         private void DoAddControllText(object o)
         {
             AddElement();
-            var vm = new MapLinesViewModel();
-            vm.Start = ((MapTextViewModel)Controls[0]);
-            vm.Finish = ((MapTextViewModel)Controls[Controls.Count - 1]);
-            Controls.Add(vm);
         }
 
-        private void AddElement()
+        private void AddElement(bool addBinding = true)
         {
-            var vm = new MapTextViewModel();
-            vm.OnDeleteElement += DoDeleteElement;
-            vm.Left = (ContentWidth - vm.Width) / 2;
-            vm.Top = (ContentHeight - vm.Height) / 2;
-            Controls.Add(vm);
+            var mapTextViewModel = new MapTextViewModel();
+            mapTextViewModel.OnDeleteElement += DoDeleteElement;
+            mapTextViewModel.Left = (ContentWidth - mapTextViewModel.Width) / 2;
+            mapTextViewModel.Top = (ContentHeight - mapTextViewModel.Height) / 2;
+            Controls.Add(mapTextViewModel);
+
+            if (addBinding)
+            {
+                var mapLinesViewModel = new MapLinesViewModel();
+                mapLinesViewModel.Start = ((MapTextViewModel)Controls[0]);
+                mapLinesViewModel.Finish = ((MapTextViewModel)Controls[Controls.Count - 1]);
+                Controls.Add(mapLinesViewModel);
+            }
         }
 
         private void DoDeleteElement(object o)

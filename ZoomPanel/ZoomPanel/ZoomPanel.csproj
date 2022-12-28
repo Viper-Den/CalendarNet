@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\BaseViewModel.cs" />
+    <Compile Include="IPositionValidator.cs" />
     <Compile Include="MapModelDragBehaviors.cs" />
     <Compile Include="Common\MathHelper.cs" />
     <Compile Include="ScaleParams.cs" />

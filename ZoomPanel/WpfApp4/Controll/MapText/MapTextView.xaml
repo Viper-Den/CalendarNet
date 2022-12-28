@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MapControls.MapText" 
              xmlns:pb="clr-namespace:PushBindingExtension;assembly=WinCopies.PushBinding"
+             xmlns:controlsUI="clr-namespace:Destiny.UI.Controls;assembly=Destiny.UI"
              mc:Ignorable="d" 
              Panel.ZIndex="1"
              Focusable="True"
@@ -13,9 +14,20 @@
              MinWidth="{Binding Path=MinWidth}" 
              MinHeight="{Binding Path=MinHeight}" 
              d:DataContext="{d:DesignInstance Type=local:MapTextViewModel, IsDesignTimeCreatable=True}"
-             d:DesignWidth="300" d:DesignHeight="80">  
+             d:DesignWidth="300" d:DesignHeight="50">  
+    
     <UserControl.Resources>
         <ResourceDictionary>
+            <Style x:Key="sMenu" TargetType="controlsUI:IconsPack">
+                <Setter Property="Visibility" Value="Hidden"/>
+                <Setter Property="Width" Value="20"/>
+                <Setter Property="Height" Value="20"/> 
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Path=Status}" Value="Edited">
+                        <Setter Property="Visibility" Value="Visible"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
             <Style x:Key="sContentControl" TargetType="ContentControl">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Path=Status}" Value="Edited">
@@ -72,39 +84,52 @@
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
+    
     <pb:PushBindingManager.PushBindings>
         <pb:PushBinding TargetProperty="ActualHeight" Path="Height"/>
         <pb:PushBinding TargetProperty="ActualWidth" Path="Width"/>
     </pb:PushBindingManager.PushBindings>
+    
     <Grid>
-        <Canvas>
-            <Rectangle
-                    x:Name="xRectangle" Fill="WhiteSmoke"  
-                    StrokeThickness="3"
-                    Style="{StaticResource sRectangle}"
-                    Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MapTextView}, AncestorLevel=1},Path=ActualWidth}" 
-                    Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MapTextView}, AncestorLevel=1}, Path=ActualHeight}"
-                    RadiusX="20"
-                    RadiusY="{Binding RelativeSource={RelativeSource Self}, Path=RadiusX}"/>
-        </Canvas>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Image Grid.Row="0" x:Name="xImage" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Source="D:\1.jpg" Margin="2"/>
-            <ContentControl Grid.Row="1" Style="{StaticResource sContentControl}" Margin="10,0,10,5"/>
-        </Grid>
+        <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="2"
+                x:Name="xRectangle"
+                StrokeThickness="3"
+                Fill="White"
+                Style="{StaticResource sRectangle}"
+                Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MapTextView}, AncestorLevel=1},Path=ActualWidth}" 
+                Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MapTextView}, AncestorLevel=1}, Path=ActualHeight}"
+                RadiusX="20" RadiusY="{Binding RelativeSource={RelativeSource Self}, Path=RadiusX}"/>
+        
+        <!--<Image x:Name="xImage"
+               Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="2"   
+               Source="D:\1.jpg"/>-->
+        
+        <ContentControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" 
+                        Style="{StaticResource sContentControl}"/>
+
+        <controlsUI:IconsPack Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right"
+                              Style="{StaticResource sMenu}" IconKind="CancelIcon" Command="{Binding EditElementCommand}"/>
+        <controlsUI:IconsPack Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Right" 
+                              Visibility="{Binding Path=IsOpenBoxVisible, Converter=BoolToVisibilityConverter}"
+                              Width="20" Height="{Binding RelativeSource={RelativeSource Self}, Path=Width}"
+                              IconKind="OpenBoxIcon" Command="{Binding OpenElementCommand}"/> 
     </Grid>
+    
     <UserControl.ContextMenu>
         <ContextMenu>
             <MenuItem Command="{Binding EditElementCommand}" Header="Edit"/>
             <MenuItem Command="{Binding DeleteElementCommand}" Header="Delete"/>
         </ContextMenu>
     </UserControl.ContextMenu>
+    
     <UserControl.InputBindings>
         <KeyBinding Key="Enter" Modifiers="Control" Command="{Binding EditElementCommand}"/>
         <KeyBinding Key="F2" Command="{Binding EditElementCommand}"/>
     </UserControl.InputBindings>
+    
 </UserControl>

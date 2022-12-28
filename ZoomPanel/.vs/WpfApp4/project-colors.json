@@ -1,0 +1,26 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "b66b73ee-fa21-48f3-82ec-171b6c12d938": {
+      "ProjectGuid": "b66b73ee-fa21-48f3-82ec-171b6c12d938",
+      "DisplayName": "WpfApp4",
+      "ColorIndex": 0
+    },
+    "eddd5f1c-fde2-42c1-a16d-b224de3b10d7": {
+      "ProjectGuid": "eddd5f1c-fde2-42c1-a16d-b224de3b10d7",
+      "DisplayName": "ZoomPanel",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Прочие файлы",
+      "ColorIndex": -1
+    },
+    "54be6d1e-2d22-4bf1-aefd-019087f543df": {
+      "ProjectGuid": "54be6d1e-2d22-4bf1-aefd-019087f543df",
+      "DisplayName": "Destiny.UI",
+      "ColorIndex": 2
+    }
+  },
+  "NextColorIndex": 3
+}
